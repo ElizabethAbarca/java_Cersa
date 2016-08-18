@@ -44,5 +44,21 @@ public class BCerrarseccion {
         faceContext.addMessage(null, facesMessage);
         return "index";
     }
+
+    public CUsuario getPersona() {
+        return persona;
+    }
+
+    public void setPersona(CUsuario persona) {
+        this.persona = persona;
+    }
+
+    public FacesMessage getFacesMessage() {
+        return facesMessage;
+    }
+
+    public void setFacesMessage(FacesMessage facesMessage) {
+        this.facesMessage = facesMessage;
+    }
     
 }
