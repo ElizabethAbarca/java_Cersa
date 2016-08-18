@@ -16,8 +16,26 @@ import java.util.ArrayList;
  *
  * @author HP
  */
-public class FUsuario {
+public class FUsuario {  
     
+public static CUsuario login(String cedula, String clave) throws Exception  {
+        
+        CUsuario lst= null;
+        ArrayList<Parametro> lstP = new ArrayList<>();
+        try {
+            String sql = "select * from basedatos_cersa.tusuario where iusuario_cedula=? and tusuario_clave=?;";
+            lstP.add(new Parametro(1,cedula));
+            lstP.add(new Parametro(2,clave));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = new CUsuario();
+            lst = llenar(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    } 
+     
 public static boolean insertar(CUsuario objeto) throws Exception {
         boolean bandera = false;
         try {
