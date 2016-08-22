@@ -8,7 +8,7 @@ package cersa.presentacion.Beans;
 import cersa.negocio.Clases.CUsuario;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author HP
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class BCerrarseccion {
 
     private CUsuario persona;
