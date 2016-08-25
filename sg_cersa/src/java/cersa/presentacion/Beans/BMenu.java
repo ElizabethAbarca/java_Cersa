@@ -31,34 +31,9 @@ public class BMenu {
     public void setRuta(String ruta) {
         this.ruta = ruta;
     }
-    public void fmrCliente()
+    public void fmrEscama()
     {
-        this.ruta="faces/Formularios/formularioCliente.xhtml";
-    }
-    public void fmrEmpleado()
-    {
-        this.ruta="faces/Formularios/formularioEmpledo.xhtml";
-    }
-    public void fmrProducto()
-    {
-        this.ruta="faces/Formularios/formularioProducto.xhtml";
-    }
-    public void fmrTipo()
-    {
-        this.ruta="faces/Formularios/formularioTipo.xhtml";
-    }
-    public void fmrCategoria()
-    {
-        this.ruta="faces/Formularios/formularioCategoria.xhtml";
-    }
-    public void fmrLista()
-    {
-        this.ruta="faces/Formularios/reporteSolicitud.xhtml";
-    }
-    public void fmrFacturas()
-    {
-        this.ruta="faces/Formularios/formularioFactura.xhtml";
-    }
-    
+        this.ruta="faces/Formularios/fromEscama.xhtml";
+    }    
     
 }
