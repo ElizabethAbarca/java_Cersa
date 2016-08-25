@@ -7,6 +7,11 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FEscama;
 import cersa.negocio.Clases.CEscama;
+import cersa.negocio.Funciones.FSubproducto;
+import cersa.negocio.Funciones.FTipo;
+import cersa.negocio.Funciones.FTurno;
+import cersa.negocio.Funciones.FUsuario;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -25,20 +30,39 @@ public class BEscama {
     private CEscama objeto;
     private CEscama seleccion;
     private ArrayList<CEscama> listado;
+    
+    private int tipo;
+    private int sub;
+    private int usuario;
+    private int tur;
+    
+    private String fecha;
+
     /**
-     * Creates a new instance of BeanEscama
+     * Creates a new instance of BEscama
      */
     public BEscama() {
-         this.reinit();
+        this.reinit();
     }
-    
     private void reinit() {
         this.objeto = new CEscama();
         this.seleccion = new CEscama();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
-        //this.objDependenciaSel = this.lstDependencias.get(0);
     }
+
+    public BEscama(CEscama objeto, CEscama seleccion, ArrayList<CEscama> listado, int tipo, int sub, int usuario, int tur, String fecha) {
+        this.objeto = objeto;
+        this.seleccion = seleccion;
+        this.listado = listado;
+        this.tipo = tipo;
+        this.sub = sub;
+        this.usuario = usuario;
+        this.tur = tur;
+        this.fecha = fecha;
+    }
+    
+    
     private void Visualizacion() {
         try {
             this.listado = FEscama.obtenerTodas();
@@ -52,20 +76,17 @@ public class BEscama {
     public void Insercion()
     {
         try {
-            if(objeto.getEscama_peso()>0 && objeto.getEscama_peso()< 300 )
-            {
+            objeto.setEscama_tipo(FTipo.obtener_Id(tipo));
+            objeto.setEscama_subtipo(FSubproducto.obtener_Id(sub));
+            objeto.setEscama_turno(FTurno.obtener_Id(tur));
+            objeto.setEscama_usuario(FUsuario.obtener_Id(usuario));
+            objeto.setEscama_fecha(Date.valueOf(fecha));
             if(FEscama.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
                 this.reinit();
-            }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresar vlores de 0 y 300 pk", "No Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
             }
             else
             {
@@ -99,7 +120,6 @@ public class BEscama {
                 context.addMessage( "Exito",new FacesMessage(e.getMessage()));
         }
     }
-    
     public void Eliminacion() {
         try {
             if (FEscama.eliminar(seleccion.getEscama_id())) {
@@ -142,6 +162,46 @@ public class BEscama {
 
     public void setListado(ArrayList<CEscama> listado) {
         this.listado = listado;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getSub() {
+        return sub;
+    }
+
+    public void setSub(int sub) {
+        this.sub = sub;
+    }
+
+    public int getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
+    }
+
+    public int getTur() {
+        return tur;
+    }
+
+    public void setTur(int tur) {
+        this.tur = tur;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
     
 }
