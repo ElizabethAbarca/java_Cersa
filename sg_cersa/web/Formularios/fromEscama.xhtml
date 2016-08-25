@@ -6,9 +6,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:body>
-         <ui:composition template="../plantillas/formularios.xhtml">
-             <ui:define name="contenido">
-          <p:growl id="mensajes" autoUpdate="true"/>  
+ 
+      <p:growl id="mensajes" autoUpdate="true"/>  
         <center>             
            <h:form id="frmNuevo">
                         <p:panelGrid id="pngNuevo" columns="6">
@@ -111,10 +110,7 @@ paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {Page
                                 </p:column>
                             </p:dataTable>
                         </p:panel>
-                    </h:form>      
-
-           
-
+                    </h:form>   
          <p:dialog header="ELIMINAR PRODUCTO" widgetVar="wglEliminar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
@@ -136,8 +132,6 @@ paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {Page
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEliminar').hide()" type="reset"/>
                     </h:form> 
                 </p:dialog>  
-                 </ui:define>
-         </ui:composition>
     </h:body>
 </html>
 
