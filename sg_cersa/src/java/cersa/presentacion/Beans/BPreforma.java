@@ -7,7 +7,11 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FPreforma;
 import cersa.negocio.Clases.CPreforma;
+import cersa.negocio.Funciones.FSubproducto;
+import cersa.negocio.Funciones.FTurno;
+import cersa.negocio.Funciones.FUsuario;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,9 +29,18 @@ public class BPreforma {
     private CPreforma objeto;
     private CPreforma seleccion;
     private ArrayList<CPreforma> listado;
+    
+    
+    private int turno;
+    private int usuario;
+    private int subtipo;
+    
+    private java.util.Date fecha;
+    
     /**
-     * Creates a new instance of BeanPreforma
+     * Creates a new instance of BPreforma
      */
+    
     public BPreforma() {
         this.reinit();
     }
@@ -39,6 +52,8 @@ public class BPreforma {
         this.Visualizacion();        
         //this.objDependenciaSel = this.lstDependencias.get(0);
     }
+
+     
     private void Visualizacion() {
         try {
             this.listado = FPreforma.obtenerTodas();
@@ -52,6 +67,10 @@ public class BPreforma {
     public void Insercion()
     {
         try {
+            objeto.setPreforma_fecha(new java.sql.Date(fecha.getTime()));
+            objeto.setPreforma_subtipo(FSubproducto.obtener_Id(subtipo));
+            objeto.setPreforma_turno(FTurno.obtener_Id(turno));
+            objeto.setPreforma_usuario(FUsuario.obtener_Id(usuario));
             if(FPreforma.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
@@ -134,6 +153,38 @@ public class BPreforma {
 
     public void setListado(ArrayList<CPreforma> listado) {
         this.listado = listado;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+    public void setTurno(int turno) {
+        this.turno = turno;
+    }
+
+    public int getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
+    }
+
+    public int getSubtipo() {
+        return subtipo;
+    }
+
+    public void setSubtipo(int subtipo) {
+        this.subtipo = subtipo;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
     
 }
