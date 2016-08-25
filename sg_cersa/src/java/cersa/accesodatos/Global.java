@@ -6,12 +6,12 @@ package cersa.accesodatos;
 
 /**
  *
- * @author root
+ * @author HP
  */
 public final class Global {
 
     //establecimiento de parametros de conexion para que estos sean globales o a manera de variables globales durante la aplicacion este ejecutada
-    java.util.ResourceBundle Configuracion = java.util.ResourceBundle.getBundle("accesodatos.database");
+    java.util.ResourceBundle Configuracion = java.util.ResourceBundle.getBundle("cersa.accesodatos.database");
     private String URL = Configuracion.getString("url");
     private String DRIVER = Configuracion.getString("driver");
     private String USER = Configuracion.getString("user");
