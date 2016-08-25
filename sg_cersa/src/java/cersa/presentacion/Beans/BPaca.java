@@ -7,7 +7,10 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FPaca;
 import cersa.negocio.Clases.CPaca;
+import cersa.negocio.Funciones.FTipo;
+import cersa.negocio.Funciones.FUsuario;
 import java.util.ArrayList;
+import java.sql.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,8 +28,13 @@ public class BPaca {
     private CPaca objeto;
     private CPaca seleccion;
     private ArrayList<CPaca> listado;
+    
+    
+    private int tipo;
+    private int usuario;
+    private java.util.Date fecha;
     /**
-     * Creates a new instance of BeanPaca
+     * Creates a new instance of BPaca
      */
     public BPaca() {
         this.reinit();
@@ -39,6 +47,16 @@ public class BPaca {
         this.Visualizacion();        
         //this.objDependenciaSel = this.lstDependencias.get(0);
     }
+
+    public BPaca(CPaca objeto, CPaca seleccion, ArrayList<CPaca> listado, int tipo, int usuario, java.util.Date fecha) {
+        this.objeto = objeto;
+        this.seleccion = seleccion;
+        this.listado = listado;
+        this.tipo = tipo;
+        this.usuario = usuario;
+        this.fecha = fecha;
+    }
+   
     private void Visualizacion() {
         try {
             this.listado = FPaca.obtenerTodas();
@@ -51,7 +69,10 @@ public class BPaca {
     
     public void Insercion()
     {
-        try {
+        try {    
+            objeto.setPaca_tipo(FTipo.obtener_Id(tipo));
+            objeto.setPaca_responsable(FUsuario.obtener_Id(usuario));
+            objeto.setPaca_fecha(new java.sql.Date(fecha.getTime()));
             if(FPaca.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
@@ -112,6 +133,15 @@ public class BPaca {
         }        
       }
 
+    public java.util.Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(java.util.Date fecha) {
+        this.fecha = fecha;
+    }
+
+    
     public CPaca getObjeto() {
         return objeto;
     }
@@ -134,6 +164,22 @@ public class BPaca {
 
     public void setListado(ArrayList<CPaca> listado) {
         this.listado = listado;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public int getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
     }
     
     
