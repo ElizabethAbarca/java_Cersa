@@ -5,9 +5,9 @@
  */
 package cersa.negocio.Funciones;
 
-import cersa.accesodatos.AccesoDatos;
-import cersa.accesodatos.ConjuntoResultado;
-import cersa.accesodatos.Parametro;
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
 import cersa.negocio.Clases.CEscama;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,11 +22,11 @@ public static boolean insertar(CEscama objeto) throws Exception {
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "select * from basedatos_cersa.f_insert_escama(?,?,?,?,?,?,?)";
-            lstP.add(new Parametro(1, objeto.getEscama_tipo()));  
-            lstP.add(new Parametro(2, objeto.getEscama_subtipo()));
+            lstP.add(new Parametro(1, objeto.getEscama_tipo().getTipo_id()));  
+            lstP.add(new Parametro(2, objeto.getEscama_subtipo().getSubproducto_id()));
             lstP.add(new Parametro(3, objeto.getEscama_fecha()));
-            lstP.add(new Parametro(4, objeto.getEscama_turno()));
-            lstP.add(new Parametro(5, objeto.getEscama_usuario()));
+            lstP.add(new Parametro(4, objeto.getEscama_turno().getTurno_id()));
+            lstP.add(new Parametro(5, objeto.getEscama_usuario().getUsuario_id()));
             lstP.add(new Parametro(6, objeto.getEscama_peso()));
             lstP.add(new Parametro(7, objeto.getEscama_observacion()));       
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
@@ -61,11 +61,11 @@ public static boolean update(CEscama seleccion) throws Exception {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "select * from basedatos_cersa.f_update_escama(?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, seleccion.getEscama_id()));
-            lstP.add(new Parametro(2, seleccion.getEscama_tipo()));  
-            lstP.add(new Parametro(3, seleccion.getEscama_subtipo()));
+            lstP.add(new Parametro(2, seleccion.getEscama_tipo().getTipo_id()));  
+            lstP.add(new Parametro(3, seleccion.getEscama_subtipo().getSubproducto_id()));
             lstP.add(new Parametro(4, seleccion.getEscama_fecha()));
-            lstP.add(new Parametro(5, seleccion.getEscama_turno()));
-            lstP.add(new Parametro(6, seleccion.getEscama_usuario()));
+            lstP.add(new Parametro(5, seleccion.getEscama_turno().getTurno_id()));
+            lstP.add(new Parametro(6, seleccion.getEscama_usuario().getUsuario_id()));
             lstP.add(new Parametro(7, seleccion.getEscama_peso()));
             lstP.add(new Parametro(8, seleccion.getEscama_observacion()));          
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);

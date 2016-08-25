@@ -5,9 +5,9 @@
  */
 package cersa.negocio.Funciones;
 
-import cersa.accesodatos.AccesoDatos;
-import cersa.accesodatos.ConjuntoResultado;
-import cersa.accesodatos.Parametro;
+import accesodatos.AccesoDatos;
+import accesodatos.ConjuntoResultado;
+import accesodatos.Parametro;
 import cersa.negocio.Clases.CRol;
 import java.sql.SQLException;
 import java.util.ArrayList;
