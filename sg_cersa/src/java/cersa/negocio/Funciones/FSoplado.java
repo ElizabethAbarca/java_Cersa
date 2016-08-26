@@ -81,8 +81,8 @@ public static ArrayList<CSoplado> llenar(ConjuntoResultado rs) throws Exception 
                 objeto = new CSoplado(rs.getInt(0), 
                         FUsuario.obtener_Id(rs.getInt(1)),
                         rs.getDate(2),
-                        FTurno.obtener_Id(rs.getInt(4)),
-                        rs.getDouble(3));
+                        FTurno.obtener_Id(rs.getInt(3)),
+                        rs.getDouble(4));
                 lst.add(objeto);
             }
         } catch (Exception e) {
