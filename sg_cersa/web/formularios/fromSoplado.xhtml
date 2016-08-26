@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+    </h:head>
+    <h:body>
+         <ui:composition template="../plantillas/formularios.xhtml">
+             <ui:define name="top">
+                  <f:facet name="header">
+                            LISTADO DE SOPLADO
+                  </f:facet>
+             </ui:define>
+        <ui:define name="contenido">
+         <p:growl id="mensajes" autoUpdate="true"/>        
+         <h:form id="frmSoplado">
+            <p:panel id="pnlDatos">
+                <p:dataTable id="tblSoplado" value="#{bSoplado.listado}" 
+                             var="soplado" paginator="true" rows="5"
+                             selectionMode="single" 
+                             rowKey="#{soplado.soplado_id}" 
+                             selection="#{bSoplado.seleccion}"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                    <p:column filterBy="#{soplado.soplado_id}" filterMatchMode="startsWith" 
+                              sortBy="#{soplado.soplado_id}" headerText="Código">
+                        <h:outputText value="#{soplado.soplado_id}"/>
+                    </p:column>
+                    <p:column filterBy="#{soplado.soplado_usuario.usuario_cedula}" filterMatchMode="startsWith" 
+                              sortBy="#{soplado.soplado_usuario.usuario_cedula}" headerText="Responsable">                                   
+                        <h:outputText value="#{soplado.soplado_usuario.usuario_cedula}"/>
+                    </p:column>
+                    <p:column headerText="Peso">                                   
+                        <h:outputText value="#{soplado.soplado_peso}"/>
+                    </p:column>
+                    <p:column headerText="Fecha">                                   
+                        <h:outputText value="#{soplado.soplado_fecha}"/>
+                    </p:column>
+                    <p:column headerText="Turno">                                   
+                        <h:outputText value="#{soplado.soplado_turno.turno_Descripcion}"/>
+                    </p:column>
+                    <p:column >  
+                        <f:facet name="header">  
+                            <h:outputText value="Acciones" />  
+                        </f:facet> 
+                        <p:commandButton id="btnEditar"  icon="ui-icon-pencil" 
+                                         process="@this" onclick="PF('wglEditar').show()" 
+                                         update=":frmEditar:pngEditar" >
+                            <f:setPropertyActionListener value="#{soplado}" target="#{bSoplado.seleccion}"/>
+                        </p:commandButton>
+                        <p:commandButton id="btnEliminar"  icon="ui-icon-trash" 
+                                         process="@this" onclick="PF('wglEliminar').show()" 
+                                         update=":frmEliminar:pngEliminar" >
+                            <f:setPropertyActionListener value="#{soplado}" target="#{bSoplado.seleccion}"/>
+                        </p:commandButton>
+                    </p:column>  
+                    <f:facet name="footer">  
+                        <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" 
+                                         update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
+                                         type="button" /> 
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>      
+           </ui:define>             
+             <ui:define name="dialogos">
+            <p:dialog header="INGRESAR NUEVA SOPLADO" widgetVar="wglInsertar"
+                          modal="true" closable="false" resizable="false"
+                          showEffect="fade" hideEffect="explode">  
+                    <h:form id="frmNuevo">
+                        <p:panelGrid id="pngNuevo" columns="2">
+                            <h:outputText value="Usuario:"/>                               
+                            <p:selectOneMenu id="cmbUsuario" value="#{bSoplado.usuario}" 
+                                             required="true" requiredMessage="Elija una opción"> 
+                                <f:selectItems value="#{bUsuario.listado}" 
+                                               var="user" itemLabel="#{user.usuario_cedula}" 
+                                               itemValue="#{user.usuario_id}"/>
+                            </p:selectOneMenu>                                    
+                            <h:outputText value="Peso:"/>
+                            <p:inputText value="#{bSoplado.objeto.soplado_peso}"/>
+                            <h:outputText value="Fecha:"/>
+                            <p:calendar value="#{bSoplado.fecha}"/>
+                            <h:outputText value="Turno:"/>                               
+                            <p:selectOneMenu id="cmbTurno" value="#{bSoplado.turno}" 
+                                             required="true" requiredMessage="Elija una opción"> 
+                                <f:selectItems value="#{bTurno.listado}" 
+                                               var="tur" itemLabel="#{tur.turno_Descripcion}" 
+                                               itemValue="#{tur.turno_id}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:separator/>
+                        <p:commandButton value="Aceptar" action="#{bSoplado.Insercion()}" update=":frmSoplado:pnlDatos"/>
+                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>  
+
+             <p:dialog header="MODIFICAR NUEVA SOPLADO" widgetVar="wglEditar"
+                          modal="true" closable="false" resizable="false"
+                          showEffect="fade" hideEffect="explode">  
+                    <h:form id="frmEditar">
+                        <p:panelGrid id="pngEditar" columns="2">
+                            <h:outputText value="Responsable:"/>                              
+                            <h:outputText value="#{bSoplado.seleccion.soplado_usuario.usuario_cedula}"/>
+                            <h:outputText value="Fecha:"/>                                
+                            <h:outputText value="#{bSoplado.seleccion.soplado_fecha}"/>
+                            <h:outputText value="Peso:"/>
+                            <p:inputText value="#{bSoplado.seleccion.soplado_peso}"/>
+                            <h:outputText value="Fecha:"/>
+                            <h:outputText value="#{bSoplado.seleccion.soplado_turno.turno_Descripcion}"/>
+                        </p:panelGrid>
+                        <p:separator/>
+                        <p:commandButton value="Aceptar" action="#{bSoplado.Actualizacion()}" update=":frmSoplado:pnlDatos"/>
+                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog>
+         <p:dialog header="ELIMINAR SOPLADO" widgetVar="wglEliminar"
+                          modal="true" closable="false" resizable="false"
+                          showEffect="fade" hideEffect="explode">  
+                    <h:form id="frmEliminar">
+                        <p:panelGrid id="pngEliminar" columns="2">
+                        <f:facet name="header">
+                            CARACTERISTICAS:
+                          </f:facet>
+                            <h:outputText value="Responsable:"/>                              
+                            <h:outputText value="#{bSoplado.seleccion.soplado_usuario.usuario_cedula}"/>
+                            <h:outputText value="Fecha:"/>                                
+                            <h:outputText value="#{bSoplado.seleccion.soplado_fecha}"/>
+                            <h:outputText value="Peso:"/>
+                            <h:outputText value="#{bSoplado.seleccion.soplado_peso}"/>
+                            <h:outputText value="Fecha:"/>
+                            <h:outputText value="#{bSoplado.seleccion.soplado_turno.turno_Descripcion}"/>
+                        </p:panelGrid>
+                        <p:separator/>
+                        <p:commandButton value="Aceptar" action="#{bSoplado.Eliminacion()}" update=":frmSoplado:pnlDatos"/>
+                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEliminar').hide()" type="reset"/>
+                    </h:form> 
+                </p:dialog> 
+                 </ui:define>
+         </ui:composition>
+    </h:body>
+</html>
+
+
