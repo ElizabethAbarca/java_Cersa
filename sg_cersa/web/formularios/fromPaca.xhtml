@@ -9,6 +9,11 @@
     </h:head>
     <h:body>
          <ui:composition template="../plantillas/formularios.xhtml">
+             <ui:define name="top">
+                  <f:facet name="header">
+                            LISTADO DE PACAS
+                  </f:facet>
+             </ui:define>
         <ui:define name="contenido">
          <p:growl id="mensajes" autoUpdate="true"/>        
          <h:form id="frmPaca">
@@ -19,10 +24,7 @@
                              rowKey="#{paca.paca_id}" 
                              selection="#{bPaca.seleccion}"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                             rowsPerPageTemplate="5,10,15"  scrollWidth="200" >  
-                    <f:facet name="header">
-                            LISTADO DE PACAS
-                        </f:facet>
+                             rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
                     <p:column filterBy="#{paca.paca_id}" filterMatchMode="startsWith" 
                          sortBy="#{paca.paca_id}" headerText="Código">
                         <h:outputText value="#{paca.paca_id}"/>
