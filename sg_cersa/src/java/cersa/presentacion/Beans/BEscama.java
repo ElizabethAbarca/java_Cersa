@@ -11,8 +11,8 @@ import cersa.negocio.Funciones.FSubproducto;
 import cersa.negocio.Funciones.FTipo;
 import cersa.negocio.Funciones.FTurno;
 import cersa.negocio.Funciones.FUsuario;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,44 +25,32 @@ import org.primefaces.context.DefaultRequestContext;
  */
 @ManagedBean
 @ViewScoped
-public class BEscama {
-    
-    private CEscama objeto;
-    private CEscama seleccion;
-    private ArrayList<CEscama> listado;
+public class BEscama {    
     
     private int tipo;
     private int sub;
     private int usuario;
     private int tur;
     
-    private String fecha;
-
+    private java.util.Date fecha;
+    
+    private CEscama objeto;
+    private CEscama seleccion;
+    private ArrayList<CEscama> listado;
+    
     /**
      * Creates a new instance of BEscama
      */
     public BEscama() {
-        this.reinit();
+         this.reinit();
     }
+    
     private void reinit() {
         this.objeto = new CEscama();
         this.seleccion = new CEscama();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
     }
-
-    public BEscama(CEscama objeto, CEscama seleccion, ArrayList<CEscama> listado, int tipo, int sub, int usuario, int tur, String fecha) {
-        this.objeto = objeto;
-        this.seleccion = seleccion;
-        this.listado = listado;
-        this.tipo = tipo;
-        this.sub = sub;
-        this.usuario = usuario;
-        this.tur = tur;
-        this.fecha = fecha;
-    }
-    
-    
     private void Visualizacion() {
         try {
             this.listado = FEscama.obtenerTodas();
@@ -71,16 +59,15 @@ public class BEscama {
            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
         }
     }
-
     
     public void Insercion()
     {
         try {
-            objeto.setEscama_tipo(FTipo.obtener_Id(tipo));
+            objeto.setEscama_fecha(new java.sql.Date(fecha.getTime()));
             objeto.setEscama_subtipo(FSubproducto.obtener_Id(sub));
+            objeto.setEscama_tipo(FTipo.obtener_Id(tipo));
             objeto.setEscama_turno(FTurno.obtener_Id(tur));
             objeto.setEscama_usuario(FUsuario.obtener_Id(usuario));
-            objeto.setEscama_fecha(Date.valueOf(fecha));
             if(FEscama.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
@@ -120,6 +107,7 @@ public class BEscama {
                 context.addMessage( "Exito",new FacesMessage(e.getMessage()));
         }
     }
+    
     public void Eliminacion() {
         try {
             if (FEscama.eliminar(seleccion.getEscama_id())) {
@@ -139,30 +127,6 @@ public class BEscama {
                 context.addMessage( "Exito",new FacesMessage(e.getMessage()));
         }        
       }
-
-    public CEscama getObjeto() {
-        return objeto;
-    }
-
-    public void setObjeto(CEscama objeto) {
-        this.objeto = objeto;
-    }
-
-    public CEscama getSeleccion() {
-        return seleccion;
-    }
-
-    public void setSeleccion(CEscama seleccion) {
-        this.seleccion = seleccion;
-    }
-
-    public ArrayList<CEscama> getListado() {
-        return listado;
-    }
-
-    public void setListado(ArrayList<CEscama> listado) {
-        this.listado = listado;
-    }
 
     public int getTipo() {
         return tipo;
@@ -196,12 +160,36 @@ public class BEscama {
         this.tur = tur;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public CEscama getObjeto() {
+        return objeto;
+    }
+
+    public void setObjeto(CEscama objeto) {
+        this.objeto = objeto;
+    }
+
+    public CEscama getSeleccion() {
+        return seleccion;
+    }
+
+    public void setSeleccion(CEscama seleccion) {
+        this.seleccion = seleccion;
+    }
+
+    public ArrayList<CEscama> getListado() {
+        return listado;
+    }
+
+    public void setListado(ArrayList<CEscama> listado) {
+        this.listado = listado;
     }
     
 }

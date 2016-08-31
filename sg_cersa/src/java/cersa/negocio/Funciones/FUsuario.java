@@ -9,6 +9,9 @@ import accesodatos.AccesoDatos;
 import accesodatos.ConjuntoResultado;
 import accesodatos.Parametro;
 import cersa.negocio.Clases.CUsuario;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -16,9 +19,35 @@ import java.util.ArrayList;
  *
  * @author HP
  */
-public class FUsuario {  
-    
-public static CUsuario login(String cedula, String clave) throws Exception  {
+public class FUsuario {      
+
+public static boolean identificarse(String user, String password) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            con = Database.getConnection();
+            ps = con.prepareStatement(
+                    "select iusuario_cedula, tusuario_clave from basedatos_cersa.tusuario where iusuario_cedula= ? and tusuario_clave= ? ");
+            ps.setString(1, user);
+            ps.setString(2, password);
+  
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) // found
+            {
+                System.out.println(rs.getString("iusuario_cedula"));
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (Exception ex) {
+            System.out.println("Error in login() -->" + ex.getMessage());
+            return false;
+        } finally {
+            Database.close(con);
+        }
+    }
+public static CUsuario autenticar(String cedula, String clave) throws Exception  {
         
         CUsuario lst= null;
         ArrayList<Parametro> lstP = new ArrayList<>();
