@@ -6,6 +6,7 @@
 package cersa.negocio.Clases;
 
 import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
@@ -16,7 +17,7 @@ public class CEscama {
   CTipo escama_tipo;
   CSubproducto escama_subtipo;
   private java.sql.Date escama_fecha;
-  CTurno escama_turno;
+  private java.sql.Time escama_hora;
   CUsuario escama_usuario;
   private double escama_peso;
   private String escama_observacion;
@@ -24,12 +25,12 @@ public class CEscama {
     public CEscama() {
     }
 
-    public CEscama(Integer escama_id, CTipo escama_tipo, CSubproducto escama_subtipo, Date escama_fecha, CTurno escama_turno, CUsuario escama_usuario, double escama_peso, String escama_observacion) {
+    public CEscama(Integer escama_id, CTipo escama_tipo, CSubproducto escama_subtipo, Date escama_fecha, Time escama_hora, CUsuario escama_usuario, double escama_peso, String escama_observacion) {
         this.escama_id = escama_id;
         this.escama_tipo = escama_tipo;
         this.escama_subtipo = escama_subtipo;
         this.escama_fecha = escama_fecha;
-        this.escama_turno = escama_turno;
+        this.escama_hora = escama_hora;
         this.escama_usuario = escama_usuario;
         this.escama_peso = escama_peso;
         this.escama_observacion = escama_observacion;
@@ -67,12 +68,12 @@ public class CEscama {
         this.escama_fecha = escama_fecha;
     }
 
-    public CTurno getEscama_turno() {
-        return escama_turno;
+    public Time getEscama_hora() {
+        return escama_hora;
     }
 
-    public void setEscama_turno(CTurno escama_turno) {
-        this.escama_turno = escama_turno;
+    public void setEscama_hora(Time escama_hora) {
+        this.escama_hora = escama_hora;
     }
 
     public CUsuario getEscama_usuario() {
@@ -98,5 +99,5 @@ public class CEscama {
     public void setEscama_observacion(String escama_observacion) {
         this.escama_observacion = escama_observacion;
     }
-
+  
 }

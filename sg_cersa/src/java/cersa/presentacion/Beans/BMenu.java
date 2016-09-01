@@ -35,5 +35,16 @@ public class BMenu {
     {
         this.ruta="faces/Formularios/fromEscama.xhtml";
     }    
-    
+   public void fmrPaca()
+    {
+        this.ruta="faces/Formularios/fromPaca.xhtml";
+    }
+   public void fmrPreforma()
+    {
+        this.ruta="faces/Formularios/fromPreforma.xhtml";
+    }
+   public void fmrSoplado()
+    {
+        this.ruta="faces/Formularios/fromSoplado.xhtml";
+    }
 }

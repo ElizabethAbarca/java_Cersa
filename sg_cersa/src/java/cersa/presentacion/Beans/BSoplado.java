@@ -7,7 +7,10 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FSoplado;
 import cersa.negocio.Clases.CSoplado;
+import cersa.negocio.Funciones.FTurno;
+import cersa.negocio.Funciones.FUsuario;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -25,8 +28,12 @@ public class BSoplado {
     private CSoplado objeto;
     private CSoplado seleccion;
     private ArrayList<CSoplado> listado;
+    
+    private int usuario;
+    private java.util.Date fecha;
+    private int turno;
     /**
-     * Creates a new instance of BeanSoplado
+     * Creates a new instance of BSoplado
      */
     public BSoplado() {
          this.reinit();
@@ -51,6 +58,9 @@ public class BSoplado {
     public void Insercion()
     {
         try {
+            objeto.setSoplado_fecha(new java.sql.Date(fecha.getTime()));
+            objeto.setSoplado_turno(FTurno.obtener_Id(turno));
+            objeto.setSoplado_usuario(FUsuario.obtener_Id(usuario));
             if(FSoplado.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
@@ -135,4 +145,29 @@ public class BSoplado {
         this.listado = listado;
     }
 
+    public int getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+    public void setTurno(int turno) {
+        this.turno = turno;
+    }
+
+    
 }

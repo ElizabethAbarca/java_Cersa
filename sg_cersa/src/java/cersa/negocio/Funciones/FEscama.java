@@ -21,14 +21,12 @@ public static boolean insertar(CEscama objeto) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_insert_escama(?,?,?,?,?,?,?)";
+            String sql = "select * from basedatos_cersa.f_insert_escama(?,?,?,?,?)";
             lstP.add(new Parametro(1, objeto.getEscama_tipo().getTipo_id()));  
             lstP.add(new Parametro(2, objeto.getEscama_subtipo().getSubproducto_id()));
-            lstP.add(new Parametro(3, objeto.getEscama_fecha()));
-            lstP.add(new Parametro(4, objeto.getEscama_turno().getTurno_id()));
-            lstP.add(new Parametro(5, objeto.getEscama_usuario().getUsuario_id()));
-            lstP.add(new Parametro(6, objeto.getEscama_peso()));
-            lstP.add(new Parametro(7, objeto.getEscama_observacion()));       
+            lstP.add(new Parametro(3, objeto.getEscama_usuario().getUsuario_id()));
+            lstP.add(new Parametro(4, objeto.getEscama_peso()));
+            lstP.add(new Parametro(5, objeto.getEscama_observacion()));       
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -59,15 +57,13 @@ public static boolean update(CEscama seleccion) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_update_escama(?,?,?,?,?,?,?,?)";
+            String sql = "select * from basedatos_cersa.f_update_escama(?,?,?,?,?,?)";
             lstP.add(new Parametro(1, seleccion.getEscama_id()));
             lstP.add(new Parametro(2, seleccion.getEscama_tipo().getTipo_id()));  
             lstP.add(new Parametro(3, seleccion.getEscama_subtipo().getSubproducto_id()));
-            lstP.add(new Parametro(4, seleccion.getEscama_fecha()));
-            lstP.add(new Parametro(5, seleccion.getEscama_turno().getTurno_id()));
-            lstP.add(new Parametro(6, seleccion.getEscama_usuario().getUsuario_id()));
-            lstP.add(new Parametro(7, seleccion.getEscama_peso()));
-            lstP.add(new Parametro(8, seleccion.getEscama_observacion()));          
+            lstP.add(new Parametro(4, seleccion.getEscama_usuario().getUsuario_id()));
+            lstP.add(new Parametro(5, seleccion.getEscama_peso()));
+            lstP.add(new Parametro(6, seleccion.getEscama_observacion()));          
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -87,7 +83,7 @@ public static ArrayList<CEscama> llenar(ConjuntoResultado rs) throws Exception {
                         FTipo.obtener_Id(rs.getInt(1)),
                         FSubproducto.obtener_Id(rs.getInt(2)),
                         rs.getDate(3),
-                        FTurno.obtener_Id(rs.getInt(4)),
+                        rs.getTime(4),
                         FUsuario.obtener_Id(rs.getInt(5)),
                         rs.getDouble(6),
                         rs.getString(7));
