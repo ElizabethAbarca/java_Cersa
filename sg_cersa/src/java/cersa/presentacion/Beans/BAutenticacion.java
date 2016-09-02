@@ -5,7 +5,6 @@
  */
 package cersa.presentacion.Beans;
 
-import cersa.negocio.Clases.CUsuario;
 import cersa.negocio.Funciones.FUsuario;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,7 +23,7 @@ public class BAutenticacion {
 
     private static final long serialVersionUID = 1L;
     private String clave;
-    private String message, cedula;
+    private String cedula;
     /**
      * Creates a new instance of BAutenticacion
      */
@@ -32,8 +31,8 @@ public class BAutenticacion {
     private BSesionManager session;
     
     public BAutenticacion() {
-        HttpSession session = Util.getSession();
-        session.setMaxInactiveInterval(5000);
+        HttpSession misession = Util.getSession();
+        misession.setMaxInactiveInterval(5000);
     }
     public String loginProject() throws Exception {
 
@@ -41,8 +40,8 @@ public class BAutenticacion {
         if (result) {
             // get Http Session and store username
             session.setEmpleado(FUsuario.autenticar(cedula, clave));
-            HttpSession session = Util.getSession();
-            session.setAttribute("username", cedula); 
+            HttpSession misession = Util.getSession();
+            misession.setAttribute("username", cedula); 
             return "home";
         } else {
  
@@ -60,8 +59,8 @@ public class BAutenticacion {
     }
  
     public String logout() {
-      HttpSession session = Util.getSession();
-      session.invalidate();
+      HttpSession misession = Util.getSession();
+      misession.invalidate();
       this.session=null;
       return "login";
    }
@@ -72,14 +71,6 @@ public class BAutenticacion {
 
     public void setClave(String clave) {
         this.clave = clave;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public String getCedula() {

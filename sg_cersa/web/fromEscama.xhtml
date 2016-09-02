@@ -6,8 +6,15 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-    </h:head>
+ </h:head>
     <h:body>
+    <ui:composition template="plantillas/modeloPagina.xhtml">
+        <ui:define name="top">
+            <center>
+            <h1><small>Lista de Escama</small></h1>
+            </center>
+        </ui:define>
+      <ui:define name="contenido">
          <p:growl id="mensajes" autoUpdate="true"/>        
          <h:form id="frmEscama">
             <p:panel id="pnlDatos">
@@ -60,7 +67,10 @@
                     </f:facet>
                 </p:dataTable>
             </p:panel>
-        </h:form>      
+        </h:form>   
+          </ui:define>
+            
+            <ui:define name="dialogos">
             <p:dialog header="INGRESAR NUEVA ESCAMA" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
@@ -92,8 +102,10 @@
                            </p:inputTextarea>
                         </p:panelGrid>
                         <p:separator/>
-                        <p:commandButton value="Aceptar" action="#{bEscamas.Insercion(1)}" update=":frmEscama:pnlDatos"/>
+                        <center>
+                        <p:commandButton value="Aceptar" action="#{bEscamas.Insercion(bAutenticacion.session.empleado.usuario_id)}" update=":frmEscama:pnlDatos"/>
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
+                   </center>
                     </h:form> 
                 </p:dialog>  
 
@@ -135,9 +147,13 @@
                            </p:inputTextarea>
                         </p:panelGrid>
                         <p:separator/>
+                        <center>
                         <p:commandButton value="Aceptar" action="#{bEscamas.Actualizacion()}" update=":frmEscama:pnlDatos"/>
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
+                   </center>
                     </h:form> 
-                </p:dialog>  
+                </p:dialog> 
+                </ui:define>
+    </ui:composition>
     </h:body>
 </html>
