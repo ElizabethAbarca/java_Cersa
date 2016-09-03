@@ -17,7 +17,7 @@ public class Util {
           FacesContext.
           getCurrentInstance().
           getExternalContext().
-          getSession(false);
+          getSession(true);
       }
        
       public static HttpServletRequest getRequest() {
@@ -28,8 +28,8 @@ public class Util {
  
       public static String getUserName()
       {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        return  session.getAttribute("username").toString();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        return  session.getAttribute("cedula").toString();
       }
        
       public static String getUserId()

@@ -6,6 +6,7 @@
 package cersa.presentacion.Beans;
 
 import cersa.negocio.Clases.CUsuario;
+import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -15,9 +16,9 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class BSesionManager {
+public class BSesionManager implements Serializable{
 
-    CUsuario empleado;
+    private CUsuario empleado;
     /**
      * Creates a new instance of BSesionManager
      */

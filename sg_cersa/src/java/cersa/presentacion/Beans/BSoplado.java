@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.DefaultRequestContext;
 
@@ -22,7 +22,7 @@ import org.primefaces.context.DefaultRequestContext;
  * @author HP
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class BSoplado {
 
     private CSoplado objeto;

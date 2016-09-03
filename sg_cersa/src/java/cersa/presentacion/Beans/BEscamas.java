@@ -11,8 +11,11 @@ import cersa.negocio.Funciones.FSubproducto;
 import cersa.negocio.Funciones.FTipo;
 import cersa.negocio.Funciones.FUsuario;
 import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.DefaultRequestContext;
@@ -28,11 +31,14 @@ public class BEscamas {
     private CEscama objeto;
     private CEscama seleccion;
     private ArrayList<CEscama> listado;
+    
+    
+    @ManagedProperty(value = "#{bSesionManager}")
+    private BSesionManager session;
     /**
      * Creates a new instance of BEscamas
      */
-    public BEscamas() {
-        
+    public BEscamas() {        
         this.reinit();
     }
     
@@ -41,26 +47,17 @@ public class BEscamas {
     /**
      * Creates a new instance of BPaca
      */
-    
+    @PostConstruct
     private void reinit() {
         this.objeto = new CEscama();
         this.seleccion = new CEscama();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
-        //this.objDependenciaSel = this.lstDependencias.get(0);
-    }
-
-    public BEscamas(CEscama objeto, CEscama seleccion, ArrayList<CEscama> listado, int tipo, int sub) {
-        this.objeto = objeto;
-        this.seleccion = seleccion;
-        this.listado = listado;
-        this.tipo = tipo;
-        this.sub = sub;
     }
 
     private void Visualizacion() {
         try {
-            this.listado = FEscama.obtenerTodas();
+            this.listado = FEscama.obtener_Escama_Persona(session.getEmpleado().getUsuario_id());
         } catch (Exception e) {
            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
@@ -68,17 +65,18 @@ public class BEscamas {
     }
 
     
-    public void Insercion(int usuario)
+    public void Insercion()
     {
         try {    
             objeto.setEscama_tipo(FTipo.obtener_Id(tipo));
-            objeto.setEscama_usuario(FUsuario.obtener_Id(usuario));
+            objeto.setEscama_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             objeto.setEscama_subtipo(FSubproducto.obtener_Id(sub));
             if(FEscama.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
+                objeto = null;
                 this.reinit();
             }
             else
@@ -174,6 +172,14 @@ public class BEscamas {
 
     public void setSub(int sub) {
         this.sub = sub;
+    }
+
+    public BSesionManager getSession() {
+        return session;
+    }
+
+    public void setSession(BSesionManager session) {
+        this.session = session;
     }
 
     

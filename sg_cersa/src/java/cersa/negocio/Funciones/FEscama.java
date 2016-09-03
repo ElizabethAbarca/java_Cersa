@@ -108,6 +108,22 @@ public static ArrayList<CEscama> obtenerTodas() throws Exception {
         return lst;
     }
 
+public static ArrayList<CEscama> obtener_Escama_Persona(int codigo) throws Exception {
+        ArrayList<CEscama> lst = new ArrayList<CEscama>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.tescama where tescama.tescama_usuario=?;";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenar(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+
 public static CEscama obtener_Id(int codigo) throws Exception {
         CEscama obj;
         try {

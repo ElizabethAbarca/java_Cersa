@@ -26,7 +26,7 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                              rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
                     <p:column filterBy="#{escama.escama_id}" filterMatchMode="startsWith" 
-                              sortBy="#{escama.escama_id}" headerText="Código">
+                              sortBy="#{escama.escama_id}" headerText="#Escama">
                         <h:outputText value="#{escama.escama_id}"/>
                     </p:column>
                     <p:column headerText="Tipo">                                   
@@ -39,7 +39,7 @@
                         <h:outputText value="#{escama.escama_usuario.usuario_apellido} #{escama.escama_usuario.usuario_nombre}"/>
                     </p:column>
                     <p:column headerText="Peso">                                   
-                        <h:outputText value="#{escama.escama_peso}"/>
+                        <h:outputText value="#{escama.escama_peso} pk"/>
                     </p:column>
                     <p:column headerText="Fecha">                                   
                         <h:outputText value="#{escama.escama_fecha}"/>
@@ -54,14 +54,14 @@
                         <f:facet name="header">  
                             <h:outputText value="Acciones" />  
                         </f:facet> 
-                        <p:commandButton id="btnEditar"  value="Actualizar"
+                        <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
                                          process="@this" onclick="PF('wglEditar').show()" 
                                          update=":frmEditar:pngEditar" >
                             <f:setPropertyActionListener value="#{escama}" target="#{bEscamas.seleccion}"/>
                         </p:commandButton>
                     </p:column>  
                     <f:facet name="footer">  
-                        <p:commandButton id="btnNuevo" value="Nuevo" 
+                        <p:commandButton id="btnNuevo" value="Nuevo"
                                          update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
                                          type="button" /> 
                     </f:facet>
@@ -103,7 +103,7 @@
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" action="#{bEscamas.Insercion(bAutenticacion.session.empleado.usuario_id)}" update=":frmEscama:pnlDatos"/>
+                        <p:commandButton value="Aceptar" action="#{bEscamas.Insercion()}" style="background: #FF8C00;" update=":frmEscama:pnlDatos"/>
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
                    </center>
                     </h:form> 
@@ -148,7 +148,7 @@
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" action="#{bEscamas.Actualizacion()}" update=":frmEscama:pnlDatos"/>
+                        <p:commandButton value="Aceptar" action="#{bEscamas.Actualizacion()}" style="background: #FF8C00;" update=":frmEscama:pnlDatos"/>
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
                    </center>
                     </h:form> 
