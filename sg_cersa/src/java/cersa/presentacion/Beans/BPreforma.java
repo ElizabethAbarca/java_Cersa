@@ -8,13 +8,13 @@ package cersa.presentacion.Beans;
 import cersa.negocio.Funciones.FPreforma;
 import cersa.negocio.Clases.CPreforma;
 import cersa.negocio.Funciones.FSubproducto;
-import cersa.negocio.Funciones.FTurno;
 import cersa.negocio.Funciones.FUsuario;
 import java.util.ArrayList;
-import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.DefaultRequestContext;
 
@@ -23,7 +23,7 @@ import org.primefaces.context.DefaultRequestContext;
  * @author HP
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BPreforma {
 
     private CPreforma objeto;
@@ -31,32 +31,30 @@ public class BPreforma {
     private ArrayList<CPreforma> listado;
     
     
-    private int turno;
-    private int usuario;
-    private int subtipo;
-    
-    private java.util.Date fecha;
-    
+    @ManagedProperty(value = "#{bSesionManager}")
+    private BSesionManager session;
     /**
-     * Creates a new instance of BPreforma
+     * Creates a new instance of BEscamas
      */
-    
-    public BPreforma() {
+    public BPreforma() {        
         this.reinit();
     }
     
+    private int sub;
+    /**
+     * Creates a new instance of BPaca
+     */
+    @PostConstruct
     private void reinit() {
         this.objeto = new CPreforma();
         this.seleccion = new CPreforma();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
-        //this.objDependenciaSel = this.lstDependencias.get(0);
     }
 
-     
     private void Visualizacion() {
         try {
-            this.listado = FPreforma.obtenerTodas();
+            this.listado = FPreforma.obtener_Preforma_Persona(session.getEmpleado().getUsuario_id());
         } catch (Exception e) {
            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
@@ -66,16 +64,15 @@ public class BPreforma {
     
     public void Insercion()
     {
-        try {
-            objeto.setPreforma_fecha(new java.sql.Date(fecha.getTime()));
-            objeto.setPreforma_subtipo(FSubproducto.obtener_Id(subtipo));
-            objeto.setPreforma_turno(FTurno.obtener_Id(turno));
-            objeto.setPreforma_usuario(FUsuario.obtener_Id(usuario));
+        try {    
+            objeto.setPreforma_subtipo(FSubproducto.obtener_Id(sub));
+            objeto.setPreforma_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             if(FPreforma.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
+                objeto = null;
                 this.reinit();
             }
             else
@@ -92,7 +89,9 @@ public class BPreforma {
 
     
     public void Actualizacion() {
-        try {
+        try {            
+            seleccion.setPreforma_subtipo(FSubproducto.obtener_Id(sub));
+            seleccion.setPreforma_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             if (FPreforma.update(seleccion)) {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
@@ -155,36 +154,20 @@ public class BPreforma {
         this.listado = listado;
     }
 
-    public int getTurno() {
-        return turno;
+    public BSesionManager getSession() {
+        return session;
     }
 
-    public void setTurno(int turno) {
-        this.turno = turno;
+    public void setSession(BSesionManager session) {
+        this.session = session;
     }
 
-    public int getUsuario() {
-        return usuario;
+    public int getSub() {
+        return sub;
     }
 
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
+    public void setSub(int sub) {
+        this.sub = sub;
     }
 
-    public int getSubtipo() {
-        return subtipo;
-    }
-
-    public void setSubtipo(int subtipo) {
-        this.subtipo = subtipo;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-    
 }

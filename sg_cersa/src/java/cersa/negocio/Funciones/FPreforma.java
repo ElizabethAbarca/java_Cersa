@@ -22,13 +22,10 @@ public static boolean insertar(CPreforma objeto) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_insert_preforma(?,?,?,?,?,?)";
-            lstP.add(new Parametro(1, objeto.getPreforma_subtipo().getSubproducto_id()));  
-            lstP.add(new Parametro(2, objeto.getPreforma_precio()));
-            lstP.add(new Parametro(3, objeto.getPreforma_pesoingreso()));
-            lstP.add(new Parametro(4, objeto.getPreforma_fecha()));
-            lstP.add(new Parametro(5, objeto.getPreforma_turno().getTurno_id()));
-            lstP.add(new Parametro(6, objeto.getPreforma_usuario().getUsuario_id()));       
+            String sql = "select * from basedatos_cersa.f_insert_preforma(?,?,?)";
+            lstP.add(new Parametro(1, objeto.getPreforma_subtipo().getSubproducto_id()));
+            lstP.add(new Parametro(2, objeto.getPreforma_pesoingreso()));
+            lstP.add(new Parametro(3, objeto.getPreforma_usuario().getUsuario_id()));       
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -59,14 +56,11 @@ public static boolean update(CPreforma seleccion) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_update_preforma(?,?,?,?,?,?,?)";
+            String sql = "select * from basedatos_cersa.f_update_preforma(?,?,?,?)";
             lstP.add(new Parametro(1, seleccion.getPreforma_id()));
-            lstP.add(new Parametro(2, seleccion.getPreforma_subtipo().getSubproducto_id()));  
-            lstP.add(new Parametro(3, seleccion.getPreforma_precio()));
-            lstP.add(new Parametro(4, seleccion.getPreforma_pesoingreso()));
-            lstP.add(new Parametro(5, seleccion.getPreforma_fecha()));
-            lstP.add(new Parametro(6, seleccion.getPreforma_turno().getTurno_id()));
-            lstP.add(new Parametro(7, seleccion.getPreforma_usuario().getUsuario_id()));       
+            lstP.add(new Parametro(2, seleccion.getPreforma_subtipo().getSubproducto_id())); 
+            lstP.add(new Parametro(3, seleccion.getPreforma_pesoingreso()));
+            lstP.add(new Parametro(4, seleccion.getPreforma_usuario().getUsuario_id()));       
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -85,10 +79,9 @@ public static ArrayList<CPreforma> llenar(ConjuntoResultado rs) throws Exception
                 objeto = new CPreforma(rs.getInt(0), 
                         FSubproducto.obtener_Id(rs.getInt(1)),
                         rs.getDouble(2),
-                        rs.getDouble(3),
-                        rs.getDate(4),
-                        FTurno.obtener_Id(rs.getInt(5)),
-                        FUsuario.obtener_Id(rs.getInt(6)));
+                        rs.getDate(3),
+                        rs.getTime(4),
+                        FUsuario.obtener_Id(rs.getInt(5)));
                 lst.add(objeto);
             }
         } catch (Exception e) {
@@ -109,7 +102,20 @@ public static ArrayList<CPreforma> obtenerTodas() throws Exception {
         }
         return lst;
     }
-
+public static ArrayList<CPreforma> obtener_Preforma_Persona(int codigo) throws Exception {
+        ArrayList<CPreforma> lst = new ArrayList<CPreforma>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.tpreforma where tpreforma.tpreforma_usuario=?;";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenar(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
 public static CPreforma obtener_Id(int codigo) throws Exception {
         CPreforma obj;
         try {

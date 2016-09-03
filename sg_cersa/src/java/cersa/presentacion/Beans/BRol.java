@@ -10,7 +10,7 @@ import cersa.negocio.Clases.CRol;
 import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -18,7 +18,7 @@ import javax.faces.context.FacesContext;
  * @author HP
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BRol {
     
     private CRol objeto;

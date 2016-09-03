@@ -7,13 +7,14 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FSoplado;
 import cersa.negocio.Clases.CSoplado;
-import cersa.negocio.Funciones.FTurno;
+import cersa.negocio.Funciones.FMuestra;
 import cersa.negocio.Funciones.FUsuario;
 import java.util.ArrayList;
-import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.DefaultRequestContext;
 
@@ -22,50 +23,56 @@ import org.primefaces.context.DefaultRequestContext;
  * @author HP
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BSoplado {
 
     private CSoplado objeto;
     private CSoplado seleccion;
     private ArrayList<CSoplado> listado;
     
-    private int usuario;
-    private java.util.Date fecha;
-    private int turno;
+    
+    @ManagedProperty(value = "#{bSesionManager}")
+    private BSesionManager session;
     /**
-     * Creates a new instance of BSoplado
+     * Creates a new instance of BEscamas
      */
-    public BSoplado() {
-         this.reinit();
+    public BSoplado() {        
+        this.reinit();
     }
     
+    private int muestra;
+    /**
+     * Creates a new instance of BPaca
+     */
+    @PostConstruct
     private void reinit() {
         this.objeto = new CSoplado();
         this.seleccion = new CSoplado();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
-        //this.objDependenciaSel = this.lstDependencias.get(0);
     }
+
     private void Visualizacion() {
         try {
-            this.listado = FSoplado.obtenerTodas();
+            this.listado = FSoplado.obtener_Soplado_Persona(session.getEmpleado().getUsuario_id());
         } catch (Exception e) {
            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
         }
     }
+
     
     public void Insercion()
     {
-        try {
-            objeto.setSoplado_fecha(new java.sql.Date(fecha.getTime()));
-            objeto.setSoplado_turno(FTurno.obtener_Id(turno));
-            objeto.setSoplado_usuario(FUsuario.obtener_Id(usuario));
+        try {    
+            objeto.setSoplado_muestra(FMuestra.obtener_Id(muestra));
+            objeto.setSoplado_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             if(FSoplado.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
+                objeto = null;
                 this.reinit();
             }
             else
@@ -82,7 +89,9 @@ public class BSoplado {
 
     
     public void Actualizacion() {
-        try {
+        try {            
+            seleccion.setSoplado_muestra(FMuestra.obtener_Id(muestra));
+            seleccion.setSoplado_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             if (FSoplado.update(seleccion)) {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
@@ -145,29 +154,20 @@ public class BSoplado {
         this.listado = listado;
     }
 
-    public int getUsuario() {
-        return usuario;
+    public BSesionManager getSession() {
+        return session;
     }
 
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
+    public void setSession(BSesionManager session) {
+        this.session = session;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public int getMuestra() {
+        return muestra;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setMuestra(int muestra) {
+        this.muestra = muestra;
     }
 
-    public int getTurno() {
-        return turno;
-    }
-
-    public void setTurno(int turno) {
-        this.turno = turno;
-    }
-
-    
 }

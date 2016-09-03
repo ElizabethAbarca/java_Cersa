@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+ <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Inicio</title>
+    <link rel="icon" type="img/png" href="img/cersa.png"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/local.css" />
+
+    <!-- you need to include the shieldui css and js assets in order for the charts to work -->
+ </h:head>
+    <h:body>
+ <div id="wrapper">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="home.xhtml" style="font-family: Arial; font-size: 25px;"> 
+                  COMPAÑIA ECUATORIANA DE RECICLAJE S.A.</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active" style="font-family: Arial; font-size: 20px;">
+                          <a href="#">INGRESOS</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-recycle"></i> Escama</a></li>
+                    <li><a href="#"><i class="fa fa-recycle"></i> Compactación</a></li>
+                    <li><a href="#"><i class="fa fa-recycle"></i> Preforma</a></li>
+                    <li><a href="#"><i class="fa fa-recycle"></i> Soplado</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                     <li class="dropdown user-dropdown">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>#{bAutenticacion.session.empleado.usuario_nombre}  #{bAutenticacion.session.empleado.usuario_apellido}</a>
+                         </li>
+                    <li><a href="#"><i class="fa fa-circle"></i> Perfil</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                <h:form>
+                                    <p:commandButton action="#{bAutenticacion.logout()}" value="Log Out" ajax="false" class="btn btn-info"> 
+                                    </p:commandButton> 
+                                </h:form>
+                            </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ui:insert name="top">
+                        <h1>Bienvenid@ <small>Sistema de Control de Producción y Control de Masas</small></h1>
+                        
+                            <div class="alert alert-success alert-dismissable">
+                                A continuación, usted podra gestionar las diferentes etapas del proceso productivo de escamas de PET a nivel industrial. 
+                                <br />
+                                De igual forma, otro proceso como el soplado,compactación y preforma.  
+                            </div>
+                        </ui:insert>
+                        
+                    </div>
+                </div>
+                <ui:insert name="contenido"> </ui:insert>
+            </div>
+        </div>
+     </div>
+    <!-- /#wrapper -->     
+  <ui:insert name="dialogos" ></ui:insert>
+</h:body>
+</html>
+

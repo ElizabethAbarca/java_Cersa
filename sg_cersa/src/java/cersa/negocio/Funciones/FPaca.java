@@ -21,11 +21,10 @@ public class FPaca {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_insert_paca(?,?,?,?)";
-            lstP.add(new Parametro(1, objeto.getPaca_tipo().getTipo_id()));  
+            String sql = "select * from basedatos_cersa.f_insert_paca(?,?,?)";
+            lstP.add(new Parametro(1, objeto.getPaca_subtipo().getSubproducto_id()));  
             lstP.add(new Parametro(2, objeto.getPaca_peso()));
-            lstP.add(new Parametro(3, objeto.getPaca_fecha()));
-            lstP.add(new Parametro(4, objeto.getPaca_responsable().getUsuario_id()));      
+            lstP.add(new Parametro(3, objeto.getPaca_responsable().getUsuario_id()));      
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -56,12 +55,11 @@ public static boolean update(CPaca seleccion) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_update_paca(?,?,?,?,?)";
+            String sql = "select * from basedatos_cersa.f_update_paca(?,?,?,?)";
             lstP.add(new Parametro(1, seleccion.getPaca_id()));
-            lstP.add(new Parametro(2, seleccion.getPaca_tipo().getTipo_id()));
-            lstP.add(new Parametro(3, seleccion.getPaca_peso()));  
-            lstP.add(new Parametro(4, seleccion.getPaca_fecha()));
-            lstP.add(new Parametro(5, seleccion.getPaca_responsable().getUsuario_id()));         
+            lstP.add(new Parametro(2, seleccion.getPaca_subtipo().getSubproducto_id()));
+            lstP.add(new Parametro(3, seleccion.getPaca_peso())); 
+            lstP.add(new Parametro(4, seleccion.getPaca_responsable().getUsuario_id()));         
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -78,10 +76,11 @@ public static ArrayList<CPaca> llenar(ConjuntoResultado rs) throws Exception {
         try {
             while (rs.next()) {
                 objeto = new CPaca(rs.getInt(0), 
-                        FTipo.obtener_Id(rs.getInt(1)),
+                        FSubproducto.obtener_Id(rs.getInt(1)),
                         rs.getDouble(2),
                         rs.getDate(3),
-                        FUsuario.obtener_Id(rs.getInt(4)));
+                        rs.getTime(4),
+                        FUsuario.obtener_Id(rs.getInt(5)));
                 lst.add(objeto);
             }
         } catch (Exception e) {
@@ -95,6 +94,21 @@ public static ArrayList<CPaca> obtenerTodas() throws Exception {
         try {
             String sql = "select * from basedatos_cersa.f_select_paca()";
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenar(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+public static ArrayList<CPaca> obtener_Paca_Persona(int codigo) throws Exception {
+        ArrayList<CPaca> lst = new ArrayList<CPaca>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.tpaca where tpaca.tpaca_responsable=?;";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = llenar(rs);
             rs = null;
         } catch (SQLException exConec) {

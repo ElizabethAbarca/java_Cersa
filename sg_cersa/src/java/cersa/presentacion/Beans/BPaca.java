@@ -7,13 +7,14 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FPaca;
 import cersa.negocio.Clases.CPaca;
-import cersa.negocio.Funciones.FTipo;
+import cersa.negocio.Funciones.FSubproducto;
 import cersa.negocio.Funciones.FUsuario;
 import java.util.ArrayList;
-import java.sql.Date;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.DefaultRequestContext;
 
@@ -22,7 +23,7 @@ import org.primefaces.context.DefaultRequestContext;
  * @author HP
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BPaca {
 
     private CPaca objeto;
@@ -30,36 +31,30 @@ public class BPaca {
     private ArrayList<CPaca> listado;
     
     
-    private int tipo;
-    private int usuario;
-    private java.util.Date fecha;
+    @ManagedProperty(value = "#{bSesionManager}")
+    private BSesionManager session;
     /**
-     * Creates a new instance of BPaca
+     * Creates a new instance of BEscamas
      */
-    public BPaca() {
+    public BPaca() {        
         this.reinit();
     }
     
+    private int sub;
+    /**
+     * Creates a new instance of BPaca
+     */
+    @PostConstruct
     private void reinit() {
         this.objeto = new CPaca();
         this.seleccion = new CPaca();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
-        //this.objDependenciaSel = this.lstDependencias.get(0);
     }
 
-    public BPaca(CPaca objeto, CPaca seleccion, ArrayList<CPaca> listado, int tipo, int usuario, java.util.Date fecha) {
-        this.objeto = objeto;
-        this.seleccion = seleccion;
-        this.listado = listado;
-        this.tipo = tipo;
-        this.usuario = usuario;
-        this.fecha = fecha;
-    }
-   
     private void Visualizacion() {
         try {
-            this.listado = FPaca.obtenerTodas();
+            this.listado = FPaca.obtener_Paca_Persona(session.getEmpleado().getUsuario_id());
         } catch (Exception e) {
            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
@@ -70,14 +65,14 @@ public class BPaca {
     public void Insercion()
     {
         try {    
-            objeto.setPaca_tipo(FTipo.obtener_Id(tipo));
-            objeto.setPaca_responsable(FUsuario.obtener_Id(usuario));
-            objeto.setPaca_fecha(new java.sql.Date(fecha.getTime()));
+            objeto.setPaca_subtipo(FSubproducto.obtener_Id(sub));
+            objeto.setPaca_responsable(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             if(FPaca.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
+                objeto = null;
                 this.reinit();
             }
             else
@@ -94,7 +89,9 @@ public class BPaca {
 
     
     public void Actualizacion() {
-        try {
+        try {            
+            seleccion.setPaca_subtipo(FSubproducto.obtener_Id(sub));
+            seleccion.setPaca_responsable(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             if (FPaca.update(seleccion)) {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
@@ -133,15 +130,6 @@ public class BPaca {
         }        
       }
 
-    public java.util.Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(java.util.Date fecha) {
-        this.fecha = fecha;
-    }
-
-    
     public CPaca getObjeto() {
         return objeto;
     }
@@ -166,21 +154,20 @@ public class BPaca {
         this.listado = listado;
     }
 
-    public int getTipo() {
-        return tipo;
+    public BSesionManager getSession() {
+        return session;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setSession(BSesionManager session) {
+        this.session = session;
     }
 
-    public int getUsuario() {
-        return usuario;
+    public int getSub() {
+        return sub;
     }
 
-    public void setUsuario(int usuario) {
-        this.usuario = usuario;
+    public void setSub(int sub) {
+        this.sub = sub;
     }
-    
     
 }

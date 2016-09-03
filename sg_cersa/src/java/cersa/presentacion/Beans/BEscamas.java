@@ -15,7 +15,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.DefaultRequestContext;
@@ -96,6 +95,7 @@ public class BEscamas {
         try {            
             seleccion.setEscama_subtipo(FSubproducto.obtener_Id(sub));
             seleccion.setEscama_tipo(FTipo.obtener_Id(tipo));
+            seleccion.setEscama_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
             if (FEscama.update(seleccion)) {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);

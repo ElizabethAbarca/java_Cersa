@@ -22,11 +22,10 @@ public static boolean insertar(CSoplado objeto) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_insert_soplado(?,?,?,?)";
-            lstP.add(new Parametro(1, objeto.getSoplado_usuario().getUsuario_id()));  
-            lstP.add(new Parametro(2, objeto.getSoplado_fecha()));
-            lstP.add(new Parametro(3, objeto.getSoplado_turno().getTurno_id()));
-            lstP.add(new Parametro(4, objeto.getSoplado_peso()));       
+            String sql = "select * from basedatos_cersa.f_insert_soplado(?,?,?)";
+            lstP.add(new Parametro(1, objeto.getSoplado_usuario().getUsuario_id())); 
+            lstP.add(new Parametro(2, objeto.getSoplado_peso()));  
+            lstP.add(new Parametro(3, objeto.getSoplado_muestra().getMuestra_id()));      
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -57,12 +56,11 @@ public static boolean update(CSoplado seleccion) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_update_soplado(?,?,?,?,?)";
+            String sql = "select * from basedatos_cersa.f_update_soplado(?,?,?,?)";
             lstP.add(new Parametro(1, seleccion.getSoplado_id()));
-            lstP.add(new Parametro(2, seleccion.getSoplado_usuario().getUsuario_id()));  
-            lstP.add(new Parametro(3, seleccion.getSoplado_fecha()));
-            lstP.add(new Parametro(4, seleccion.getSoplado_turno().getTurno_id()));
-            lstP.add(new Parametro(5, seleccion.getSoplado_peso()));         
+            lstP.add(new Parametro(2, seleccion.getSoplado_usuario().getUsuario_id())); 
+            lstP.add(new Parametro(3, seleccion.getSoplado_peso()));     
+            lstP.add(new Parametro(4, seleccion.getSoplado_muestra().getMuestra_id()));    
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -81,8 +79,9 @@ public static ArrayList<CSoplado> llenar(ConjuntoResultado rs) throws Exception 
                 objeto = new CSoplado(rs.getInt(0), 
                         FUsuario.obtener_Id(rs.getInt(1)),
                         rs.getDate(2),
-                        FTurno.obtener_Id(rs.getInt(3)),
-                        rs.getDouble(4));
+                        rs.getTime(3),
+                        rs.getDouble(4),
+                        FMuestra.obtener_Id(rs.getInt(5)));
                 lst.add(objeto);
             }
         } catch (Exception e) {
@@ -118,5 +117,20 @@ public static CSoplado obtener_Id(int codigo) throws Exception {
             throw new Exception(exConec.getMessage());
         }
         return obj;
+    }
+
+public static ArrayList<CSoplado> obtener_Soplado_Persona(int codigo) throws Exception {
+        ArrayList<CSoplado> lst = new ArrayList<CSoplado>();
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.tsoplado where tsoplado.tsoplado_usuario=?;";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            lst = llenar(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
     }
 }

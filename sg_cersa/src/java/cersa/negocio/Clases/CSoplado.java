@@ -6,6 +6,7 @@
 package cersa.negocio.Clases;
 
 import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
@@ -15,18 +16,20 @@ public class CSoplado {
   private Integer soplado_id;
   CUsuario soplado_usuario;
   private java.sql.Date soplado_fecha;
-  CTurno soplado_turno;
+  private java.sql.Time soplado_hora;
   private double soplado_peso;
+  CMuestra soplado_muestra;
 
     public CSoplado() {
     }
 
-    public CSoplado(Integer soplado_id, CUsuario soplado_usuario, Date soplado_fecha, CTurno soplado_turno, double soplado_peso) {
+    public CSoplado(Integer soplado_id, CUsuario soplado_usuario, Date soplado_fecha, Time soplado_hora, double soplado_peso, CMuestra soplado_muestra) {
         this.soplado_id = soplado_id;
         this.soplado_usuario = soplado_usuario;
         this.soplado_fecha = soplado_fecha;
-        this.soplado_turno = soplado_turno;
+        this.soplado_hora = soplado_hora;
         this.soplado_peso = soplado_peso;
+        this.soplado_muestra = soplado_muestra;
     }
 
     public Integer getSoplado_id() {
@@ -53,12 +56,12 @@ public class CSoplado {
         this.soplado_fecha = soplado_fecha;
     }
 
-    public CTurno getSoplado_turno() {
-        return soplado_turno;
+    public Time getSoplado_hora() {
+        return soplado_hora;
     }
 
-    public void setSoplado_turno(CTurno soplado_turno) {
-        this.soplado_turno = soplado_turno;
+    public void setSoplado_hora(Time soplado_hora) {
+        this.soplado_hora = soplado_hora;
     }
 
     public double getSoplado_peso() {
@@ -69,4 +72,12 @@ public class CSoplado {
         this.soplado_peso = soplado_peso;
     }
 
+    public CMuestra getSoplado_muestra() {
+        return soplado_muestra;
+    }
+
+    public void setSoplado_muestra(CMuestra soplado_muestra) {
+        this.soplado_muestra = soplado_muestra;
+    }
+    
 }

@@ -8,41 +8,41 @@
     <h:head>
  </h:head>
     <h:body>
-        <ui:composition template="plantillas/modeloSupervisor.xhtml">
-            <ui:define name="top">
+       <ui:composition template="plantillas/modeloSupervisor.xhtml">
+       <ui:define name="top">
             <center>
-            <h1><small>Lista de Compactación</small></h1>
+            <h1><small>Lista de Soplado</small></h1>
             </center>
         </ui:define>
       <ui:define name="contenido">
          <p:growl id="mensajes" autoUpdate="true"/>        
-         <h:form id="frmPaca">
+         <h:form id="frmSoplado">
             <p:panel id="pnlDatos">
-                <p:dataTable id="tblPaca" value="#{bPaca.listado}" 
-                             var="paca" paginator="true" rows="5"
+                <p:dataTable id="tblSoplado" value="#{bSoplado.listado}" 
+                             var="soplado" paginator="true" rows="5"
                              selectionMode="single" 
-                             rowKey="#{paca.paca_id}" 
-                             selection="#{bPaca.seleccion}"
+                             rowKey="#{soplado.soplado_id}" 
+                             selection="#{bSoplado.seleccion}"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                              rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
-                    <p:column filterBy="#{paca.paca_id}" filterMatchMode="startsWith" 
-                              sortBy="#{paca.paca_id}" headerText="#Compactación">
-                        <h:outputText value="#{paca.paca_id}"/>
+                    <p:column filterBy="#{soplado.soplado_id}" filterMatchMode="startsWith" 
+                              sortBy="#{soplado.soplado_id}" headerText="#Preforma">
+                        <h:outputText value="#{soplado.soplado_id}"/>
                     </p:column>
-                    <p:column headerText="Subtipo">                                   
-                        <h:outputText value="#{paca.paca_subtipo.subproducto_descripcion}"/>
+                    <p:column headerText="Producto">                                   
+                        <h:outputText value="#{soplado.soplado_muestra.muestra_Nombre}"/>
                     </p:column>
                     <p:column headerText="Responsable">                                   
-                        <h:outputText value="#{paca.paca_responsable.usuario_apellido} #{paca.paca_responsable.usuario_nombre}"/>
+                        <h:outputText value="#{soplado.soplado_usuario.usuario_apellido} #{soplado.soplado_usuario.usuario_nombre}"/>
                     </p:column>
                     <p:column headerText="Peso">                                   
-                        <h:outputText value="#{paca.paca_peso} pk"/>
+                        <h:outputText value="#{soplado.soplado_peso} pk"/>
                     </p:column>
                     <p:column headerText="Fecha">                                   
-                        <h:outputText value="#{paca.paca_fecha}"/>
+                        <h:outputText value="#{soplado.soplado_fecha}"/>
                     </p:column>
                     <p:column headerText="Hora">                                   
-                        <h:outputText value="#{paca.paca_hora}"/>
+                        <h:outputText value="#{soplado.soplado_hora}"/>
                     </p:column>
                     <p:column >  
                         <f:facet name="header">  
@@ -51,7 +51,7 @@
                         <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
                                          process="@this" onclick="PF('wglEditar').show()" 
                                          update=":frmEditar:pngEditar" >
-                            <f:setPropertyActionListener value="#{paca}" target="#{bPaca.seleccion}"/>
+                            <f:setPropertyActionListener value="#{soplado}" target="#{bSoplado.seleccion}"/>
                         </p:commandButton>
                     </p:column>  
                     <f:facet name="footer">  
@@ -65,55 +65,56 @@
           </ui:define>
             
             <ui:define name="dialogos">
-            <p:dialog header="INGRESAR NUEVA COMPACTACIÓN" widgetVar="wglInsertar"
+            <p:dialog header="INGRESAR NUEVA PREFORMA" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmNuevo">
                         <p:panelGrid id="pngNuevo" columns="2">
-                            <h:outputText value="Subtipo:"/>                               
-                            <p:selectOneMenu id="cmSubtipo" value="#{bPaca.sub}" 
+                            <h:outputText value="Producto:"/>                               
+                            <p:selectOneMenu id="cmSubtipo" value="#{bSoplado.muestra}" 
                                              required="true" requiredMessage="Elija una opción"> 
-                                <f:selectItems value="#{bSubproducto.listado}" 
-                                               var="sub" itemLabel="#{sub.subproducto_descripcion}" 
-                                               itemValue="#{sub.subproducto_id}"/>
+                                <f:selectItems value="#{bMuestra.listado}" 
+                                               var="muestra" itemLabel="#{muestra.muestra_Nombre}" 
+                                               itemValue="#{muestra.muestra_id}"/>
                             </p:selectOneMenu>         
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bPaca.objeto.paca_peso}"/>                            
+                            <p:inputText value="#{bSoplado.objeto.soplado_peso}"/>                            
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                            <p:commandButton value="Aceptar" action="#{bPaca.Insercion()}" 
-                                             style="background: #FF8C00;" update=":frmPaca:pnlDatos"/>
+                            <p:commandButton value="Aceptar" action="#{bSoplado.Insercion()}" 
+                                             style="background: #FF8C00;" update=":frmSoplado:pnlDatos"/>
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()"
                                          type="reset"/>
                    </center>
                     </h:form> 
                 </p:dialog>  
 
-             <p:dialog header="MODIFICAR COMPACTACIÓN" widgetVar="wglEditar"
+             <p:dialog header="MODIFICAR SOPLADO" widgetVar="wglEditar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmEditar">
                         <p:panelGrid id="pngEditar" columns="2">                           
-                            <h:outputText value="Subtipo:"/>      
-                            <p:selectOneMenu id="cmSubti" value="#{bPaca.sub}" 
+                            <h:outputText value="Producto:"/>      
+                            <p:selectOneMenu id="cmSub" value="#{bSoplado.muestra}" 
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItem
-                                    itemLabel="#{bPaca.seleccion.paca_subtipo.subproducto_descripcion}" 
-                                    itemValue="#{bPaca.seleccion.paca_subtipo.subproducto_id}"/>
-                               <f:selectItems value="#{bSubproducto.listado}" 
-                                               var="sub" itemLabel="#{sub.subproducto_descripcion}" 
-                                               itemValue="#{sub.subproducto_id}"/>
+                                    itemLabel="#{bSoplado.seleccion.soplado_muestra.muestra_Nombre}" 
+                                    itemValue="#{bSoplado.seleccion.soplado_muestra.muestra_id}"/>
+                               <f:selectItems value="#{bMuestra.listado}" 
+                                              var="muestra" itemLabel="#{muestra.muestra_Nombre}" 
+                                              itemValue="#{muestra.muestra_id}"/>
                             </p:selectOneMenu>    
                             <h:outputText value="Responsable:"/>
-                            <h:outputText value="#{bPaca.seleccion.paca_responsable.usuario_apellido} #{bPaca.seleccion.paca_responsable.usuario_nombre}"/>
+                            <h:outputText value="#{bSoplado.seleccion.soplado_usuario.usuario_apellido} #{bSoplado.seleccion.soplado_usuario.usuario_nombre}"/>
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bPaca.seleccion.paca_peso}"/>
+                            <p:inputText value="#{bSoplado.seleccion.soplado_peso}"/>
                         </p:panelGrid>
                         <p:separator/>
                         <center>
                         <p:commandButton value="Aceptar" 
-                                         action="#{bPaca.Actualizacion()}" style="background: #FF8C00;" update=":frmPaca:pnlDatos"/>
+                                         action="#{bSoplado.Actualizacion()}" style="background: #FF8C00;"
+                                         update=":frmSoplado:pnlDatos"/>
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
                    </center>
                     </h:form> 
@@ -122,5 +123,4 @@
     </ui:composition>
     </h:body>
 </html>
-
 
