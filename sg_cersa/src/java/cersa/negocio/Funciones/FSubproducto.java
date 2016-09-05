@@ -60,5 +60,56 @@ public static CSubproducto obtener_Id(int codigo) throws Exception {
             throw new Exception(exConec.getMessage());
         }
         return obj;
-    }    
+    } 
+public static boolean insertar(CSubproducto objeto) throws Exception {
+        boolean bandera = false;
+        try {
+             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.f_insert_subproducto(?)";
+            lstP.add(new Parametro(1, objeto.getSubproducto_descripcion()));  
+               
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                bandera = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return bandera;
+    }
+public static boolean eliminar(int identificador) throws Exception {
+        boolean bandera = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.f_delete_subproducto(?)";
+            lstP.add(new Parametro(1, identificador));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                bandera = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return bandera;
+    } 
+public static boolean update(CSubproducto seleccion) throws Exception {
+        boolean bandera = false;
+        try {
+             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.f_update_subproducto(?,?)";            
+            lstP.add(new Parametro(1, seleccion.getSubproducto_id()));              
+            lstP.add(new Parametro(2, seleccion.getSubproducto_descripcion()));
+
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                bandera = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return bandera;
+    }
 }
