@@ -64,7 +64,36 @@ public static CUsuario autenticar(String cedula, String clave) throws Exception 
         }
         return lst;
     } 
-     
+   
+
+public static ArrayList<CUsuario> obtenerTodas() throws Exception {
+        ArrayList<CUsuario> lst = new ArrayList<CUsuario>();
+        try {
+            String sql = "select * from basedatos_cersa.f_select_usuario()";
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenar(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
+public static CUsuario obtener_Id(int codigo) throws Exception {
+        CUsuario obj;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.f_select_usuario_id(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            obj = new CUsuario();
+            obj = llenar(rs).get(0);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return obj;
+    }
 public static boolean insertar(CUsuario objeto) throws Exception {
         boolean bandera = false;
         try {
@@ -139,7 +168,7 @@ public static ArrayList<CUsuario> llenar(ConjuntoResultado rs) throws Exception 
         try {
             while (rs.next()) {
                 objeto = new CUsuario(rs.getInt(0), 
-                        rs.getString(1),
+                rs.getString(1),
                 rs.getString(2),
                 rs.getString(3),
                 rs.getString(4),
@@ -157,32 +186,5 @@ public static ArrayList<CUsuario> llenar(ConjuntoResultado rs) throws Exception 
         }
         return lst;
     }
-public static ArrayList<CUsuario> obtenerTodas() throws Exception {
-        ArrayList<CUsuario> lst = new ArrayList<CUsuario>();
-        try {
-            String sql = "select * from basedatos_cersa.f_select_usuario()";
-            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
-            lst = llenar(rs);
-            rs = null;
-        } catch (SQLException exConec) {
-            throw new Exception(exConec.getMessage());
-        }
-        return lst;
-    }
-
-public static CUsuario obtener_Id(int codigo) throws Exception {
-        CUsuario obj;
-        try {
-            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_select_usuario_id(?)";
-            lstP.add(new Parametro(1, codigo));
-            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
-            obj = new CUsuario();
-            obj = llenar(rs).get(0);
-            rs = null;
-        } catch (SQLException exConec) {
-            throw new Exception(exConec.getMessage());
-        }
-        return obj;
-    }
+ 
 }
