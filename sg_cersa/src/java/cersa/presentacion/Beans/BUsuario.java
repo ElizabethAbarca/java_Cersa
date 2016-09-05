@@ -7,6 +7,7 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FUsuario;
 import cersa.negocio.Clases.CUsuario;
+import cersa.negocio.Funciones.FRol;
 import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -22,36 +23,48 @@ import org.primefaces.context.DefaultRequestContext;
 @RequestScoped
 public class BUsuario {
 
-    private CUsuario objeto;
+     private CUsuario objeto;
     private CUsuario seleccion;
     private ArrayList<CUsuario> listado;
+
+    private int rol;
+
     /**
      * Creates a new instance of BeanUsuario
      */
     public BUsuario() {
         this.reinit();
-    }  
-    
+    }
+
     private void reinit() {
         this.objeto = new CUsuario();
         this.seleccion = new CUsuario();
         this.listado = new ArrayList<>();
-        this.Visualizacion();        
+        this.Visualizacion();
         //this.objDependenciaSel = this.lstDependencias.get(0);
     }
+
+    public BUsuario(CUsuario objeto, CUsuario seleccion, ArrayList<CUsuario> listado, int rol) {
+        this.objeto = objeto;
+        this.seleccion = seleccion;
+        this.listado = listado;
+        this.rol = rol;
+
+    }
+
     private void Visualizacion() {
         try {
             this.listado = FUsuario.obtenerTodas();
         } catch (Exception e) {
-           FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-           FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
         }
     }
 
-    
-    public void Insercion()
+public void Insercion()
     {
-        try {
+        try {    
+            objeto.setUsuario_rol(FRol.obtener_Id(rol));
             if(FUsuario.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
@@ -61,7 +74,7 @@ public class BUsuario {
             }
             else
             {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Ingresados");
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Datos No Ingresados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
             }
                 
@@ -71,7 +84,6 @@ public class BUsuario {
         }
     }
 
-    
     public void Actualizacion() {
         try {
             if (FUsuario.update(seleccion)) {
@@ -79,19 +91,17 @@ public class BUsuario {
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
                 this.reinit();
-            }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Actulizados");
+            } else {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Datos No Actualizados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
             }
-                
+
         } catch (Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+            context.addMessage("Exito", new FacesMessage(e.getMessage()));
         }
     }
-    
+
     public void Eliminacion() {
         try {
             if (FUsuario.eliminar(seleccion.getUsuario_id())) {
@@ -99,18 +109,16 @@ public class BUsuario {
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEliminar').hide()");
                 this.reinit();
-            }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Eliminados");
+            } else {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Datos No Eliminados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
             }
-                
+
         } catch (Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
-        }        
-      }
+            context.addMessage("Exito", new FacesMessage(e.getMessage()));
+        }
+    }
 
     public CUsuario getObjeto() {
         return objeto;
@@ -134,6 +142,20 @@ public class BUsuario {
 
     public void setListado(ArrayList<CUsuario> listado) {
         this.listado = listado;
+    }
+
+    /**
+     * @return the rol
+     */
+    public int getRol() {
+        return rol;
+    }
+
+    /**
+     * @param rol the rol to set
+     */
+    public void setRol(int rol) {
+        this.rol = rol;
     }
 
 }
