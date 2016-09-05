@@ -5,11 +5,13 @@
  */
 package cersa.presentacion.Beans;
 
-import cersa.negocio.Funciones.FSubproducto;
-import cersa.negocio.Clases.CSubproducto;
+import cersa.negocio.Clases.CRegistro;
+import cersa.negocio.Funciones.FRegistro;
 import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -19,56 +21,37 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @ViewScoped
-public class BSubproducto {
-    
-    private CSubproducto objeto;
-    private CSubproducto seleccion;
-    private ArrayList<CSubproducto> listado;
+public class BRegistro {
+
+    private ArrayList<CRegistro> listado;
     /**
-     * Creates a new instance of BeanSubproducto
+     * Creates a new instance of BeanRol
      */
-    public BSubproducto() {
+    
+    public BRegistro() {
         this.reinit();
     }
     
     private void reinit() {
-        this.objeto = new CSubproducto();
-        this.seleccion = new CSubproducto();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
         //this.objDependenciaSel = this.lstDependencias.get(0);
     }
     private void Visualizacion() {
         try {
-            this.listado = FSubproducto.obtenerTodas();
+            this.listado = FRegistro.obtenerTodas();
         } catch (Exception e) {
            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
         }
     }
 
-    public CSubproducto getObjeto() {
-        return objeto;
-    }
-
-    public void setObjeto(CSubproducto objeto) {
-        this.objeto = objeto;
-    }
-
-    public CSubproducto getSeleccion() {
-        return seleccion;
-    }
-
-    public void setSeleccion(CSubproducto seleccion) {
-        this.seleccion = seleccion;
-    }
-
-    public ArrayList<CSubproducto> getListado() {
+    public ArrayList<CRegistro> getListado() {
         return listado;
     }
 
-    public void setListado(ArrayList<CSubproducto> listado) {
+    public void setListado(ArrayList<CRegistro> listado) {
         this.listado = listado;
     }
-    
+
 }

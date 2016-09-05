@@ -6,6 +6,9 @@
 package cersa.presentacion.Beans;
 
 import cersa.negocio.Funciones.FUsuario;
+import cersa.negocio.Clases.CRegistro;
+import cersa.negocio.Funciones.FRegistro;
+import cersa.negocio.Funciones.FTurno;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -23,6 +26,8 @@ public class BAutenticacion {
 
     private String clave;
     private String message, cedula;
+    
+    CRegistro nuevoregistro;
     /**
      * Creates a new instance of BAutenticacion
      */
@@ -39,9 +44,20 @@ public class BAutenticacion {
         if (result) {
             // get Http Session and store username
             session.setEmpleado(FUsuario.autenticar(cedula, clave));
+            nuevoregistro = new CRegistro(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()),FTurno.obtener_Id(1));
+            FRegistro.insertar(nuevoregistro);
+            if(session.getEmpleado().getUsuario_rol().getRol_id()==2)
+            {
             HttpSession sesion = Util.getSession();
             sesion.setAttribute("username", cedula); 
-            return "home";
+            return "Supervisor";
+            } 
+            if(session.getEmpleado().getUsuario_rol().getRol_id()==1)
+            {
+            HttpSession sesion = Util.getSession();
+            sesion.setAttribute("username", cedula); 
+            return "General";
+            }
         } else {
  
             FacesContext.getCurrentInstance().addMessage(
@@ -55,9 +71,12 @@ public class BAutenticacion {
             //message = "Invalid Login. Please Try Again!";
             return "login";
         }
+        return null;
     }
  
-    public String logout() {
+    public String logout() throws Exception {
+      nuevoregistro = new CRegistro(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()),FTurno.obtener_Id(2));
+      FRegistro.insertar(nuevoregistro);
       HttpSession sesion = Util.getSession();
       sesion.invalidate();
       this.session=null;
