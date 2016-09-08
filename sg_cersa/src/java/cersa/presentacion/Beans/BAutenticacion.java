@@ -46,13 +46,15 @@ public class BAutenticacion {
             session.setEmpleado(FUsuario.autenticar(cedula, clave));
             nuevoregistro = new CRegistro(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()),FTurno.obtener_Id(1));
             FRegistro.insertar(nuevoregistro);
-            if(session.getEmpleado().getUsuario_rol().getRol_id()==2)
+            if(session.getEmpleado().getUsuario_rol().getRol_id()==2 
+                    && session.getEmpleado().getUsuario_estado()==0)
             {
             HttpSession sesion = Util.getSession();
             sesion.setAttribute("username", cedula); 
             return "Supervisor";
             } 
-            if(session.getEmpleado().getUsuario_rol().getRol_id()==1)
+            if(session.getEmpleado().getUsuario_rol().getRol_id()==1 
+                    && session.getEmpleado().getUsuario_estado()==0)
             {
             HttpSession sesion = Util.getSession();
             sesion.setAttribute("username", cedula); 

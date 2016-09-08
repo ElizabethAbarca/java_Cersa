@@ -60,6 +60,58 @@ public static CMuestra obtener_Id(int codigo) throws Exception {
             throw new Exception(exConec.getMessage());
         }
         return obj;
-    }    
+    }  
+
+public static boolean insertar(CMuestra objeto) throws Exception {
+        boolean bandera = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.f_insert_muestra(?)";
+            lstP.add(new Parametro(1, objeto.getMuestra_Nombre()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                bandera = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return bandera;
+    }
+
+    public static boolean eliminar(int codigo) throws Exception {
+        boolean bandera = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.f_delete_muestra(?)";
+            lstP.add(new Parametro(1, codigo));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                bandera = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return bandera;
+    }
+
+    public static boolean modificar(CMuestra objeto) throws Exception {
+        boolean bandera = false;
+        try {
+            ArrayList<Parametro> lstP = new ArrayList<Parametro>();
+            String sql = "select * from basedatos_cersa.f_update_muestra(?,?)";
+            lstP.add(new Parametro(1, objeto.getMuestra_id()));
+            lstP.add(new Parametro(2, objeto.getMuestra_Nombre()));
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
+            while (rs.next()) {
+                if (rs.getString(0).equals("true"));
+                bandera = true;
+            }
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return bandera;
+    }
     
 }

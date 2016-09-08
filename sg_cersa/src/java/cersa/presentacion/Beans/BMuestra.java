@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.DefaultRequestContext;
 
 /**
  *
@@ -46,7 +47,70 @@ public class BMuestra {
            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
         }
     }
+    
+     public void Insercion()
+    {
+        try {                
+            if(FMuestra.insertar(objeto))
+            {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
+                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
+                objeto = null;
+                this.reinit();
+            }
+            else
+            {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Ingresados");
+                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            }
+                
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+        }
+    }
 
+    
+    public void Actualizacion() {
+        try {            
+            if (FMuestra.modificar(seleccion)) {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
+                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
+                this.reinit();
+            }
+            else
+            {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Actulizados");
+                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            }
+                
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+        }
+    }
+    
+    public void Eliminacion() {
+        try {
+            if (FMuestra.eliminar(seleccion.getMuestra_id())) {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Eliminados");
+                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                DefaultRequestContext.getCurrentInstance().execute("PF('wglEliminar').hide()");
+                this.reinit();
+            }
+            else
+            {
+                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Eliminados");
+                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            }
+                
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+        }        
+      }
     public CMuestra getObjeto() {
         return objeto;
     }
