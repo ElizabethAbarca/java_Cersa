@@ -57,7 +57,7 @@
                         <h:outputText value="#{usuario.usuario_clave}"/>
                     </p:column>
                     <p:column headerText="Estado">                                   
-                        <h:outputText value="#{usuario.usuario_estado}"/>
+                        <h:outputText value="#{(usuario.usuario_estado==0)?'ACTIVO':'PASIVO'}"/>
                     </p:column>
                     <p:column headerText="Cargo">                                   
                         <h:outputText value="#{usuario.usuario_rol.rol_nombre}"/>
@@ -66,19 +66,23 @@
                         <f:facet name="header">  
                             <h:outputText value="Acciones" />  
                         </f:facet> 
-                        <p:commandButton id="btnEditar"  icon="ui-icon-pencil" 
+                         <center>
+                         <p:commandButton id="btnEditar"  value="Editar" style="background: #FF8C00;"
                                          process="@this" onclick="PF('wglEditar').show()" 
                                          update=":frmEditar:pngEditar" >
                             <f:setPropertyActionListener value="#{usuario}" target="#{bUsuario.seleccion}"/>
                         </p:commandButton>
+                         <!-- Eliminar
                         <p:commandButton id="btnEliminar"  icon="ui-icon-trash" 
                                          process="@this" onclick="PF('wglEliminar').show()" 
                                          update=":frmEliminar:pngEliminar" >
                             <f:setPropertyActionListener value="#{usuario}" target="#{bUsuario.seleccion}"/>
                         </p:commandButton>
+                         -->
+                         </center>
                     </p:column>  
                     <f:facet name="footer">  
-                        <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" 
+                        <p:commandButton id="btnNuevo" value="Nuevo" 
                                          update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
                                          type="button" /> 
                     </f:facet>
@@ -125,8 +129,12 @@
                            
                         </p:panelGrid>
                         <p:separator/>
-                        <p:commandButton value="Aceptar" action="#{bUsuario.Insercion()}" update=":frmUsuario:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
+                        <center>
+                        <p:commandButton value="Aceptar" action="#{bUsuario.Insercion()}" 
+                                         update=":frmUsuario:pnlDatos" style="background: #FF8C00;"/>
+                        <p:commandButton value="Cancelar" process="@this" 
+                                         onclick="PF('wglInsertar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog>  
 
@@ -152,15 +160,25 @@
                             <h:outputText value="Clave:"/>
                             <p:inputText value="#{bUsuario.seleccion.usuario_clave}"/>
                             <h:outputText value="Estado:"/>
-                            <p:inputText value="#{bUsuario.seleccion.usuario_estado}"/>
+                            <p:selectOneMenu id="cmbEstado" value="#{bUsuario.seleccion.usuario_estado}" 
+                                             required="true" requiredMessage="Elija una opción">
+                                <f:selectItem itemLabel="ACTIVO" itemValue="#{0}"/>
+                                <f:selectItem itemLabel="PASIVO" itemValue="#{1}"/>
+                            </p:selectOneMenu> 
                             <h:outputText value="Cargo:"/>                                
                             <p:inputText value="#{bUsuario.seleccion.usuario_rol.rol_nombre}"/> 
                            </p:panelGrid>
                         <p:separator/>
-                        <p:commandButton value="Aceptar" action="#{bUsuario.Actualizacion()}" update=":frmUsuario:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
+                        <center>
+                        <p:commandButton value="Aceptar" action="#{bUsuario.Actualizacion()}" 
+                                         update=":frmUsuario:pnlDatos"
+                                          style="background: #FF8C00;"/>
+                        <p:commandButton value="Cancelar" process="@this" 
+                                         onclick="PF('wglEditar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog>
+                 <!--
          <p:dialog header="ELIMINAR EMPLEADO" widgetVar="wglEliminar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
@@ -195,6 +213,7 @@
                         <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEliminar').hide()" type="reset"/>
                     </h:form> 
                 </p:dialog> 
+                 -->
                  </ui:define>
          </ui:composition>
     </h:body>
