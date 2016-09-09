@@ -26,11 +26,9 @@ public static boolean identificarse(String user, String password) {
         PreparedStatement ps = null;
         try {
             con = Database.getConnection();
-            ps = con.prepareStatement(
-                    "select iusuario_cedula, tusuario_clave from basedatos_cersa.tusuario where iusuario_cedula= ? and tusuario_clave= ? ");
+            ps = con.prepareStatement("select iusuario_cedula, tusuario_clave from basedatos_cersa.tusuario where iusuario_cedula= ? and tusuario_clave= ? ");
             ps.setString(1, user);
             ps.setString(2, password);
-  
             ResultSet rs = ps.executeQuery();
             if (rs.next()) // found
             {

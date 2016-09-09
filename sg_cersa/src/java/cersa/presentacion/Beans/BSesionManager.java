@@ -19,9 +19,11 @@ import javax.faces.bean.SessionScoped;
 public class BSesionManager implements Serializable{
 
     private CUsuario empleado;
+    
     /**
      * Creates a new instance of BSesionManager
      */
+    
     public BSesionManager() {
         this.empleado= new CUsuario();
     }
@@ -32,6 +34,5 @@ public class BSesionManager implements Serializable{
 
     public void setEmpleado(CUsuario empleado) {
         this.empleado = empleado;
-    }
-    
+    }    
 }

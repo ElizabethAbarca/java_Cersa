@@ -25,7 +25,7 @@ public class BTurno {
     private CTurno seleccion;
     private ArrayList<CTurno> listado;
     /**
-     * Creates a new instance of BeanTurno
+     * Creates a new instance of BTurno
      */
     public BTurno() {
         this.reinit();

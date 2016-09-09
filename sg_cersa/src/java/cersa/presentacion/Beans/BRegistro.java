@@ -25,7 +25,7 @@ public class BRegistro {
 
     private ArrayList<CRegistro> listado;
     /**
-     * Creates a new instance of BeanRol
+     * Creates a new instance of BRegistro
      */
     
     public BRegistro() {
@@ -35,7 +35,6 @@ public class BRegistro {
     private void reinit() {
         this.listado = new ArrayList<>();
         this.Visualizacion();        
-        //this.objDependenciaSel = this.lstDependencias.get(0);
     }
     private void Visualizacion() {
         try {

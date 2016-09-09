@@ -27,7 +27,7 @@ public class BTipo {
     private ArrayList<CTipo> listado;
 
     /**
-     * Creates a new instance of BeanTipo
+     * Creates a new instance of BTipo
      */
     public BTipo() {
         this.reinit();

@@ -38,19 +38,23 @@
                         <f:facet name="header">  
                             <h:outputText value="Acciones" />  
                         </f:facet> 
-                         <p:commandButton id="btnEditar" value="Actualizar" 
+                         <center>
+                         <p:commandButton id="btnEditar" value="Actualizar"  style="background: #FF8C00;"
                                          process="@this" onclick="PF('wglEditar').show()" 
                                          update=":frmEditar:pngEditar" >
                             <f:setPropertyActionListener value="#{subproducto}" target="#{bSubproducto.seleccion}"/>
                         </p:commandButton>
+                         <!--
                         <p:commandButton id="btnEliminar" value="Eliminar"  
                                          process="@this" onclick="PF('wglEliminar').show()" 
                                          update=":frmEliminar:pngEliminar" >
                             <f:setPropertyActionListener value="#{subproducto}" target="#{bSubproducto.seleccion}"/>
                         </p:commandButton>
+                         -->
+                         </center>
                     </p:column>  
                     <f:facet name="footer">  
-                        <p:commandButton id="btnNuevo" value="Nuevo" icon="ui-icon-newwin" 
+                        <p:commandButton id="btnNuevo" value="Nuevo" 
                                          update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
                                          type="button" /> 
                     </f:facet>
@@ -68,8 +72,13 @@
                             <p:inputText value="#{bSubproducto.objeto.subproducto_descripcion}"/>  
                         </p:panelGrid>
                         <p:separator/>
-                        <p:commandButton value="Aceptar" action="#{bSubproducto.Insercion()}" update=":frmSubproducto:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
+                        <center>
+                            <p:commandButton value="Aceptar" style="background: #FF8C00;"
+                                             action="#{bSubproducto.Insercion()}" 
+                                             update=":frmSubproducto:pnlDatos"/>
+                        <p:commandButton value="Cancelar" process="@this" 
+                                         onclick="PF('wglInsertar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog>  
 
@@ -84,8 +93,13 @@
                             
                            </p:panelGrid>
                         <p:separator/>
-                        <p:commandButton value="Aceptar" action="#{bSubproducto.Actualizacion()}" update=":frmSubproducto:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
+                        <center>
+                        <p:commandButton value="Aceptar"  style="background: #FF8C00;"
+                                         action="#{bSubproducto.Actualizacion()}" 
+                                         update=":frmSubproducto:pnlDatos"/>
+                        <p:commandButton value="Cancelar" process="@this" 
+                                         onclick="PF('wglEditar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog>
          <p:dialog header="ELIMINAR SUBPRODUCTO" widgetVar="wglEliminar"

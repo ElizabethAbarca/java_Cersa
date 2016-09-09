@@ -34,16 +34,13 @@ public class BSoplado {
     @ManagedProperty(value = "#{bSesionManager}")
     private BSesionManager session;
     /**
-     * Creates a new instance of BEscamas
+     * Creates a new instance of BSoplado
      */
     public BSoplado() {        
         this.reinit();
     }
     
     private int muestra;
-    /**
-     * Creates a new instance of BPaca
-     */
     @PostConstruct
     private void reinit() {
         this.objeto = new CSoplado();

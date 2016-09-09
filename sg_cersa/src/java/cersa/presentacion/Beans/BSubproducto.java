@@ -27,7 +27,7 @@ public class BSubproducto {
     private ArrayList<CSubproducto> listado;
 
     /**
-     * Creates a new instance of BeanSubproducto
+     * Creates a new instance of BSubproducto
      */
     public BSubproducto() {
         this.reinit();

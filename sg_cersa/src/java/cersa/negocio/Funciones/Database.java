@@ -14,7 +14,7 @@ public class Database {
         try {
             
             Class.forName("org.postgresql.Driver");
-            Connection   con= DriverManager.getConnection("jdbc:postgresql://localhost:5432/bdcersa", "postgres","123456");
+            Connection   con= DriverManager.getConnection("jdbc:postgresql://localhost:5432/cersa", "postgres","123456");
              
             return con;
         } catch (Exception ex) {

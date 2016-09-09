@@ -42,23 +42,32 @@ public class BAutenticacion {
 
         boolean result = FUsuario.identificarse(cedula, clave);
         if (result) {
-            // get Http Session and store username
             session.setEmpleado(FUsuario.autenticar(cedula, clave));
-            nuevoregistro = new CRegistro(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()),FTurno.obtener_Id(1));
-            FRegistro.insertar(nuevoregistro);
-            if(session.getEmpleado().getUsuario_rol().getRol_id()==2 
-                    && session.getEmpleado().getUsuario_estado()==0)
+            if(session.getEmpleado().getUsuario_estado()==0)
             {
-            HttpSession sesion = Util.getSession();
-            sesion.setAttribute("username", cedula); 
-            return "Supervisor";
-            } 
-            if(session.getEmpleado().getUsuario_rol().getRol_id()==1 
-                    && session.getEmpleado().getUsuario_estado()==0)
+                nuevoregistro = new CRegistro(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()),FTurno.obtener_Id(1));
+                FRegistro.insertar(nuevoregistro);
+                if(session.getEmpleado().getUsuario_rol().getRol_id()==2)
+                {
+                HttpSession sesion = Util.getSession();
+                sesion.setAttribute("username", cedula); 
+                return "Supervisor";
+                } 
+                if(session.getEmpleado().getUsuario_rol().getRol_id()==1)
+                {
+                HttpSession sesion = Util.getSession();
+                sesion.setAttribute("username", cedula); 
+                return "General";
+                }
+            }
+            else
             {
-            HttpSession sesion = Util.getSession();
-            sesion.setAttribute("username", cedula); 
-            return "General";
+                FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Empleado Invalido!",
+                    "Por favor, Verfique que los datos ingresados son correctos!!"));
+                return "login";
             }
         } else {
  
@@ -67,9 +76,7 @@ public class BAutenticacion {
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Usuario Invalido!",
                     "Por favor, verfique que los datos ingresados son correctos!!"));
- 
             // invalidate session, and redirect to other pages
- 
             //message = "Invalid Login. Please Try Again!";
             return "login";
         }

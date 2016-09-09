@@ -26,18 +26,17 @@ public class BMuestra {
     private CMuestra seleccion;
     private ArrayList<CMuestra> listado;
     /**
-     * Creates a new instance of BeanTipo
+     * Creates a new instance of BMuestra
      */
     public BMuestra() {
         this.reinit();
     }
-        
+    
     private void reinit() {
         this.objeto = new CMuestra();
         this.seleccion = new CMuestra();
         this.listado = new ArrayList<>();
         this.Visualizacion();        
-        //this.objDependenciaSel = this.lstDependencias.get(0);
     }
     private void Visualizacion() {
         try {
@@ -71,7 +70,6 @@ public class BMuestra {
         }
     }
 
-    
     public void Actualizacion() {
         try {            
             if (FMuestra.modificar(seleccion)) {

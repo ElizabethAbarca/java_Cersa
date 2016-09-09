@@ -41,9 +41,6 @@ public class BPreforma {
     }
     
     private int sub;
-    /**
-     * Creates a new instance of BPaca
-     */
     @PostConstruct
     private void reinit() {
         this.objeto = new CPreforma();

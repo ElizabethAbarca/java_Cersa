@@ -25,7 +25,7 @@ public class BRol {
     private CRol seleccion;
     private ArrayList<CRol> listado;
     /**
-     * Creates a new instance of BeanRol
+     * Creates a new instance of BRol
      */
     public BRol() {
         this.reinit();

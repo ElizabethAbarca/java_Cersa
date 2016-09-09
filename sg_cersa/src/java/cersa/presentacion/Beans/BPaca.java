@@ -33,9 +33,6 @@ public class BPaca {
     
     @ManagedProperty(value = "#{bSesionManager}")
     private BSesionManager session;
-    /**
-     * Creates a new instance of BEscamas
-     */
     public BPaca() {        
         this.reinit();
     }

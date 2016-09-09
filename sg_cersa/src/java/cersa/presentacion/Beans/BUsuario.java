@@ -30,7 +30,7 @@ public class BUsuario {
     private int rol;
 
     /**
-     * Creates a new instance of BeanUsuario
+     * Creates a new instance of BUsuario
      */
     public BUsuario() {
         this.reinit();
@@ -41,7 +41,6 @@ public class BUsuario {
         this.seleccion = new CUsuario();
         this.listado = new ArrayList<>();
         this.Visualizacion();
-        //this.objDependenciaSel = this.lstDependencias.get(0);
     }
 
     public BUsuario(CUsuario objeto, CUsuario seleccion, ArrayList<CUsuario> listado, int rol) {
