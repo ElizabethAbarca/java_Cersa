@@ -13,6 +13,9 @@
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/local.css" />
+     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
+ 
  </h:head>
     <h:body>
  <div id="wrapper">
@@ -32,10 +35,25 @@
                     <li class="active" style="font-family: Arial; font-size: 20px;">
                           <a href="#">INGRESOS</a>
                     </li>
-                    <li><a href="fromEmpleado.xhtml"><i class="fa fa-recycle"></i> Empleado</a></li>
+                    <li><a href="fromEmpleado.xhtml"><i class="fa fa-recycle"></i> Gestión de Empleados</a></li>
                     <li><a href="frmRegistro.xhtml"><i class="fa fa-recycle"></i> Gestión de sessiones</a></li>
-                    <li><a href="fromTipo.xhtml"><i class="fa fa-recycle"></i> Tipo</a></li>
-                    <li><a href="fromSubproducto.xhtml"><i class="fa fa-recycle"></i> Subproducto</a></li>
+                    <li>
+                            <a href="javascript:;" 
+                               data-toggle="collapse" 
+                               data-target="#interno"> PET y no PET <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="interno" class="collapse">
+                                <li>
+                                    <a href="fromTipo.xhtml" style="color: #FF8C00; text-decoration: none;"><i class="fa fa-archive "></i> Tipo</a>
+                                </li>
+                                <li>
+                                    <a href="fromSubproducto.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Subproducto</a>
+                                </li>
+                                <li>
+                                    <a href="fromMuestra.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Muestra</a>
+                                </li>
+                            </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-recycle"></i> Gestión de sessiones</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right navbar-user">
                      <li class="dropdown user-dropdown">
