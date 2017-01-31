@@ -10,150 +10,158 @@
     <h:body>
         <ui:composition template="plantillas/modeloSupervisor.xhtml">
             <ui:define name="top">
-            <center>
-            <h1><small>Lista de Escama</small></h1>
-            </center>
+           <center>
+                    <h2><small>Lista de Escama</small></h2>
+                </center>
         </ui:define>
       <ui:define name="contenido">
-         <p:growl id="mensajes" autoUpdate="true"/>        
-         <h:form id="frmEscama">
-            <p:panel id="pnlDatos">
-                <p:dataTable id="tblEscama" value="#{bEscamas.listado}" 
-                             var="escama" paginator="true" rows="5"
-                             selectionMode="single" 
-                             rowKey="#{escama.escama_id}" 
-                             selection="#{bEscamas.seleccion}"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                             rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
-                    <p:column filterBy="#{escama.escama_id}" filterMatchMode="startsWith" 
-                              sortBy="#{escama.escama_id}" headerText="#Escama">
-                        <h:outputText value="#{escama.escama_id}"/>
-                    </p:column>
-                    <p:column headerText="Tipo">                                   
-                        <h:outputText value="#{escama.escama_tipo.tipo_Nombre}"/>
-                    </p:column>
-                    <p:column headerText="Subtipo">                                   
-                        <h:outputText value="#{escama.escama_subtipo.subproducto_descripcion}"/>
-                    </p:column>
-                    <p:column headerText="Responsable">                                   
-                        <h:outputText value="#{escama.escama_usuario.usuario_apellido} #{escama.escama_usuario.usuario_nombre}"/>
-                    </p:column>
-                    <p:column headerText="Peso">                                   
-                        <h:outputText value="#{escama.escama_peso}"/>
-                    </p:column>
-                    <p:column headerText="Fecha">                                   
-                        <h:outputText value="#{escama.escama_fecha}"/>
-                    </p:column>
-                    <p:column headerText="Hora">                                   
-                        <h:outputText value="#{escama.escama_hora}"/>
-                    </p:column>
-                    <p:column headerText="Observación">                                   
-                        <h:outputText value="#{escama.escama_observacion}"/>
-                    </p:column>
-                    <p:column >  
-                        <f:facet name="header">  
-                            <h:outputText value="Acciones" />  
-                        </f:facet> 
-                        <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
-                                         process="@this" onclick="PF('wglEditar').show()" 
-                                         update=":frmEditar:pngEditar" >
-                            <f:setPropertyActionListener value="#{escama}" target="#{bEscamas.seleccion}"/>
-                        </p:commandButton>
-                    </p:column>  
-                    <f:facet name="footer">  
-                        <p:commandButton id="btnNuevo" value="Nuevo"
-                                         update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                         type="button" /> 
-                    </f:facet>
-                </p:dataTable>
-            </p:panel>
-        </h:form>   
-          </ui:define>
-            
+           <p:messages id="mensajes" autoUpdate="true" closable="true"/>  
+         <h:form id="frmEscama">               
+                    <p:panel id="pnlDatos">
+                        <p:dataTable id="tblEscama" value="#{bEscamas.listado}" 
+                                     var="escama" paginator="true" rows="5"
+                                     selectionMode="single" 
+                                     rowKey="#{escama.escama_id}" 
+                                     selection="#{bEscamas.seleccion}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                            <p:column filterBy="#{escama.escama_id}" filterMatchMode="startsWith" 
+                                      sortBy="#{escama.escama_id}" headerText="#Escama">
+                                <h:outputText value="#{escama.escama_id}"/>
+                            </p:column>
+                            <p:column headerText="Tipo">                                   
+                                <h:outputText value="#{escama.escama_tipo.tipo_Nombre}"/>
+                            </p:column>
+                            <p:column headerText="Subtipo">                                   
+                                <h:outputText value="#{escama.escama_subtipo.modelo_Nombre}"/>
+                            </p:column>
+                            <p:column headerText="Responsable">                                   
+                                <h:outputText value="#{escama.escama_usuario.usuario_apellido} #{escama.escama_usuario.usuario_nombre}"/>
+                            </p:column>
+                            <p:column headerText="Peso(Kg)" style="text-align: right;">                                   
+                                <h:outputText value="#{escama.escama_peso}"/>
+                            </p:column>
+                            <p:column headerText="Fecha">                                   
+                                <h:outputText value="#{escama.escama_fecha}"/>
+                            </p:column>
+                            <p:column headerText="Hora">                                   
+                                <h:outputText value="#{escama.escama_hora}"/>
+                            </p:column>
+                            <p:column headerText="Observación">                                   
+                                <h:outputText value="#{escama.escama_observacion}"/>
+                            </p:column>
+                            <p:column >  
+                                <f:facet name="header">  
+                                    <h:outputText value="Acciones" />  
+                                </f:facet> 
+                                <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
+                                                 process="@this" onclick="PF('wglEditar').show()" 
+                                                 update=":frmEditar:pngEditar" >
+                                    <f:setPropertyActionListener value="#{escama}" target="#{bEscamas.seleccion}"/>
+                                </p:commandButton>
+                            </p:column>  
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo"
+                                                 update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
+                                                 type="button" /> 
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>   
+            </ui:define>
+
             <ui:define name="dialogos">
-            <p:dialog header="INGRESAR NUEVA ESCAMA" widgetVar="wglInsertar"
+                <p:dialog header="INGRESAR NUEVA ESCAMA" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmNuevo">
                         <p:panelGrid id="pngNuevo" columns="2">
                             <h:outputText value="Tipo:"/>                               
-                            <p:selectOneMenu id="cmTipo" value="#{bEscamas.tipo}" 
+                            <p:selectOneMenu id="cmTipo" value="#{bEscamas.tipo}" style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItems value="#{bTipo.listado}" 
                                                var="tipo" itemLabel="#{tipo.tipo_Nombre}" 
                                                itemValue="#{tipo.tipo_id}"/>
                             </p:selectOneMenu>                            
                             <h:outputText value="Subtipo:"/>      
-                            <p:selectOneMenu id="cmSub" value="#{bEscamas.sub}" 
+                            <p:selectOneMenu id="cmSub" value="#{bEscamas.sub}" style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
-                                <f:selectItems value="#{bSubproducto.listado}" 
-                                               var="sub" itemLabel="#{sub.subproducto_descripcion}" 
-                                               itemValue="#{sub.subproducto_id}"/>
+                                <f:selectItems value="#{bModelo.listado}" 
+                                               var="mo" itemLabel="#{mo.modelo_Nombre}" 
+                                               itemValue="#{mo.modelo_id}"/>
                             </p:selectOneMenu>                            
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bEscamas.objeto.escama_peso}"/>
-                            <h:outputText value="Observación:" >
-                                <h:outputText id="display"/>
-                            </h:outputText>
-                                <p:inputTextarea  value="#{bEscamas.objeto.escama_observacion}" 
-                                              rows="5" cols="40" counter="display" 
-                                              maxlength="200"
-                                              autoResize="false" >
-                           </p:inputTextarea>
+                            <p:inputText  id="pesos" value="#{bEscamas.objeto.escama_peso}" 
+                                          converter="#{Double}" style="text-align: right;"
+                                          converterMessage="Solo números enteros o decimales"
+                                          validatorMessage="Número 0.0 inválido">
+                                <f:validateDoubleRange minimum="0.00000000001"/>
+                            </p:inputText>
+                             <h:outputText value="Observación:" />
+                             <p:inputTextarea  value="#{bEscamas.objeto.escama_observacion}"
+                                              required="true" requiredMessage="Por favor, ingrese una descripción como (NG) para continuar" 
+                                              validatorMessage="Máximo 150 caracteres"
+                                              placeholder="(NG) Ninguno">
+                                <f:validateLength maximum="150" minimum="1" />
+                            </p:inputTextarea>
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" action="#{bEscamas.Insercion()}" style="background: #FF8C00;" update=":frmEscama:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
-                   </center>
+                            <p:commandButton value="Aceptar" action="#{bEscamas.Insercion()}" style="background: #FF8C00;" update=":frmEscama:pnlDatos"/>
+                            <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog>  
 
-             <p:dialog header="MODIFICAR ESCAMA" widgetVar="wglEditar"
+                <p:dialog header="MODIFICAR ESCAMA" widgetVar="wglEditar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmEditar">
                         <p:panelGrid id="pngEditar" columns="2">
                             <h:outputText value="Tipo:"/>                               
-                            <p:selectOneMenu id="cmTipo" value="#{bEscamas.tipo}" 
+                            <p:selectOneMenu id="cmTipo" value="#{bEscamas.tipo}" style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItem itemLabel="#{bEscamas.seleccion.escama_tipo.tipo_Nombre}" 
-                                               itemValue="#{bEscamas.seleccion.escama_tipo.tipo_id}"/>
+                                              itemValue="#{bEscamas.seleccion.escama_tipo.tipo_id}"/>
                                 <f:selectItems value="#{bTipo.listado}" 
                                                var="tipo" itemLabel="#{tipo.tipo_Nombre}" 
                                                itemValue="#{tipo.tipo_id}"/>
                             </p:selectOneMenu>                            
                             <h:outputText value="Subtipo:"/>      
-                            <p:selectOneMenu id="cmSub" value="#{bEscamas.sub}" 
+                            <p:selectOneMenu id="cmSub" value="#{bEscamas.sub}" style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItem
-                                    itemLabel="#{bEscamas.seleccion.escama_subtipo.subproducto_descripcion}" 
-                                    itemValue="#{bEscamas.seleccion.escama_subtipo.subproducto_id}"/>
-                               <f:selectItems value="#{bSubproducto.listado}" 
-                                               var="sub" itemLabel="#{sub.subproducto_descripcion}" 
-                                               itemValue="#{sub.subproducto_id}"/>
+                                    itemLabel="#{bEscamas.seleccion.escama_subtipo.modelo_Nombre}" 
+                                    itemValue="#{bEscamas.seleccion.escama_subtipo.modelo_id}"/>
+                                <f:selectItems value="#{bModelo.listado}" 
+                                               var="mo" itemLabel="#{mo.modelo_Nombre}" 
+                                               itemValue="#{mo.modelo_id}"/>
                             </p:selectOneMenu>    
                             <h:outputText value="Responsable:"/>
                             <h:outputText value="#{bEscamas.seleccion.escama_usuario.usuario_apellido} #{bEscamas.seleccion.escama_usuario.usuario_nombre}"/>
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bEscamas.seleccion.escama_peso}"/>
-                            <h:outputText value="Obsercación::" >
-                                <h:outputText id="display" />
-                            </h:outputText>
-                                <p:inputTextarea  value="#{bEscamas.seleccion.escama_observacion}" 
-                                              rows="5" cols="40" counter="display" 
-                                              maxlength="200"
-                                              autoResize="false" >
-                           </p:inputTextarea>
+                            <p:inputText  id="pesoescama" value="#{bEscamas.seleccion.escama_peso}"
+                                          converter="#{Double}" style="text-align: right;"
+                                          converterMessage="Solo números enteros o decimales"
+                                          validatorMessage="Número 0.0 inválido">
+                                <f:validateDoubleRange minimum="0.00000000001" />
+                            </p:inputText>
+                            <h:outputText value="Observación:" />
+                            <p:inputTextarea  value="#{bEscamas.seleccion.escama_observacion}"
+                                              required="true" requiredMessage="Por favor, ingrese una descripción como (NG) para continuar" 
+                                              validatorMessage="Máximo 150 caracteres"
+                                              placeholder="(NG) Ninguno">
+                                <f:validateLength maximum="150" minimum="1" />
+                            </p:inputTextarea>
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" action="#{bEscamas.Actualizacion()}" style="background: #FF8C00;" update=":frmEscama:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
-                   </center>
+                            <p:commandButton value="Aceptar" action="#{bEscamas.Actualizacion()}" style="background: #FF8C00;" update=":frmEscama:pnlDatos"/>
+                            <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog> 
-                </ui:define>
+            </ui:define>
     </ui:composition>
     </h:body>
 </html>

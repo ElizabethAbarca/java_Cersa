@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Listado de Productos</title>
+    </h:head>
+    <h:body>
+         <ui:composition template="plantillas/modeloSupGeneral.xhtml">
+            <ui:define name="top">
+                <center>
+                    <h2><small>LISTADO DE PRODUCTOS</small></h2>
+                </center>
+            </ui:define>
+            <ui:define name="contenido">    
+                 <p:messages id="mensajes" autoUpdate="true" closable="true" /> 
+                <h:form id="frmProducto">  
+                    <p:dataTable id="tblPaquete" value="#{bListaProducto.listado}" 
+                                 var="paquete" paginator="true" rows="6"
+                                 selectionMode="single"                                                          
+                                 rowKey="#{paquete.numero}"                              
+                                 selection="#{bListaProducto.seleccion}"
+                                 emptyMessage="No hay Lista de Paquetes" > 
+                        <p:column headerText="Nro." style="width: 100px;">
+                            <h:outputText value="#{paquete.numero}"/>
+                        </p:column> 
+                        <p:column filterBy="#{paquete.fecha}" filterMatchMode="startsWith" 
+                                  sortBy="#{paquete.fecha}" headerText="Fecha">
+                            <h:outputText value="#{paquete.fecha} Paquete"/>
+                        </p:column>
+                        <p:column headerText="Total de día (Kg)" style="width: 200px;text-align: right;">
+                            <h:outputText value="#{paquete.total_dia}"/>
+                        </p:column> 
+                        <p:column >  
+                            <f:facet name="header" >  
+                                <h:outputText value="Acciones" />  
+                            </f:facet>      
+                            <p:commandButton value="Exportar Excel"                                                  
+                                             actionListener="#{bListaProducto.DescargarExcel()}" 
+                                             ajax="false"  style="background: #FF8C00;">
+                                <f:setPropertyActionListener value="#{paquete}" target="#{bListaProducto.seleccion}"/>
+                            </p:commandButton>
+                        </p:column> 
+                    </p:dataTable>  
+                </h:form>   
+            </ui:define>       
+        </ui:composition>
+    </h:body>
+</html>
+

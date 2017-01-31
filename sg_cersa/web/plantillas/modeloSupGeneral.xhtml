@@ -43,7 +43,7 @@
                                data-target="#interno"> PET y no PET <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="interno" class="collapse">
                                 <li>
-                                    <a href="fromTipo.xhtml" style="color: #FF8C00; text-decoration: none;"><i class="fa fa-archive "></i> Tipo</a>
+                                    <a href="fromTipo.xhtml" style="color: #FF8C00; text-decoration: none;"><i class="fa fa-archive "></i> Tipo:Escama</a>
                                 </li>
                                 <li>
                                     <a href="fromSubproducto.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Subproducto</a>
@@ -51,15 +51,21 @@
                                 <li>
                                     <a href="fromMuestra.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Muestra</a>
                                 </li>
+                                <li>
+                                    <a href="fromModelo.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Subtipo:Escama</a>
+                                </li>
+                                <li>
+                                    <a href="fromSeccion.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Secciones</a>
+                                </li>
                             </ul>
                     </li>
-                    <li><a href="#"><i class="fa fa-recycle"></i> Gestión de sessiones</a></li>
+                    <li><a href="frmListadoProductos.xhtml"><i class="fa fa-recycle"></i> Listado de Paquetes</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right navbar-user">
                      <li class="dropdown user-dropdown">
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>#{bAutenticacion.session.empleado.usuario_nombre}  #{bAutenticacion.session.empleado.usuario_apellido}</a>
                          </li>
-                    <li><a href="#"><i class="fa fa-circle"></i> Perfil</a></li>
+                    <li><a href="frmDatoGeneral.xhtml"><i class="fa fa-circle"></i> Perfil</a></li>
                             <li class="divider"></li>
                             <li>
                                 <h:form>

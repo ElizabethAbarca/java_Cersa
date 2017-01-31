@@ -6,66 +6,66 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
- </h:head>
+    </h:head>
     <h:body>
         <ui:composition template="plantillas/modeloSupervisor.xhtml">
             <ui:define name="top">
-            <center>
-            <h1><small>Lista de Compactación</small></h1>
-            </center>
-        </ui:define>
-      <ui:define name="contenido">
-         <p:growl id="mensajes" autoUpdate="true"/>        
-         <h:form id="frmPaca">
-            <p:panel id="pnlDatos">
-                <p:dataTable id="tblPaca" value="#{bPaca.listado}" 
-                             var="paca" paginator="true" rows="5"
-                             selectionMode="single" 
-                             rowKey="#{paca.paca_id}" 
-                             selection="#{bPaca.seleccion}"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                             rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
-                    <p:column filterBy="#{paca.paca_id}" filterMatchMode="startsWith" 
-                              sortBy="#{paca.paca_id}" headerText="#Compactación">
-                        <h:outputText value="#{paca.paca_id}"/>
-                    </p:column>
-                    <p:column headerText="Subtipo">                                   
-                        <h:outputText value="#{paca.paca_subtipo.subproducto_descripcion}"/>
-                    </p:column>
-                    <p:column headerText="Responsable">                                   
-                        <h:outputText value="#{paca.paca_responsable.usuario_apellido} #{paca.paca_responsable.usuario_nombre}"/>
-                    </p:column>
-                    <p:column headerText="Peso">                                   
-                        <h:outputText value="#{paca.paca_peso}"/>
-                    </p:column>
-                    <p:column headerText="Fecha">                                   
-                        <h:outputText value="#{paca.paca_fecha}"/>
-                    </p:column>
-                    <p:column headerText="Hora">                                   
-                        <h:outputText value="#{paca.paca_hora}"/>
-                    </p:column>
-                    <p:column >  
-                        <f:facet name="header">  
-                            <h:outputText value="Acciones" />  
-                        </f:facet> 
-                        <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
-                                         process="@this" onclick="PF('wglEditar').show()" 
-                                         update=":frmEditar:pngEditar" >
-                            <f:setPropertyActionListener value="#{paca}" target="#{bPaca.seleccion}"/>
-                        </p:commandButton>
-                    </p:column>  
-                    <f:facet name="footer">  
-                        <p:commandButton id="btnNuevo" value="Nuevo"
-                                         update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                         type="button" /> 
-                    </f:facet>
-                </p:dataTable>
-            </p:panel>
-        </h:form>   
-          </ui:define>
-            
+                <center>
+                    <h2><small>Lista de Compactación</small></h2>
+                </center>
+            </ui:define>
+            <ui:define name="contenido">             
+                <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
+                <h:form id="frmPaca">
+                    <p:panel id="pnlDatos">
+                        <p:dataTable id="tblPaca" value="#{bPaca.listado}" 
+                                     var="paca" paginator="true" rows="5"
+                                     selectionMode="single" 
+                                     rowKey="#{paca.paca_id}" 
+                                     selection="#{bPaca.seleccion}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                            <p:column filterBy="#{paca.paca_id}" filterMatchMode="startsWith" 
+                                      sortBy="#{paca.paca_id}" headerText="#Compactación">
+                                <h:outputText value="#{paca.paca_id}"/>
+                            </p:column>
+                            <p:column headerText="Subtipo">                                   
+                                <h:outputText value="#{paca.paca_subtipo.subproducto_descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Responsable">                                   
+                                <h:outputText value="#{paca.paca_responsable.usuario_apellido} #{paca.paca_responsable.usuario_nombre}"/>
+                            </p:column>
+                            <p:column headerText="Peso (Kg)" style="text-align: right;">                                   
+                                <h:outputText value="#{paca.paca_peso}"/>
+                            </p:column>
+                            <p:column headerText="Fecha">                                   
+                                <h:outputText value="#{paca.paca_fecha}"/>
+                            </p:column>
+                            <p:column headerText="Hora">                                   
+                                <h:outputText value="#{paca.paca_hora}"/>
+                            </p:column>
+                            <p:column >  
+                                <f:facet name="header">  
+                                    <h:outputText value="Acciones" />  
+                                </f:facet> 
+                                <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
+                                                 process="@this" onclick="PF('wglEditar').show()" 
+                                                 update=":frmEditar:pngEditar" >
+                                    <f:setPropertyActionListener value="#{paca}" target="#{bPaca.seleccion}"/>
+                                </p:commandButton>
+                            </p:column>  
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo"
+                                                 update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
+                                                 type="button" /> 
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>   
+            </ui:define>
+
             <ui:define name="dialogos">
-            <p:dialog header="INGRESAR NUEVA COMPACTACIÓN" widgetVar="wglInsertar"
+                <p:dialog header="INGRESAR NUEVA COMPACTACIÓN" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmNuevo">
@@ -84,13 +84,13 @@
                         <center>
                             <p:commandButton value="Aceptar" action="#{bPaca.Insercion()}" 
                                              style="background: #FF8C00;" update=":frmPaca:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()"
-                                         type="reset"/>
-                   </center>
+                            <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()"
+                                             type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog>  
 
-             <p:dialog header="MODIFICAR COMPACTACIÓN" widgetVar="wglEditar"
+                <p:dialog header="MODIFICAR COMPACTACIÓN" widgetVar="wglEditar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmEditar">
@@ -101,7 +101,7 @@
                                 <f:selectItem
                                     itemLabel="#{bPaca.seleccion.paca_subtipo.subproducto_descripcion}" 
                                     itemValue="#{bPaca.seleccion.paca_subtipo.subproducto_id}"/>
-                               <f:selectItems value="#{bSubproducto.listado}" 
+                                <f:selectItems value="#{bSubproducto.listado}" 
                                                var="sub" itemLabel="#{sub.subproducto_descripcion}" 
                                                itemValue="#{sub.subproducto_id}"/>
                             </p:selectOneMenu>    
@@ -112,14 +112,14 @@
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" 
-                                         action="#{bPaca.Actualizacion()}" style="background: #FF8C00;" update=":frmPaca:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
-                   </center>
+                            <p:commandButton value="Aceptar" 
+                                             action="#{bPaca.Actualizacion()}" style="background: #FF8C00;" update=":frmPaca:pnlDatos"/>
+                            <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog> 
-                </ui:define>
-    </ui:composition>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 

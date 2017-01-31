@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Producto</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="plantillas/modeloSupervisor.xhtml">
+            <ui:define name="top">
+                <h:form>
+                    <center>
+                        <p:commandButton value="Nuevo Listado" actionListener="#{bProducto.Insercion()}"  
+                                         update=":frmProducto"
+                                         style="background: #FF8C00;"
+                                         action="#{bProducto.EnabledBoton()}"/>
+                        <p:commandButton value="Editar Listado" 
+                                         onclick="PF('wglLista').show()"  
+                                         update=":formLista:tblPaquete"
+                                         style="background: #FF8C00;" />
+                    </center>
+                </h:form>
+            </ui:define>
+            <ui:define name="contenido">    
+                <p:messages id="mensajes" showDetail="true" autoUpdate="true" closable="true"/>     
+                <h:form id="frmProducto" style="background-color: #178acc" >
+                    <p:panel  header="Realizar el PackingList del (PRODUCTO TERMINADO)" 
+                              style="background-color: #ccccff; background:#ccccff; width: 1050px; margin: 0 auto; text-align: center">
+                        <p:layout id="capaDatos" style="width: 100%; height: 125px;">
+                            <p:layoutUnit id="datosTula" position="west" size="300">
+                                <h:panelGrid columns="2">
+                                    <p:outputLabel value="Peso: "/>
+                                    <p:inputText  id="peso" value="#{bProducto.peso_tula}" disabled="#{!bProducto.enabled}"
+                                                  converter="#{Double}" 
+                                                  required="true" style="text-align: right;"
+                                                  requiredMessage="Datos no nulos"
+                                                  converterMessage="Solo numeros decimales o enteros"
+                                                  validatorMessage="Número 0.0 inválido">
+                                        <f:validateDoubleRange minimum="0.00000000000001" />
+                                    </p:inputText>
+                                    <p:outputLabel value="Código: "/>
+                                    <p:selectOneMenu id="cmSeccion" value="#{bProducto.seccion}"  style="width: 100%;"
+                                                     disabled="#{!bProducto.enabled}"
+                                                     required="true" requiredMessage="Elija">                                                                
+                                        <f:selectItem itemLabel="Elija" itemValue="#{null}"/>
+                                        <f:selectItems value="#{bSeccion.listado}" 
+                                                       var="sec" itemLabel="#{sec.seccion_descripcion}" 
+                                                       itemValue="#{sec.seccion_id}"/>
+                                    </p:selectOneMenu> 
+                                    <center>
+                                        <p:commandButton value="Guardar" actionListener="#{bProducto.IngresarDatosTula()}" 
+                                                         disabled="#{!bProducto.enabled}"
+                                                         update=":frmProducto:tblProducto  :frmProducto:panelSuma"/>
+                                    </center>
+                                </h:panelGrid> 
+                            </p:layoutUnit>
+                            <p:layoutUnit id="datosProducto" position="center" size="300">
+                                <h:panelGrid columns="1" id="DatosLista" style="text-align: center;">
+                                    <b>IDENTIFICADOR DE LA TULA</b>
+                                    <p:outputLabel value="#{bProducto.nombre_ultimo}"/>
+                                </h:panelGrid>
+                            </p:layoutUnit>
+                            <p:layoutUnit  position="east" size="200">
+                                <center>
+                                    <h:panelGrid id="panelSuma"  columns="1" style="text-align: center;">                                    
+                                        <b>TOTAL (Kg)</b>
+                                        <p:outputLabel value="#{bProducto.SumaTulas(bProducto.codigoTula)}" />
+                                    </h:panelGrid>
+                                </center>
+                            </p:layoutUnit>
+                        </p:layout>
+                        <p:separator />
+                        <p:dataTable id="tblProducto" var="tula" value="#{bProducto.listaTula}"
+                                     selectionMode="single" 
+                                     rowKey="#{tula.tula_id}" 
+                                     selection="#{bProducto.seleccionTula}"
+                                     paginator="true" rows="10"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     scrollWidth="200" >
+                            <p:column headerText="ID" style="width: 100px">
+                                <h:outputText value="#{tula.tula_producto.producto_id}" />
+                            </p:column>
+                            <p:column headerText="Peso (Kg)" style="width: 350px">
+                                <h:outputText value="#{tula.tula_peso}" />
+                            </p:column>
+                            <p:column headerText="Código" style="width: 350px">
+                                <h:outputText value="#{tula.tula_seccion.seccion_descripcion}"/>
+                            </p:column> 
+                            <p:column >  
+                                <f:facet name="header">  
+                                    <h:outputText value="Acciones" />  
+                                </f:facet> 
+                                <center>
+                                    <p:commandButton id="btnEditar" value="Editar" style="background: #FF8C00;"
+                                                     process="@this" onclick="PF('wglEditar').show()" 
+                                                     update=":frmEditar:pngEditar" >
+                                        <f:setPropertyActionListener value="#{tula}" target="#{bProducto.seleccionTula}"/>
+                                    </p:commandButton>
+                                </center>
+                            </p:column>  
+                        </p:dataTable>    
+                        <p:panelGrid id="pngNuevo" columns="2" style="width: 100%;">
+                            <label class="control-label"> OBSERVACIÓN: </label>
+                            <p:inputText value="#{bProducto.descripcion_producto}"
+                                         disabled="#{!bProducto.enabled}"
+                                         required="true" requiredMessage="Por favor, ingrese una descripción como (NG) para continuar" 
+                                         validatorMessage="Máximo 300 caracteres" style="width: 100%;"
+                                         placeholder="(NG) Ninguno">
+                                <f:validateLength maximum="300" minimum="1" />
+                            </p:inputText>  
+                        </p:panelGrid>                        
+                        <p:separator/>
+                        <p:commandButton value="GUARDAR OBSERVACIONES Y LIMPIAR"  
+                                         action="#{bProducto.Registro(bProducto.descripcion_producto)}" 
+                                         disabled="#{!bProducto.enabled}"
+                                         update=":frmProducto"/>                        
+                    </p:panel>                    
+                </h:form>
+            </ui:define>             
+            <ui:define name="dialogos"> 
+                <p:dialog header="MODIFICAR" widgetVar="wglEditar"
+                          modal="true" closable="false" resizable="false"
+                          showEffect="fade" hideEffect="explode">  
+                    <h:form id="frmEditar">
+                        <p:panelGrid id="pngEditar" columns="2">
+                            <h:outputText value="Peso:"/> 
+                            <p:inputText  id="peso" value="#{bProducto.seleccionTula.tula_peso}"
+                                          converter="#{Double}" style="text-align: right;"
+                                          required="true"
+                                          requiredMessage="Datos no nulos"
+                                          converterMessage="Solo numeros decimales o enteros"
+                                          validatorMessage="Número 0.0 inválido">
+                                <f:validateDoubleRange minimum="0.00000000000001" />
+                            </p:inputText>
+                            <h:outputText value="Sección:"/>
+                            <p:selectOneMenu id="cmRol" value="#{bProducto.seccion}"  style="width: 100%;"
+                                             required="true" requiredMessage="Elija una opción">                                 
+                                <f:selectItem itemLabel="#{bProducto.seleccionTula.tula_seccion.seccion_descripcion}" 
+                                              itemValue="#{bProducto.seleccionTula.tula_seccion.seccion_id}"/>
+                                <f:selectItems value="#{bSeccion.listado}" 
+                                               var="sec" itemLabel="#{sec.seccion_descripcion}" 
+                                               itemValue="#{sec.seccion_id}"/>
+                            </p:selectOneMenu> 
+                        </p:panelGrid>
+                        <p:separator/>
+                        <center>
+                            <p:commandButton value="Aceptar" action="#{bProducto.EditarDatosTula}"
+                                             style="background: #FF8C00;" 
+                                             update=":frmProducto:tblProducto"/>
+                            <p:commandButton value="Cancelar" process="@this" 
+                                             onclick="PF('wglEditar').hide()" type="reset"/>
+                        </center>
+                    </h:form> 
+                </p:dialog>               
+
+                <p:dialog  header="LISTADO DE PACKINGLIST" widgetVar="wglLista" 
+                           modal="true" closable="true" resizable="false"
+                           showEffect="fade" hideEffect="explode" >  
+                    <h:form id="formLista">
+                        <p:dataTable id="tblPaquete" value="#{bProducto.listado}" 
+                                     var="paquete" paginator="true" rows="6"
+                                     selectionMode="single" 
+                                     style="width: 700px;"
+                                     rowKey="#{paquete.producto_id}" 
+                                     selection="#{bProducto.seleccion}"
+                                     emptyMessage="No hay Lista de Paquetes" >                     
+                            <p:column headerText="Nro." style="width: 50px;">
+                                <h:outputText value="#{paquete.producto_id}"/>
+                            </p:column>
+                            <p:column headerText="Nombre" style="width: 310px;">
+                                <h:outputText value="#{paquete.producto_nombre}"/>
+                            </p:column>  
+                            <p:column headerText="Cantidad" style="width: 90px;" >
+                                <h:outputText value="#{bProducto.TotalTulas(paquete.producto_id)}"/>
+                            </p:column> 
+                            <p:column headerText="Suma (KG)" style="width: 90px;">
+                                <h:outputText value="#{bProducto.SumaTulas(paquete.producto_id)}"/>
+                            </p:column> 
+                            <p:column >  
+                                <f:facet name="header" >  
+                                    <h:outputText value="Acciones" />  
+                                </f:facet>
+                                <p:commandButton id="btnEditar"   
+                                                 actionListener="#{bProducto.Actualizacion(paquete.producto_id)}"
+                                                 value="Seleccionar" 
+                                                 action="#{bProducto.EnabledBoton()}"
+                                                 style="background: #FF8C00;"
+                                                 update=":frmProducto"/>  
+                            </p:column> 
+                        </p:dataTable>
+                    </h:form>
+                </p:dialog>                
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

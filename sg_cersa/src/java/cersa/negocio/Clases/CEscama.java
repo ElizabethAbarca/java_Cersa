@@ -15,7 +15,7 @@ import java.sql.Time;
 public class CEscama {
   private Integer escama_id;
   CTipo escama_tipo;
-  CSubproducto escama_subtipo;
+  CModelo escama_subtipo;
   private java.sql.Date escama_fecha;
   private java.sql.Time escama_hora;
   CUsuario escama_usuario;
@@ -25,7 +25,7 @@ public class CEscama {
     public CEscama() {
     }
 
-    public CEscama(Integer escama_id, CTipo escama_tipo, CSubproducto escama_subtipo, Date escama_fecha, Time escama_hora, CUsuario escama_usuario, double escama_peso, String escama_observacion) {
+    public CEscama(Integer escama_id, CTipo escama_tipo, CModelo escama_subtipo, Date escama_fecha, Time escama_hora, CUsuario escama_usuario, double escama_peso, String escama_observacion) {
         this.escama_id = escama_id;
         this.escama_tipo = escama_tipo;
         this.escama_subtipo = escama_subtipo;
@@ -36,6 +36,7 @@ public class CEscama {
         this.escama_observacion = escama_observacion;
     }
 
+    
     public Integer getEscama_id() {
         return escama_id;
     }
@@ -52,11 +53,11 @@ public class CEscama {
         this.escama_tipo = escama_tipo;
     }
 
-    public CSubproducto getEscama_subtipo() {
+    public CModelo getEscama_subtipo() {
         return escama_subtipo;
     }
 
-    public void setEscama_subtipo(CSubproducto escama_subtipo) {
+    public void setEscama_subtipo(CModelo escama_subtipo) {
         this.escama_subtipo = escama_subtipo;
     }
 

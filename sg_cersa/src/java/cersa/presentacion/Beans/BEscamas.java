@@ -7,6 +7,7 @@ package cersa.presentacion.Beans;
 
 import cersa.negocio.Clases.CEscama;
 import cersa.negocio.Funciones.FEscama;
+import cersa.negocio.Funciones.FModelo;
 import cersa.negocio.Funciones.FSubproducto;
 import cersa.negocio.Funciones.FTipo;
 import cersa.negocio.Funciones.FUsuario;
@@ -65,8 +66,8 @@ public class BEscamas {
     {
         try {    
             objeto.setEscama_tipo(FTipo.obtener_Id(tipo));
-            objeto.setEscama_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
-            objeto.setEscama_subtipo(FSubproducto.obtener_Id(sub));
+            objeto.setEscama_usuario(session.getEmpleado());
+            objeto.setEscama_subtipo(FModelo.obtener_Id(sub));
             if(FEscama.insertar(objeto))
             {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
@@ -90,9 +91,9 @@ public class BEscamas {
     
     public void Actualizacion() {
         try {            
-            seleccion.setEscama_subtipo(FSubproducto.obtener_Id(sub));
+            seleccion.setEscama_subtipo(FModelo.obtener_Id(sub));
             seleccion.setEscama_tipo(FTipo.obtener_Id(tipo));
-            seleccion.setEscama_usuario(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
+            seleccion.setEscama_usuario(session.getEmpleado());
             if (FEscama.update(seleccion)) {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);

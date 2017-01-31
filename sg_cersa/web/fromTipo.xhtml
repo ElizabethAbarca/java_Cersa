@@ -10,13 +10,13 @@
     <h:body>
         <ui:composition template="plantillas/modeloSupGeneral.xhtml">
              <ui:define name="top">
-                  <f:facet name="header">
-                            LINEA PET (PRODUCTO TERMINADO)
-                  </f:facet>
+                   <center>
+                    <h2><small>LÍNEA PET</small></h2>
+                </center>
              </ui:define>
         <ui:define name="contenido">
-         <p:growl id="mensajes" autoUpdate="true"/>        
-         <h:form id="frmTipo">
+          <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
+                <h:form id="frmTipo">
             <p:panel id="pnlDatos">
                 <p:dataTable id="tblTipo" value="#{bTipo.listado}" 
                              var="tipo" paginator="true" rows="5"
@@ -63,7 +63,7 @@
         </h:form>      
            </ui:define>             
              <ui:define name="dialogos">
-            <p:dialog header="INGRESAR NUEVO PRODUCTO TERMINADO" widgetVar="wglInsertar"
+            <p:dialog header="INGRESAR NUEVO" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmNuevo">
@@ -81,7 +81,7 @@
                     </h:form> 
                 </p:dialog>  
 
-             <p:dialog header="MODIFICAR PRODUCTO TERMINADO" widgetVar="wglEditar"
+             <p:dialog header="MODIFICAR" widgetVar="wglEditar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmEditar">

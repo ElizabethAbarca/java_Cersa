@@ -13,6 +13,69 @@ import java.util.ArrayList;
  */
 public class AccesoDatos {
 
+    public static boolean ejecutaComando(String comando, ArrayList<Parametro> parametros) throws Exception {
+        boolean respuesta = false;
+
+        PreparedStatement prts = null;
+        Connection con = null;
+        try {
+            Global global = new Global();
+
+//registro el driver
+            Class.forName(global.getDRIVER());
+            try {
+
+                con = DriverManager.getConnection(global.getURL(), global.getUSER(), global.getPASS());
+
+//preparo el comando 
+                prts = con.prepareStatement(comando);
+
+//mando mis parametos a la funcion 
+                for (Parametro parm : parametros) {
+
+                    prts.setObject(parm.getPosicion(), parm.getValor());
+
+                }
+                //ejecutando la sentencia
+
+                int i = prts.executeUpdate();
+
+                if (i > 0) {
+                    respuesta = true;
+                }
+
+                prts.close();
+
+                prts = null;
+
+            } catch (SQLException exCon) {
+                throw exCon;
+            } finally {
+
+                try {
+
+                    if (con != null) {
+                        //verifico si la conexion no nesta cerrada
+
+                        if (!(con.isClosed())) {
+                            con.close();
+                        }
+                        con = null;
+                    }
+
+                } catch (Exception ex) {
+                    throw ex;
+                }
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw e;
+        }
+
+        return respuesta;
+    }
+    //</editor-fold>
+
     //////funciones genericas que envian como parametro el nombre de la funcio(procedimiento almacenado) y NO recibe una  lista de paarametros
     public static ConjuntoResultado ejecutaQuery(String query) throws Exception {
         ResultSet rs = null;

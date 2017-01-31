@@ -23,7 +23,7 @@ public static boolean insertar(CEscama objeto) throws Exception {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "select * from basedatos_cersa.f_insert_escama(?,?,?,?,?)";
             lstP.add(new Parametro(1, objeto.getEscama_tipo().getTipo_id()));  
-            lstP.add(new Parametro(2, objeto.getEscama_subtipo().getSubproducto_id()));
+            lstP.add(new Parametro(2, objeto.getEscama_subtipo().getModelo_id()));
             lstP.add(new Parametro(3, objeto.getEscama_usuario().getUsuario_id()));
             lstP.add(new Parametro(4, objeto.getEscama_peso()));
             lstP.add(new Parametro(5, objeto.getEscama_observacion()));       
@@ -60,7 +60,7 @@ public static boolean update(CEscama seleccion) throws Exception {
             String sql = "select * from basedatos_cersa.f_update_escama(?,?,?,?,?,?)";
             lstP.add(new Parametro(1, seleccion.getEscama_id()));
             lstP.add(new Parametro(2, seleccion.getEscama_tipo().getTipo_id()));  
-            lstP.add(new Parametro(3, seleccion.getEscama_subtipo().getSubproducto_id()));
+            lstP.add(new Parametro(3, seleccion.getEscama_subtipo().getModelo_id()));
             lstP.add(new Parametro(4, seleccion.getEscama_usuario().getUsuario_id()));
             lstP.add(new Parametro(5, seleccion.getEscama_peso()));
             lstP.add(new Parametro(6, seleccion.getEscama_observacion()));          
@@ -81,7 +81,7 @@ public static ArrayList<CEscama> llenar(ConjuntoResultado rs) throws Exception {
             while (rs.next()) {
                 objeto = new CEscama(rs.getInt(0), 
                         FTipo.obtener_Id(rs.getInt(1)),
-                        FSubproducto.obtener_Id(rs.getInt(2)),
+                        FModelo.obtener_Id(rs.getInt(2)),
                         rs.getDate(3),
                         rs.getTime(4),
                         FUsuario.obtener_Id(rs.getInt(5)),

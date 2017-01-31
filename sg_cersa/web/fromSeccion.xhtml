@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Seccion</title>
+    </h:head>
+    <h:body>
+         <ui:composition template="plantillas/modeloSupGeneral.xhtml">
+            <ui:define name="top">
+                <center>
+                    <h2><small>Lista de Sección</small></h2>
+                </center>
+            </ui:define>
+            <ui:define name="contenido">
+                <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
+                <h:form id="frmSeccion">
+                    <p:panel id="pnlDatos">
+                        <p:dataTable id="tblSeccion" value="#{bSeccion.listado}" 
+                                     var="seccion" paginator="true" rows="5"
+                                     selectionMode="single" 
+                                     rowKey="#{seccion.seccion_id}" 
+                                     selection="#{bSeccion.seleccion}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                            <p:column headerText="Código">
+                                <h:outputText value="#{seccion.seccion_id}"/>
+                            </p:column>
+                            <p:column filterBy="#{seccion.seccion_descripcion}" filterMatchMode="startsWith" 
+                                      sortBy="#{seccion.seccion_descripcion}" headerText="Nombre">
+                                <h:outputText value="#{seccion.seccion_descripcion}"/>
+                            </p:column>
+
+                            <p:column >  
+                                <f:facet name="header">  
+                                    <h:outputText value="Acciones" />  
+                                </f:facet> 
+                                <center>
+                                    <p:commandButton id="btnEditar"   value="Actualizar" style="background: #FF8C00;"
+                                                     process="@this" onclick="PF('wglEditar').show()" 
+                                                     update=":frmEditar:pngEditar" >
+                                        <f:setPropertyActionListener value="#{seccion}" target="#{bSeccion.seleccion}"/>
+                                    </p:commandButton>                                   
+                                </center>
+                            </p:column>  
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo" 
+                                                 update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
+                                                 type="button" /> 
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>      
+            </ui:define>             
+            <ui:define name="dialogos">
+                <p:dialog header="INGRESAR SECCIÓN" widgetVar="wglInsertar"
+                          modal="true" closable="false" resizable="false"
+                          showEffect="fade" hideEffect="explode">  
+                    <h:form id="frmNuevo">
+                        <p:panelGrid id="pngNuevo" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{bSeccion.objeto.seccion_descripcion}"
+                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"/> 
+                        </p:panelGrid>
+                        <p:separator/>
+                        <center>
+                            <p:commandButton value="Aceptar" action="#{bSeccion.Insercion()}" 
+                                             update=":frmSeccion:pnlDatos" style="background: #FF8C00;"/>
+                            <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()" type="reset"/>
+                        </center>
+                    </h:form> 
+                </p:dialog>  
+
+                <p:dialog header="MODIFICAR SECCIÓN" widgetVar="wglEditar"
+                          modal="true" closable="false" resizable="false"
+                          showEffect="fade" hideEffect="explode">  
+                    <h:form id="frmEditar">
+                        <p:panelGrid id="pngEditar" columns="2">
+                            <h:outputText value="Nombre:"/>
+                            <p:inputText value="#{bSeccion.seleccion.seccion_descripcion}"
+                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"/> 
+                        </p:panelGrid>
+                        <p:separator/>
+                        <center>
+                            <p:commandButton value="Aceptar" action="#{bSeccion.Actualizacion()}"
+                                             style="background: #FF8C00;" 
+                                             update=":frmSeccion:pnlDatos"/>
+                            <p:commandButton value="Cancelar" process="@this" 
+                                             onclick="PF('wglEditar').hide()" type="reset"/>
+                        </center>
+                    </h:form> 
+                </p:dialog>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

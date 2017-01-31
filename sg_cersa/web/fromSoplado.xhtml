@@ -6,66 +6,66 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
- </h:head>
+    </h:head>
     <h:body>
-       <ui:composition template="plantillas/modeloSupervisor.xhtml">
-       <ui:define name="top">
-            <center>
-            <h1><small>Lista de Soplado</small></h1>
-            </center>
-        </ui:define>
-      <ui:define name="contenido">
-         <p:growl id="mensajes" autoUpdate="true"/>        
-         <h:form id="frmSoplado">
-            <p:panel id="pnlDatos">
-                <p:dataTable id="tblSoplado" value="#{bSoplado.listado}" 
-                             var="soplado" paginator="true" rows="5"
-                             selectionMode="single" 
-                             rowKey="#{soplado.soplado_id}" 
-                             selection="#{bSoplado.seleccion}"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                             rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
-                    <p:column filterBy="#{soplado.soplado_id}" filterMatchMode="startsWith" 
-                              sortBy="#{soplado.soplado_id}" headerText="#Preforma">
-                        <h:outputText value="#{soplado.soplado_id}"/>
-                    </p:column>
-                    <p:column headerText="Producto">                                   
-                        <h:outputText value="#{soplado.soplado_muestra.muestra_Nombre}"/>
-                    </p:column>
-                    <p:column headerText="Responsable">                                   
-                        <h:outputText value="#{soplado.soplado_usuario.usuario_apellido} #{soplado.soplado_usuario.usuario_nombre}"/>
-                    </p:column>
-                    <p:column headerText="Peso">                                   
-                        <h:outputText value="#{soplado.soplado_peso}"/>
-                    </p:column>
-                    <p:column headerText="Fecha">                                   
-                        <h:outputText value="#{soplado.soplado_fecha}"/>
-                    </p:column>
-                    <p:column headerText="Hora">                                   
-                        <h:outputText value="#{soplado.soplado_hora}"/>
-                    </p:column>
-                    <p:column >  
-                        <f:facet name="header">  
-                            <h:outputText value="Acciones" />  
-                        </f:facet> 
-                        <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
-                                         process="@this" onclick="PF('wglEditar').show()" 
-                                         update=":frmEditar:pngEditar" >
-                            <f:setPropertyActionListener value="#{soplado}" target="#{bSoplado.seleccion}"/>
-                        </p:commandButton>
-                    </p:column>  
-                    <f:facet name="footer">  
-                        <p:commandButton id="btnNuevo" value="Nuevo"
-                                         update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                         type="button" /> 
-                    </f:facet>
-                </p:dataTable>
-            </p:panel>
-        </h:form>   
-          </ui:define>
-            
+        <ui:composition template="plantillas/modeloSupervisor.xhtml">
+            <ui:define name="top">
+                <center>
+                    <h2><small>Lista de Soplado</small></h2>
+                </center>
+            </ui:define>
+            <ui:define name="contenido">
+                <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
+                <h:form id="frmSoplado">
+                    <p:panel id="pnlDatos">
+                        <p:dataTable id="tblSoplado" value="#{bSoplado.listado}" 
+                                     var="soplado" paginator="true" rows="5"
+                                     selectionMode="single" 
+                                     rowKey="#{soplado.soplado_id}" 
+                                     selection="#{bSoplado.seleccion}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                            <p:column filterBy="#{soplado.soplado_id}" filterMatchMode="startsWith" 
+                                      sortBy="#{soplado.soplado_id}" headerText="#Soplado">
+                                <h:outputText value="#{soplado.soplado_id}"/>
+                            </p:column>
+                            <p:column headerText="Producto">                                   
+                                <h:outputText value="#{soplado.soplado_muestra.muestra_Nombre}"/>
+                            </p:column>
+                            <p:column headerText="Responsable">                                   
+                                <h:outputText value="#{soplado.soplado_usuario.usuario_apellido} #{soplado.soplado_usuario.usuario_nombre}"/>
+                            </p:column>
+                            <p:column headerText="Peso(Kg)" style="text-align: right;">                                   
+                                <h:outputText value="#{soplado.soplado_peso}"/>
+                            </p:column>
+                            <p:column headerText="Fecha">                                   
+                                <h:outputText value="#{soplado.soplado_fecha}"/>
+                            </p:column>
+                            <p:column headerText="Hora">                                   
+                                <h:outputText value="#{soplado.soplado_hora}"/>
+                            </p:column>
+                            <p:column >  
+                                <f:facet name="header">  
+                                    <h:outputText value="Acciones" />  
+                                </f:facet> 
+                                <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
+                                                 process="@this" onclick="PF('wglEditar').show()" 
+                                                 update=":frmEditar:pngEditar" >
+                                    <f:setPropertyActionListener value="#{soplado}" target="#{bSoplado.seleccion}"/>
+                                </p:commandButton>
+                            </p:column>  
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo" value="Nuevo"
+                                                 update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
+                                                 type="button" /> 
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>   
+            </ui:define>
+
             <ui:define name="dialogos">
-            <p:dialog header="INGRESAR NUEVA PREFORMA" widgetVar="wglInsertar"
+                <p:dialog header="INGRESAR NUEVA PREFORMA" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmNuevo">
@@ -84,13 +84,13 @@
                         <center>
                             <p:commandButton value="Aceptar" action="#{bSoplado.Insercion()}" 
                                              style="background: #FF8C00;" update=":frmSoplado:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()"
-                                         type="reset"/>
-                   </center>
+                            <p:commandButton value="Cancelar" process="@this" onclick="PF('wglInsertar').hide()"
+                                             type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog>  
 
-             <p:dialog header="MODIFICAR SOPLADO" widgetVar="wglEditar"
+                <p:dialog header="MODIFICAR SOPLADO" widgetVar="wglEditar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmEditar">
@@ -101,9 +101,9 @@
                                 <f:selectItem
                                     itemLabel="#{bSoplado.seleccion.soplado_muestra.muestra_Nombre}" 
                                     itemValue="#{bSoplado.seleccion.soplado_muestra.muestra_id}"/>
-                               <f:selectItems value="#{bMuestra.listado}" 
-                                              var="muestra" itemLabel="#{muestra.muestra_Nombre}" 
-                                              itemValue="#{muestra.muestra_id}"/>
+                                <f:selectItems value="#{bMuestra.listado}" 
+                                               var="muestra" itemLabel="#{muestra.muestra_Nombre}" 
+                                               itemValue="#{muestra.muestra_id}"/>
                             </p:selectOneMenu>    
                             <h:outputText value="Responsable:"/>
                             <h:outputText value="#{bSoplado.seleccion.soplado_usuario.usuario_apellido} #{bSoplado.seleccion.soplado_usuario.usuario_nombre}"/>
@@ -112,15 +112,15 @@
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" 
-                                         action="#{bSoplado.Actualizacion()}" style="background: #FF8C00;"
-                                         update=":frmSoplado:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
-                   </center>
+                            <p:commandButton value="Aceptar" 
+                                             action="#{bSoplado.Actualizacion()}" style="background: #FF8C00;"
+                                             update=":frmSoplado:pnlDatos"/>
+                            <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEditar').hide()" type="reset"/>
+                        </center>
                     </h:form> 
                 </p:dialog> 
-                </ui:define>
-    </ui:composition>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 

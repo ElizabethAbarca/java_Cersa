@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Perfil</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="plantillas/modeloSupervisor.xhtml">
+            <ui:define name="top">
+            </ui:define>
+            <ui:define name="contenido">
+                <p:messages id="mensajes" autoUpdate="true" closable="true" />  
+                <h:form id="frmDatos" >
+                    <div class="row center-block">
+                        <div class="col-lg-8" style="width: 100%;">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item active">
+                                    <center><b> DATOS INFORMATIVOS </b></center>
+                                </a>
+                                <p:panelGrid id="pngNuevo" columns="2" style="width: 100%;">
+                                    <label class="control-label"> CI DE IDENTIDAD: </label>
+                                    <h:outputText value="#{bAutenticacion.session.empleado.usuario_cedula}"/>                                  
+                                    <label class="control-label"> NOMBRES: </label>                                    
+                                    <p:inputText  id="nombre" value="#{bAutenticacion.session.empleado.usuario_nombre}"  
+                                                  required="true" requiredMessage="Por favor, ingrese los nombres"
+                                                  style="width: 100%;"
+                                                  validatorMessage="Campo Nombres: Solo permitido letras">
+                                        <f:validateRegex
+                                            pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                    </p:inputText>            
+                                    <label class="control-label"> APELLIDOS: </label>                                     
+                                    <p:inputText id="apellido" value="#{bAutenticacion.session.empleado.usuario_apellido}"
+                                                 required="true" requiredMessage="Por favor, ingrese los apellidos"
+                                                 style="width: 100%;"
+                                                 validatorMessage="Campo Apellidoss: Solo permitido letras">
+                                        <f:validateRegex
+                                            pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                        </p:inputText>   
+                                        <label class="control-label"> DIRECCIÓN DE CORREO: </label> 
+                                        <p:inputText id="email" required="true" label="email"
+                                                     requiredMessage="Por favor, ingrese el email" style="width: 100%;"
+                                                     validatorMessage="Email inválido"
+                                                     value="#{bAutenticacion.session.empleado.usuario_email}" >
+                                            <f:validateRegex
+                                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                        </p:inputText> 
+                                        <label class="control-label"> DIRECCIÓN: </label> 
+                                        <p:inputText value="#{bAutenticacion.session.empleado.usuario_direccion}" 
+                                                     requiredMessage="Por favor, ingrese la dirección"
+                                                     required="true" style="width: 100%;"/>
+                                        <label class="control-label"> CELULAR: </label> 
+                                        <p:inputMask  id="celular" value="#{bAutenticacion.session.empleado.usuario_celular}"
+                                                      mask="9999999999"  required="true" 
+                                                      requiredMessage="Por favor, ingrese el celular (10 dígitos permitidos)"
+                                                      validatorMessage="Campo Celular: 10 dígitos permitidos">
+                                            <f:validateLength minimum="10" maximum="10"  />
+                                        </p:inputMask>
+                                        <label class="control-label"> TELÉFONO: </label> 
+                                        <p:inputMask value="#{bAutenticacion.session.empleado.usuario_telefono}"
+                                                      mask="999999999"  required="true" 
+                                                      requiredMessage="Por favor, ingrese el telefono(9 dígitos permitidos)"
+                                                      validatorMessage="Campo Celular: 9 dígitos permitidos">
+                                            <f:validateLength minimum="9" maximum="9"  />
+                                        </p:inputMask>
+                                        <label class="control-label"> ESTADO: </label> 
+                                        <h:outputText value="#{(bAutenticacion.session.empleado.usuario_estado==0)?'ACTIVO':'PASIVO'}"/>
+                                        <label class="control-label"> CARGO: </label> 
+                                        <h:outputText value="#{bAutenticacion.session.empleado.usuario_rol.rol_nombre}"/>
+                                        <label class="control-label"> CONTRASEÑA: </label> 
+                                        <h:outputText value="#{bAutenticacion.session.empleado.usuario_clave}"/>
+                                </p:panelGrid>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div class="col-lg-9">
+                            <p:commandButton value="Actualizar Datos" 
+                                             action="#{bUsuario.EditarDatos(bAutenticacion.session.empleado)}" 
+                                             update=":frmDatos" style="background: #FF8C00;"/>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>           
+        </ui:composition> 
+    </h:body>
+</html>
+
