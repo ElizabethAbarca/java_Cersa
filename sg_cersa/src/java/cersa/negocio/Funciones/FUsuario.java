@@ -77,6 +77,19 @@ public static ArrayList<CUsuario> obtenerTodas() throws Exception {
         return lst;
     }
 
+public static ArrayList<CUsuario> obtener_Rol() throws Exception {
+        ArrayList<CUsuario> lst = new ArrayList<CUsuario>();
+        try {
+            String sql = "select * from basedatos_cersa.tusuario where tusuario_rol="+2;
+            ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql);
+            lst = llenar(rs);
+            rs = null;
+        } catch (SQLException exConec) {
+            throw new Exception(exConec.getMessage());
+        }
+        return lst;
+    }
+
 public static CUsuario obtener_Id(int codigo) throws Exception {
         CUsuario obj;
         try {

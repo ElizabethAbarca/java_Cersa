@@ -57,7 +57,7 @@ public class validacion {
                 break;
         }
 
-        return (nombre + "_" + dia + "-" + año);
+        return (nombre + "-" + dia + "-" + año);
     }
     
     public static String retirarGuion(String valor)

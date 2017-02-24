@@ -40,10 +40,12 @@ public class BEscamas {
      */
     public BEscamas() {        
         this.reinit();
+        objeto = null;
     }
     
     private int tipo;
     private int sub;
+    
     @PostConstruct
     private void reinit() {
         this.objeto = new CEscama();
@@ -73,8 +75,7 @@ public class BEscamas {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
-                objeto = null;
-                this.reinit();
+                reinit();
             }
             else
             {
@@ -98,7 +99,8 @@ public class BEscamas {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
-                this.reinit();
+                reinit();
+                objeto=null;
             }
             else
             {
