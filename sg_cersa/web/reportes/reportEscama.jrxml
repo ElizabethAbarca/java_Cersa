@@ -1,29 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD JasperReport//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <background>
-        <band/>
-    </background>
-    <title>
-        <band height="79"/>
-    </title>
-    <pageHeader>
-        <band height="35"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="61"/>
-    </columnHeader>
-    <detail>
-        <band height="125"/>
-    </detail>
-    <columnFooter>
-        <band height="45"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54"/>
-    </pageFooter>
-    <summary>
-        <band height="42"/>
-    </summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0636cc12-b7c5-427f-ae08-0c88db4e9385">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="escTipo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="escSubtipo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\ELIZABETH-PC\\Documents\\NetBeansProjects\\java_Cersa\\sg_cersa\\web\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="promedio" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tescama."tescama_fecha" AS tescama_tescama_fecha,
+     SUM(tescama."tescama_peso") AS tescama_tescama_peso,
+     tmodelo."tmodelo_nombre" AS tmodelo_tmodelo_nombre,
+     ttipo."ttipo_nombre" AS ttipo_ttipo_nombre
+FROM
+     "basedatos_cersa"."tmodelo" tmodelo INNER JOIN "basedatos_cersa"."tescama" tescama ON tmodelo."tmodelo_id" = tescama."tescama_subtipo"
+     INNER JOIN "basedatos_cersa"."ttipo" ttipo ON tescama."tescama_tipo" = ttipo."ttipo_id"
+WHERE ttipo.ttipo_id=$P{escTipo} and tmodelo.tmodelo_id=$P{escSubtipo}
+group by ttipo.ttipo_nombre,tmodelo.tmodelo_nombre,tescama_fecha  
+order by tescama_fecha asc;]]>
+	</queryString>
+	<field name="tescama_tescama_fecha" class="java.sql.Date"/>
+	<field name="tescama_tescama_peso" class="java.lang.Double"/>
+	<field name="tmodelo_tmodelo_nombre" class="java.lang.String"/>
+	<field name="ttipo_ttipo_nombre" class="java.lang.String"/>
+	<variable name="tescama_tescama_peso_1" class="java.lang.Double" calculation="Average">
+		<variableExpression><![CDATA[$F{tescama_tescama_peso}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="153" y="0" width="246" height="79" uuid="17dafebc-6e2f-48bb-a23d-76f25441072a"/>
+				<imageExpression><![CDATA["C:\\Users\\ELIZABETH-PC\\Documents\\NetBeansProjects\\java_Cersa\\sg_cersa\\web\\img\\logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="27" uuid="e6cb7fbe-e334-4f51-b0a4-2129ca62e7f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE ESCAMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="135" y="27" width="100" height="20" backcolor="#CCCCFF" uuid="bec3c9bd-2aa8-441d-aff5-d46e1471658e"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="135" y="47" width="100" height="19" backcolor="#CCCCFF" uuid="c1d8c174-4252-417f-9323-55fc451f991c"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUBTIPO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="241" y="27" width="213" height="19" uuid="21a3f812-5e5d-4cfe-bdff-71f94fdfb740"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ttipo_ttipo_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="241" y="47" width="213" height="19" uuid="39f4af86-41bb-4dd6-8d5e-92dbe1bdc6e8"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tmodelo_tmodelo_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="47" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="153" y="23" width="162" height="24" forecolor="#FFFFFF" backcolor="#000033" uuid="3d8f29e1-d69a-42b9-b194-7dc200925673"/>
+				<box>
+					<pen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<topPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="58" y="23" width="95" height="24" forecolor="#FFFFFF" backcolor="#000033" uuid="c5589157-9690-4599-9638-4dd8cf5b6489"/>
+				<box>
+					<pen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<topPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="315" y="23" width="138" height="24" forecolor="#FFFFFF" backcolor="#000033" uuid="0b8e8675-d126-46e9-869e-2e9b911da53e"/>
+				<box>
+					<pen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<topPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="2.0" lineStyle="Double" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[PESO(Kg)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="57" splitType="Stretch">
+			<textField pattern="dd-MMM-yy">
+				<reportElement x="58" y="0" width="95" height="27" uuid="199b9256-2127-4000-90f7-4d09af168b14"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tescama_tescama_fecha}]]></textFieldExpression>
+			</textField>
+			<subreport isUsingCache="true">
+				<reportElement x="153" y="0" width="300" height="57" uuid="ee0d0a52-4936-41f9-aa0b-4d8e41c0bb91"/>
+				<subreportParameter name="date">
+					<subreportParameterExpression><![CDATA[$F{tescama_tescama_fecha}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="sub">
+					<subreportParameterExpression><![CDATA[$P{escSubtipo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tip">
+					<subreportParameterExpression><![CDATA[$P{escTipo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportEscama_subUusarios.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="476" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="34" forecolor="#006633" uuid="a23567b1-4592-46d0-9f39-20474a9bc635"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Promedio Total: "+$P{promedio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="34" width="555" height="31" forecolor="#000099" uuid="b01ec430-3847-42b3-a60e-4f4cca15bbfb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Toneladas: "+$P{promedio}/1000]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="66" width="555" height="35" uuid="4ea748f7-a48c-416a-8efe-ff0d8bea72d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[GRÁFICA ESTADÍSTICA]]></text>
+			</staticText>
+			<subreport isUsingCache="true">
+				<reportElement x="0" y="101" width="555" height="375" uuid="0c1bf260-deb5-428d-8bb3-0e42f1a2b140"/>
+				<subreportParameter name="eSub">
+					<subreportParameterExpression><![CDATA[$P{escSubtipo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="eTipo">
+					<subreportParameterExpression><![CDATA[$P{escTipo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportGraficaEscama.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
 </jasperReport>

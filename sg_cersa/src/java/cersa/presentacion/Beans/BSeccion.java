@@ -15,81 +15,83 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.DefaultRequestContext;
 
-
 /**
  *
  * @author RitaElizabeth
  */
 @ManagedBean
 @ViewScoped
-public class BSeccion{
+public class BSeccion {
 
     private CSeccion objeto;
     private CSeccion seleccion;
     private ArrayList<CSeccion> listado;
+
     /**
      * Creates a new instance of BSeccion
      */
     public BSeccion() {
-    this.reinit();
+        this.reinit();
     }
-    
+
     @PostConstruct
     private void reinit() {
         this.objeto = new CSeccion();
         this.seleccion = new CSeccion();
         this.listado = new ArrayList<>();
-        this.Visualizacion();        
+        this.Visualizacion();
     }
+
     private void Visualizacion() {
         try {
             this.listado = FSeccion.obtenerTodas();
         } catch (Exception e) {
-           FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-           FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
-    
-     public void Insercion()
-    {
-        try {                
-            if(FSeccion.insertar(objeto))
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+
+    public void Insercion() {
+        try {
+            if (FSeccion.insertar(objeto)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Ingresados",
+                        "Exito. Datos Ingresados"));
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
-                objeto = null;
+                this.objeto = new CSeccion();
                 this.reinit();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Ingresados",
+                        "Error. Datos no Ingresados"));
             }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-                
+
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Error",new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
 
     public void Actualizacion() {
-        try {            
+        try {
             if (FSeccion.modificar(seleccion)) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Actualizados",
+                        "Exito. Datos Actualizados"));
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
                 this.reinit();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Actualizados",
+                        "Error. Datos no Actualizados"));
             }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-                
+
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Error",new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
 
@@ -116,5 +118,5 @@ public class BSeccion{
     public void setListado(ArrayList<CSeccion> listado) {
         this.listado = listado;
     }
-    
+
 }

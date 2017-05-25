@@ -9,119 +9,104 @@
     </h:head>
     <h:body>
         <ui:composition template="plantillas/modeloSupGeneral.xhtml">
-             <ui:define name="top">
-                   <center>
+            <ui:define name="top">
+                <center>
                     <h2><small>LÍNEA PET</small></h2>
                 </center>
-             </ui:define>
-        <ui:define name="contenido">
-          <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
+            </ui:define>
+            <ui:define name="contenido">
+                <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
                 <h:form id="frmTipo">
-            <p:panel id="pnlDatos">
-                <p:dataTable id="tblTipo" value="#{bTipo.listado}" 
-                             var="tipo" paginator="true" rows="5"
-                             selectionMode="single" 
-                             rowKey="#{tipo.tipo_id}" 
-                             selection="#{bTipo.seleccion}"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                             rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
-                    <p:column filterBy="#{tipo.tipo_id}" filterMatchMode="startsWith" 
-                              sortBy="#{tipo.tipo_id}" headerText="Código">
-                        <h:outputText value="#{tipo.tipo_id}"/>
-                    </p:column>
-                    <p:column filterBy="#{tipo.tipo_Nombre}" filterMatchMode="startsWith" 
-                              sortBy="#{tipo.tipo_Nombre}" headerText="Nombre">
-                        <h:outputText value="#{tipo.tipo_Nombre}"/>
-                    </p:column>
-                    
-                     <p:column >  
-                        <f:facet name="header">  
-                            <h:outputText value="Acciones" />  
-                        </f:facet> 
-                         <center>
-                        <p:commandButton  id="btnEditar"   value="Actualizar"   style="background: #FF8C00;" 
-                                         process="@this" onclick="PF('wglEditar').show()" 
-                                         update=":frmEditar:pngEditar" >
-                            <f:setPropertyActionListener value="#{tipo}" target="#{bTipo.seleccion}"/>
-                        </p:commandButton>
-                         <!--
-                        <p:commandButton id="btnEliminar"   value="Eliminar"  
-                                         process="@this" onclick="PF('wglEliminar').show()" 
-                                         update=":frmEliminar:pngEliminar" >
-                            <f:setPropertyActionListener value="#{tipo}" target="#{bTipo.seleccion}"/>
-                        </p:commandButton>
-                         -->
-                         </center>
-                    </p:column>  
-                    <f:facet name="footer">  
-                        <p:commandButton id="btnNuevo" value="Nuevo"  
-                                         update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                         type="button" /> 
-                    </f:facet>
-                </p:dataTable>
-            </p:panel>
-        </h:form>      
-           </ui:define>             
-             <ui:define name="dialogos">
-            <p:dialog header="INGRESAR NUEVO" widgetVar="wglInsertar"
+                    <p:panel id="pnlDatos">
+                        <p:dataTable id="tblTipo" value="#{bTipo.listado}" 
+                                     var="tipo" paginator="true" rows="5"
+                                     selectionMode="single" 
+                                     rowKey="#{tipo.tipo_id}" 
+                                     selection="#{bTipo.seleccion}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                            <p:column filterBy="#{tipo.tipo_id}" filterMatchMode="startsWith" 
+                                      sortBy="#{tipo.tipo_id}" headerText="Código">
+                                <h:outputText value="#{tipo.tipo_id}"/>
+                            </p:column>
+                            <p:column filterBy="#{tipo.tipo_Nombre}" filterMatchMode="startsWith" 
+                                      sortBy="#{tipo.tipo_Nombre}" headerText="Nombre">
+                                <h:outputText value="#{tipo.tipo_Nombre}"/>
+                            </p:column>
+
+                            <p:column >  
+                                <f:facet name="header">  
+                                    <h:outputText value="Acciones" />  
+                                </f:facet> 
+                                <center>
+                                    <p:commandButton  id="btnEditar"   value="Actualizar"   style="background: #FF8C00;" 
+                                                      process="@this" onclick="PF('wglEditar').show()" 
+                                                      update=":frmEditar:pngEditar" >
+                                        <f:setPropertyActionListener value="#{tipo}" target="#{bTipo.seleccion}"/>
+                                    </p:commandButton>
+                                </center>
+                            </p:column>  
+                            <f:facet name="footer">  
+                                <p:commandButton id="btnNuevo"  
+                                                 update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
+                                                 value="Agregar" icon="ui-icon-plus" type="button" /> 
+                            </f:facet>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>      
+            </ui:define>             
+            <ui:define name="dialogos">
+                <p:dialog header="INGRESAR NUEVO" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmNuevo">
                         <p:panelGrid id="pngNuevo" columns="2">
                             <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{bTipo.objeto.tipo_Nombre}"/>  
+                            <p:inputText value="#{bTipo.objeto.tipo_Nombre}"                                     
+                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"
+                                         validatorMessage="Mínimo 50 letras/digitos">
+                                <f:validateLength maximum="50" />
+                                <f:validateRegex
+                                    pattern="^[0-9a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                            </p:inputText>  
                         </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" action="#{bTipo.Insercion()}"  style="background: #FF8C00;" 
-                                         update=":frmTipo:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" 
-                                         onclick="PF('wglInsertar').hide()" type="reset"/>
+                            <p:commandButton value="Aceptar" action="#{bTipo.Insercion()}"  style="background: #FF8C00;" 
+                                             update=":frmTipo:pnlDatos"/>
+                            <p:commandButton value="Cancelar" process="@this" 
+                                             onclick="PF('wglInsertar').hide()" type="reset"/>
                         </center>
                     </h:form> 
                 </p:dialog>  
 
-             <p:dialog header="MODIFICAR" widgetVar="wglEditar"
+                <p:dialog header="MODIFICAR" widgetVar="wglEditar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmEditar">
                         <p:panelGrid id="pngEditar" columns="2">
-                           
+
                             <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{bTipo.seleccion.tipo_Nombre}"/>
-                            
-                           </p:panelGrid>
+                            <p:inputText value="#{bTipo.seleccion.tipo_Nombre}"                                     
+                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"
+                                         validatorMessage="Mínimo 50 letras/digitos">
+                                <f:validateLength maximum="50" />
+                                <f:validateRegex
+                                    pattern="^[0-9a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                            </p:inputText> 
+
+                        </p:panelGrid>
                         <p:separator/>
                         <center>
-                        <p:commandButton value="Aceptar" action="#{bTipo.Actualizacion()}" 
-                                         update=":frmTipo:pnlDatos"
-                                          style="background: #FF8C00;" />
-                        <p:commandButton value="Cancelar" process="@this" 
-                                         onclick="PF('wglEditar').hide()" type="reset"/>
+                            <p:commandButton value="Aceptar" action="#{bTipo.Actualizacion()}" 
+                                             update=":frmTipo:pnlDatos"
+                                             style="background: #FF8C00;" />
+                            <p:commandButton value="Cancelar" process="@this" 
+                                             onclick="PF('wglEditar').hide()" type="reset"/>
                         </center>
                     </h:form> 
                 </p:dialog>
-                 <!--
-         <p:dialog header="ELIMINAR PRODUCTO TERMINADO" widgetVar="wglEliminar"
-                          modal="true" closable="false" resizable="false"
-                          showEffect="fade" hideEffect="explode">  
-                    <h:form id="frmEliminar">
-                        <p:panelGrid id="pngEliminar" columns="2">
-                        <f:facet name="header">
-                            DATOS A ELIMINAR:
-                          </f:facet>
-                           
-                            <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{bTipo.seleccion.tipo_Nombre}" disabled="true"/>
-                           
-                           </p:panelGrid>
-                        <p:separator/>
-                        <p:commandButton value="Aceptar" action="#{bTipo.Eliminacion()}" update=":frmTipo:pnlDatos"/>
-                        <p:commandButton value="Cancelar" process="@this" onclick="PF('wglEliminar').hide()" type="reset"/>
-                    </h:form> 
-                </p:dialog> 
-                 -->
-                 </ui:define>
-         </ui:composition>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>

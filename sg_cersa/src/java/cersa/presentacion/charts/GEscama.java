@@ -47,12 +47,12 @@ public class GEscama implements Serializable {
         lineModel2.setShowPointLabels(true);
         lineModel2.getAxis(AxisType.Y).setLabel("Peso(Kg)");
         DateAxis axis = new DateAxis("Fecha");
-        axis.setTickAngle(-50); 
+        axis.setTickAngle(-50);
         Calendar fecha = Calendar.getInstance();
         int anio = fecha.get(Calendar.YEAR);
         int mes = fecha.get(Calendar.MONTH) + 1;
         int dia = fecha.get(Calendar.DAY_OF_MONTH);
-        axis.setMax(anio+"-"+mes+"-"+dia);
+        axis.setMax(anio + "-" + mes + "-" + dia);
         axis.setTickFormat("%b %#d, %y");
         lineModel2.getAxes().put(AxisType.X, axis);
     }
@@ -65,18 +65,18 @@ public class GEscama implements Serializable {
             for (CUsuario usuario : listaUsuario) {
                 ChartSeries series = new ChartSeries();
                 series.setLabel(usuario.getUsuario_nombre() + " " + usuario.getUsuario_apellido());
-                listaEscama = FDatosEscama.obtenerSuma_Escama_Persona(usuario.getUsuario_id());
+                listaEscama = FDatosEscama.obtenerSuma_Escama_Persona(usuario.getUsuario_id(), 1, 1);
                 for (DEscama escama : listaEscama) {
                     series.set(escama.getEfecga().getTime(), escama.getEpeso());
                 }
                 model.addSeries(series);
             }
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Exito", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
         return model;
     }
 
-    
 }

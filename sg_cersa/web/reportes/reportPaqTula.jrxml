@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportPaqTula" pageWidth="300" pageHeight="752" columnWidth="300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="af2bf983-c718-4bfd-af8d-4e8586d4a3b1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pCodTula" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pSuma" class="java.lang.Double"/>
+	<queryString>
+		<![CDATA[SELECT
+    row_number() OVER(ORDER BY  ttula_peso) as numero,
+     ttula."ttula_id" AS ttula_ttula_id,
+     ttula."ttula_peso" AS ttula_ttula_peso,
+     tseccion."tseccion_descripcion" AS tseccion_tseccion_descripcion
+FROM
+     "basedatos_cersa"."tseccion" tseccion INNER JOIN "basedatos_cersa"."ttula" ttula ON tseccion."tseccion_id" = ttula."ttula_seccion"
+     INNER JOIN "basedatos_cersa"."tproducto_terminado" tproducto_terminado ON ttula."ttula_producto" = tproducto_terminado."tproducto_id"
+WHERE ttula_producto=$P{pCodTula};]]>
+	</queryString>
+	<field name="numero" class="java.lang.Long"/>
+	<field name="ttula_ttula_id" class="java.lang.Integer"/>
+	<field name="ttula_ttula_peso" class="java.lang.Double"/>
+	<field name="tseccion_tseccion_descripcion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="144" y="0" width="156" height="20" forecolor="#FFFFFF" backcolor="#000033" uuid="b0673dfb-febd-45ea-b13d-13d17252dd37"/>
+				<box>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+					<topPen lineWidth="2.0" lineStyle="Double"/>
+					<leftPen lineWidth="2.0" lineStyle="Double"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+					<rightPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PESO(Kg)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="44" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#000033" uuid="7afa9b09-82c7-4584-869f-869ababae225"/>
+				<box>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+					<topPen lineWidth="2.0" lineStyle="Double"/>
+					<leftPen lineWidth="2.0" lineStyle="Double"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+					<rightPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="44" height="20" forecolor="#FFFFFF" backcolor="#000033" uuid="d3ba03c4-86bc-45c9-af42-138111c414ef"/>
+				<box>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+					<topPen lineWidth="2.0" lineStyle="Double"/>
+					<leftPen lineWidth="2.0" lineStyle="Double"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+					<rightPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="44" y="0" width="100" height="23" uuid="5bf33f4c-4094-4dea-a71d-7718a008934a"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tseccion_tseccion_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="0" width="156" height="23" uuid="e866cbea-da3e-485b-87ee-c06062036544"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ttula_ttula_peso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="44" height="23" uuid="f9ecc799-37b0-4c08-94d9-ee40a5078536"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="300" height="27" forecolor="#330099" uuid="13196006-7e78-4ff7-b608-846171ac78be"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total: "+$P{pSuma}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

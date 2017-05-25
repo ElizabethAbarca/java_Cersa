@@ -33,10 +33,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active" style="font-family: Arial; font-size: 20px;">
-                          <a href="#">INGRESOS</a>
+                          <a href="#">GENERAL</a>
                     </li>
-                    <li><a href="fromEmpleado.xhtml"><i class="fa fa-recycle"></i> Gestión de Empleados</a></li>
-                    <li><a href="frmRegistro.xhtml"><i class="fa fa-recycle"></i> Gestión de sessiones</a></li>
+                    <li><a href="fromEmpleado.xhtml"><i class="fa fa-recycle"></i> Empleados</a></li>
+                    <li><a href="frmRegistro.xhtml"><i class="fa fa-recycle"></i> Sesiones</a></li>
                     <li>
                             <a href="javascript:;" 
                                data-toggle="collapse" 
@@ -59,8 +59,26 @@
                                 </li>
                             </ul>
                     </li>
-                    <li><a href="frmListadoProductos.xhtml"><i class="fa fa-recycle"></i> Listado de Paquetes</a></li>
-                    <li><a href="reporteEscama.xhtml"><i class="fa fa-recycle"></i>Graficas</a></li>
+                    <li><a href="frmListadoProductos.xhtml"><i class="fa fa-recycle"></i> Paquetes</a></li>
+                    <li>
+                            <a href="javascript:;" 
+                               data-toggle="collapse" 
+                               data-target="#reportes">Reportes Estadísticos <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="reportes" class="collapse">
+                                <li>
+                                    <a href="reporteEscama.xhtml" style="color: #FF8C00; text-decoration: none;"><i class="fa fa-archive "></i> Escama</a>
+                                </li>
+                                <li>
+                                    <a href="informePaca.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Compactación</a>
+                                </li>
+                                <li>
+                                    <a href="informePreforma.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Preforma</a>
+                                </li>
+                                <li>
+                                    <a href="informeSoplado.xhtml" style="color: #FF8C00;text-decoration: none;"><i class="fa fa-archive"></i> Soplado</a>
+                                </li>
+                            </ul>
+                        </li>
                
                 </ul>
                 <ul class="nav navbar-nav navbar-right navbar-user">
@@ -85,7 +103,7 @@
                     <div class="col-lg-12">
                         <ui:insert name="top">
                         <h1>Bienvenid@ <small>Sistema de Control de Producción</small></h1>
-                        
+                         <p:messages id="mensajes" autoUpdate="true" closable="true" /> 
                             <div class="alert alert-success alert-dismissable">
                                 A continuación, usted podra gestionar las diferentes etapas del proceso productivo de escamas de PET a nivel industrial. 
                                 <br />

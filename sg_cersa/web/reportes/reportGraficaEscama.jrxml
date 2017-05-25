@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9238b245-d81c-4b82-9071-40abdb60ee69">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="eTipo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="eSub" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tescama."tescama_tipo" AS tescama_tescama_tipo,
+     tescama."tescama_subtipo" AS tescama_tescama_subtipo,
+     tescama."tescama_fecha" AS tescama_tescama_fecha,
+     SUM(tescama."tescama_peso") AS tescama_tescama_peso,
+     tusuario."tusuario_nombre" AS tusuario_tusuario_nombre,
+     tusuario."tusuario_apellido" AS tusuario_tusuario_apellido
+FROM
+     "basedatos_cersa"."tusuario" tusuario INNER JOIN "basedatos_cersa"."tescama" tescama ON tusuario."tusuario_id" = tescama."tescama_usuario"
+WHERE tescama_tipo=$P{eTipo} and tescama_subtipo=$P{eSub}
+GROUP BY tescama_tipo,tescama_subtipo,tescama_fecha,tusuario_nombre,tusuario_apellido
+                   ORDER BY tescama_fecha ASC;]]>
+	</queryString>
+	<field name="tescama_tescama_tipo" class="java.lang.Integer"/>
+	<field name="tescama_tescama_subtipo" class="java.lang.Integer"/>
+	<field name="tescama_tescama_fecha" class="java.sql.Date"/>
+	<field name="tescama_tescama_peso" class="java.lang.Double"/>
+	<field name="tusuario_tusuario_nombre" class="java.lang.String"/>
+	<field name="tusuario_tusuario_apellido" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="321" splitType="Stretch">
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="0" width="555" height="321" uuid="c5e7d565-9577-4a3d-8819-d8d1d4826a3b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{tusuario_tusuario_nombre} + " "+$F{tusuario_tusuario_apellido}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{tescama_tescama_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{tescama_tescama_peso}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

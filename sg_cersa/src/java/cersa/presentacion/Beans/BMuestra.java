@@ -25,71 +25,74 @@ public class BMuestra {
     private CMuestra objeto;
     private CMuestra seleccion;
     private ArrayList<CMuestra> listado;
+
     /**
      * Creates a new instance of BMuestra
      */
     public BMuestra() {
         this.reinit();
     }
-    
+
     private void reinit() {
         this.objeto = new CMuestra();
         this.seleccion = new CMuestra();
         this.listado = new ArrayList<>();
-        this.Visualizacion();        
+        this.Visualizacion();
     }
+
     private void Visualizacion() {
         try {
             this.listado = FMuestra.obtenerTodas();
         } catch (Exception e) {
-           FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-           FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
-    
-     public void Insercion()
-    {
-        try {                
-            if(FMuestra.insertar(objeto))
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+
+    public void Insercion() {
+        try {
+            if (FMuestra.insertar(objeto)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Ingresados",
+                        "Exito. Datos Ingresados"));
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
-                objeto = null;
+                this.objeto = new CMuestra();
                 this.reinit();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Ingresados",
+                        "Errot. Datos no Ingresados"));
             }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-                
+
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
 
     public void Actualizacion() {
-        try {            
+        try {
             if (FMuestra.modificar(seleccion)) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Actualizados",
+                        "Exito. Datos Actualizados"));
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
                 this.reinit();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Actualizados",
+                        "Error. Datos no Actualizados"));
             }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-                
+
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
-    
+
     public void Eliminacion() {
         try {
             if (FMuestra.eliminar(seleccion.getMuestra_id())) {
@@ -97,18 +100,17 @@ public class BMuestra {
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEliminar').hide()");
                 this.reinit();
-            }
-            else
-            {
+            } else {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Eliminados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
             }
-                
+
         } catch (Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
-        }        
-      }
+            context.addMessage("Exito", new FacesMessage(e.getMessage()));
+        }
+    }
+
     public CMuestra getObjeto() {
         return objeto;
     }
@@ -132,5 +134,5 @@ public class BMuestra {
     public void setListado(ArrayList<CMuestra> listado) {
         this.listado = listado;
     }
-    
+
 }

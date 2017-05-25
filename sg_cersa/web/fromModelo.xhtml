@@ -45,9 +45,9 @@
                                 </center>
                             </p:column>  
                             <f:facet name="footer">  
-                                <p:commandButton id="btnNuevo" value="Nuevo" 
+                                <p:commandButton id="btnNuevo" value="Agregar" icon="ui-icon-plus" type="button"
                                                  update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                                 type="button" /> 
+                                                 /> 
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
@@ -61,7 +61,12 @@
                         <p:panelGrid id="pngNuevo" columns="2">
                             <h:outputText value="Nombre:"/>
                             <p:inputText  id="nombre" value="#{bModelo.objeto.modelo_Nombre}"                                         
-                                          required="true" requiredMessage="Por favor, ingrese un nuevo valor"/> 
+                                          required="true" requiredMessage="Por favor, ingrese un nuevo valor"
+                                          validatorMessage="Mínimo 30 letras/digitos">
+                                <f:validateLength maximum="30" />
+                                <f:validateRegex
+                                    pattern="^[0-9a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                            </p:inputText> 
                         </p:panelGrid>
                         <p:separator/>
                         <center>
@@ -80,7 +85,12 @@
                         <p:panelGrid id="pngEditar" columns="2">
                             <h:outputText value="Nombre:"/>
                             <p:inputText value="#{bModelo.seleccion.modelo_Nombre}"                                         
-                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"/> 
+                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"
+                                validatorMessage="Mínimo 30 letras/digitos">
+                                <f:validateLength maximum="30" />
+                                <f:validateRegex
+                                    pattern="^[0-9a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                            </p:inputText> 
                         </p:panelGrid>
                         <p:separator/>
                         <center>

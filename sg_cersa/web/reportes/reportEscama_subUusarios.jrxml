@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportEscama_subUusarios" pageWidth="300" pageHeight="752" columnWidth="300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="db888894-df23-440f-951f-2c3d633b7ddf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tip" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sub" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tescama."tescama_fecha" AS tescama_tescama_fecha,
+     tusuario."tusuario_apellido" AS tusuario_tusuario_apellido,
+     tescama."tescama_tipo" AS tescama_tescama_tipo,
+     tescama."tescama_subtipo" AS tescama_tescama_subtipo,
+     SUM(tescama."tescama_peso") AS tescama_tescama_peso,
+     tusuario."tusuario_nombre" AS tusuario_tusuario_nombre
+FROM
+     "basedatos_cersa"."tusuario" tusuario INNER JOIN "basedatos_cersa"."tescama" tescama ON tusuario."tusuario_id" = tescama."tescama_usuario"
+     WHERE tescama_tipo=$P{tip} and tescama_subtipo=$P{sub} and tescama_fecha=$P{date}
+     group by tusuario_nombre,tusuario_apellido,tescama_fecha, tescama_tipo, tescama_subtipo
+     order by tusuario_nombre asc]]>
+	</queryString>
+	<field name="tescama_tescama_fecha" class="java.sql.Date"/>
+	<field name="tusuario_tusuario_apellido" class="java.lang.String"/>
+	<field name="tescama_tescama_tipo" class="java.lang.Integer"/>
+	<field name="tescama_tescama_subtipo" class="java.lang.Integer"/>
+	<field name="tescama_tescama_peso" class="java.lang.Double"/>
+	<field name="tusuario_tusuario_nombre" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="162" height="27" uuid="60a9368f-dfa9-43ca-aa33-174680d857a2"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_nombre}+" "+$F{tusuario_tusuario_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="138" height="27" uuid="8e6585a1-740d-4a61-8789-8f7ff77349f9"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tescama_tescama_peso}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

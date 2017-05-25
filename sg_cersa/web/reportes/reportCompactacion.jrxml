@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f504d0cd-7ee1-4b87-8385-5138a0abbd28">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="FIP" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FFP" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SP" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     SUM(tpaca."tpaca_peso") AS tpaca_tpaca_peso,
+     tpaca."tpaca_fecha" AS tpaca_tpaca_fecha,
+     tsubproducto."tsubproducto_descripcion" AS tsubproducto_tsubproducto_descripcion,
+     tusuario."tusuario_nombre" AS tusuario_tusuario_nombre,
+     tusuario."tusuario_apellido" AS tusuario_tusuario_apellido
+FROM
+     "basedatos_cersa"."tsubproducto" tsubproducto INNER JOIN "basedatos_cersa"."tpaca" tpaca ON tsubproducto."tsubproducto_id" = tpaca."tpaca_subtipo"
+     INNER JOIN "basedatos_cersa"."tusuario" tusuario ON tpaca."tpaca_responsable" = tusuario."tusuario_id"
+WHERE 
+CASE  
+      WHEN ($P{SP}=0) THEN (tpaca.tpaca_fecha BETWEEN $P{FIP} and $P{FFP})
+      WHEN ($P{SP}<>0) THEN (tpaca.tpaca_fecha BETWEEN $P{FIP} and $P{FFP} and tsubproducto_id=$P{SP})
+   END
+GROUP BY tpaca_fecha,tsubproducto_descripcion,tusuario_nombre,tusuario_apellido
+ORDER BY tpaca_fecha ASC]]>
+	</queryString>
+	<field name="tpaca_tpaca_peso" class="java.lang.Double"/>
+	<field name="tpaca_tpaca_fecha" class="java.sql.Date"/>
+	<field name="tsubproducto_tsubproducto_descripcion" class="java.lang.String"/>
+	<field name="tusuario_tusuario_nombre" class="java.lang.String"/>
+	<field name="tusuario_tusuario_apellido" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="140" y="0" width="278" height="79" uuid="222177fc-575e-465b-aea8-cbf132bf37c3"/>
+				<imageExpression><![CDATA["C:\\Users\\ELIZABETH-PC\\Documents\\NetBeansProjects\\java_Cersa\\sg_cersa\\web\\img\\logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="652c2556-21b1-4a6d-9a03-d96dfdf1a23e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE COMPACTACIÓN]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="100" height="33" forecolor="#FFFFFF" backcolor="#330033" uuid="cf013db9-c74d-4ec3-8d44-9bf438ada72e"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<topPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUBTIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="2" width="100" height="33" forecolor="#FFFFFF" backcolor="#330033" uuid="066e8c46-c080-4a80-b277-4641f4075722"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<topPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="2" width="118" height="33" forecolor="#FFFFFF" backcolor="#330033" uuid="e50ec585-a3d6-4b51-ac88-459008855b2a"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<topPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PESO(Kg)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="318" y="2" width="237" height="33" forecolor="#FFFFFF" backcolor="#330033" uuid="ab7d23d6-c091-4785-8fe3-3adacd6324b8"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<topPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+					<rightPen lineWidth="4.0" lineStyle="Double" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="28" uuid="495a4284-3ffd-4b0b-9f9e-4a77950fe4a8"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tsubproducto_tsubproducto_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="100" y="0" width="100" height="28" uuid="daed99b9-2a35-4bfc-a963-9326856c40d0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tpaca_tpaca_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="118" height="28" uuid="4945608d-503f-4ae3-8ce8-7c2030e3cd56"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tpaca_tpaca_peso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="318" y="0" width="114" height="28" uuid="3fda8662-3faf-46e7-827a-87ac5becbc8c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="0" width="123" height="28" uuid="6a22eaef-1912-4075-a45f-69ad01dab837"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_apellido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="403" splitType="Stretch">
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="35" width="555" height="368" uuid="6e60a0fe-294a-4cb0-af65-ec017890255b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{tsubproducto_tsubproducto_descripcion}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{tpaca_tpaca_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{tpaca_tpaca_peso}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="9c2f26ae-f47a-47a1-9241-ed1d7b86dbb3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[GRÁFICA ESTADÍSTICA]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

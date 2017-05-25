@@ -10,7 +10,7 @@
     <h:body>
         <ui:composition template="plantillas/modeloSupGeneral.xhtml">
             <ui:define name="top">
-                 <center>
+                <center>
                     <h2><small>NO LÍNEA PET</small></h2>
                 </center>
             </ui:define>
@@ -53,9 +53,9 @@
                                 </center>
                             </p:column>  
                             <f:facet name="footer">  
-                                <p:commandButton id="btnNuevo" value="Nuevo" 
+                                <p:commandButton id="btnNuevo" value="Agregar" icon="ui-icon-plus" type="button"
                                                  update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                                 type="button" /> 
+                                                 /> 
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
@@ -68,7 +68,13 @@
                     <h:form id="frmNuevo">
                         <p:panelGrid id="pngNuevo" columns="2">
                             <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{bMuestra.objeto.muestra_Nombre}"/>  
+                            <p:inputText value="#{bMuestra.objeto.muestra_Nombre}"                                     
+                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"
+                                         validatorMessage="Mínimo 30 letras/digitos">
+                                <f:validateLength maximum="30" />
+                                <f:validateRegex
+                                    pattern="^[0-9a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                            </p:inputText> 
                         </p:panelGrid>
                         <p:separator/>
                         <center>
@@ -86,8 +92,13 @@
                         <p:panelGrid id="pngEditar" columns="2">
 
                             <h:outputText value="Nombre:"/>
-                            <p:inputText value="#{bMuestra.seleccion.muestra_Nombre}"/>
-
+                            <p:inputText value="#{bMuestra.seleccion.muestra_Nombre}"                                     
+                                         required="true" requiredMessage="Por favor, ingrese un nuevo valor"
+                                         validatorMessage="Mínimo 30 letras/digitos">
+                                <f:validateLength maximum="30" />
+                                <f:validateRegex
+                                    pattern="^[0-9a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                            </p:inputText> 
                         </p:panelGrid>
                         <p:separator/>
                         <center>

@@ -65,8 +65,8 @@ public class BAutenticacion {
                 FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Empleado Invalido!",
-                    "Por favor, Verfique que los datos ingresados son correctos!!"));
+                    "Empleado Inválido!",
+                    "Por favor, Verifique que los datos ingresados son correctos!!"));
                 return "login";
             }
         } else {
@@ -74,8 +74,8 @@ public class BAutenticacion {
             FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Usuario Invalido!",
-                    "Por favor, verfique que los datos ingresados son correctos!!"));
+                    "Usuario Inválido!",
+                    "Por favor, verifique que los datos ingresados son correctos!!"));
             // invalidate session, and redirect to other pages
             //message = "Invalid Login. Please Try Again!";
             return "login";
@@ -89,7 +89,13 @@ public class BAutenticacion {
       HttpSession sesion = Util.getSession();
       sesion.invalidate();
       this.session=null;
+      FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Finalizado",
+                    "Cuenta Cerrada"));
       return "login";
+      
    }
 
     public String getClave() {

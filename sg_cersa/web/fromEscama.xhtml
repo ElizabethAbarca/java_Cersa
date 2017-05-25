@@ -6,17 +6,17 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
- </h:head>
+    </h:head>
     <h:body>
         <ui:composition template="plantillas/modeloSupervisor.xhtml">
             <ui:define name="top">
-           <center>
+                <center>
                     <h2><small>Lista de Escama</small></h2>
                 </center>
-        </ui:define>
-      <ui:define name="contenido">
-           <p:messages id="mensajes" autoUpdate="true" closable="true"/>  
-         <h:form id="frmEscama">               
+            </ui:define>
+            <ui:define name="contenido">
+               <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
+                <h:form id="frmEscama">               
                     <p:panel id="pnlDatos">
                         <p:dataTable id="tblEscama" value="#{bEscamas.listado}" 
                                      var="escama" paginator="true" rows="5"
@@ -24,46 +24,45 @@
                                      rowKey="#{escama.escama_id}" 
                                      selection="#{bEscamas.seleccion}"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200"
+                                     style="font-size: 11px;">                     
                             <p:column filterBy="#{escama.escama_id}" filterMatchMode="startsWith" 
-                                      sortBy="#{escama.escama_id}" headerText="#Escama">
-                                <h:outputText value="#{escama.escama_id}"/>
+                                      sortBy="#{escama.escama_id}" headerText="Nro." style="width: 50px">
+                                <h:outputText value="#{escama.escama_id}" />
                             </p:column>
-                            <p:column headerText="Tipo">                                   
-                                <h:outputText value="#{escama.escama_tipo.tipo_Nombre}"/>
+                            <p:column headerText="TIPO" style="width: 200px;" >                                   
+                                <h:outputText value="#{escama.escama_tipo.tipo_Nombre}" />
                             </p:column>
-                            <p:column headerText="Subtipo">                                   
+                            <p:column headerText="SUBTIPO" >                                   
                                 <h:outputText value="#{escama.escama_subtipo.modelo_Nombre}"/>
                             </p:column>
-                            <p:column headerText="Responsable">                                   
-                                <h:outputText value="#{escama.escama_usuario.usuario_apellido} #{escama.escama_usuario.usuario_nombre}"/>
-                            </p:column>
-                            <p:column headerText="Peso(Kg)" style="text-align: right;">                                   
+                            <p:column headerText="PESO(Kg)" style="text-align: right;">                                   
                                 <h:outputText value="#{escama.escama_peso}"/>
                             </p:column>
-                            <p:column headerText="Fecha">                                   
+                            <p:column filterBy="#{escama.escama_fecha}" filterMatchMode="startsWith" 
+                                      sortBy="#{escama.escama_fecha}" headerText="Fecha">                                   
                                 <h:outputText value="#{escama.escama_fecha}"/>
                             </p:column>
-                            <p:column headerText="Hora">                                   
+                            <p:column headerText="HORA">                                   
                                 <h:outputText value="#{escama.escama_hora}"/>
                             </p:column>
-                            <p:column headerText="Observación">                                   
+                            <p:column headerText="OBSERVACIÓN">                                   
                                 <h:outputText value="#{escama.escama_observacion}"/>
                             </p:column>
                             <p:column >  
                                 <f:facet name="header">  
-                                    <h:outputText value="Acciones" />  
+                                    <h:outputText value="ACCIONES" />  
                                 </f:facet> 
                                 <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
                                                  process="@this" onclick="PF('wglEditar').show()" 
-                                                 update=":frmEditar:pngEditar" >
+                                                 update=":frmEditar:pngEditar" 
+                                                 >
                                     <f:setPropertyActionListener value="#{escama}" target="#{bEscamas.seleccion}"/>
                                 </p:commandButton>
                             </p:column>  
                             <f:facet name="footer">  
-                                <p:commandButton id="btnNuevo" value="Nuevo"
-                                                 update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                                 type="button" /> 
+                                <p:commandButton id="btnNuevo" value="Agregar" icon="ui-icon-plus" type="button"
+                                                 update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" /> 
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
@@ -97,8 +96,8 @@
                                           validatorMessage="Número 0.0 inválido">
                                 <f:validateDoubleRange minimum="0.00000000001"/>
                             </p:inputText>
-                             <h:outputText value="Observación:" />
-                             <p:inputTextarea  value="#{bEscamas.objeto.escama_observacion}"
+                            <h:outputText value="Observación:" />
+                            <p:inputTextarea  value="#{bEscamas.objeto.escama_observacion}"
                                               required="true" requiredMessage="Por favor, ingrese una descripción como (NG) para continuar" 
                                               validatorMessage="Máximo 150 caracteres"
                                               placeholder="(NG) Ninguno">
@@ -162,6 +161,6 @@
                     </h:form> 
                 </p:dialog> 
             </ui:define>
-    </ui:composition>
+        </ui:composition>
     </h:body>
 </html>

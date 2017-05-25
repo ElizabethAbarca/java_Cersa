@@ -27,7 +27,7 @@ public class BTipo {
     private ArrayList<CTipo> listado;
 
     /**
-     * Creates a new instance of BTipo
+     * Creates a new instance of BMuestra
      */
     public BTipo() {
         this.reinit();
@@ -38,15 +38,58 @@ public class BTipo {
         this.seleccion = new CTipo();
         this.listado = new ArrayList<>();
         this.Visualizacion();
-
     }
 
     private void Visualizacion() {
         try {
             this.listado = FTipo.obtenerTodas();
         } catch (Exception e) {
-            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
+        }
+    }
+
+    public void Insercion() {
+        try {
+            if (FTipo.insertar(objeto)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Ingresados",
+                        "Exito. Datos Ingresados"));
+                DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
+                this.objeto = new CTipo();
+                this.reinit();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Ingresados",
+                        "Errot. Datos no Ingresados"));
+            }
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
+        }
+    }
+
+    public void Actualizacion() {
+        try {
+            if (FTipo.modificar(seleccion)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Actualizados",
+                        "Exito. Datos Actualizados"));
+                DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
+                this.reinit();
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Actualizados",
+                        "Error. Datos no Actualizados"));
+            }
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
 
@@ -74,62 +117,5 @@ public class BTipo {
         this.listado = listado;
     }
 
-    public void Insercion() {
-        try {
-            if (FTipo.insertar(objeto)) {
-                this.reinit();
-                DefaultRequestContext.getCurrentInstance().execute("wglInsertar.hide()");
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Datos Insertados", "Datos Insertados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
 
-            } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Error");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-        } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Exito", new FacesMessage(e.getMessage()));
-        }
-    }
-
-    public void Actualizacion() {
-        try {
-            if (FTipo.modificar(seleccion)) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-                DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
-                this.reinit();
-            } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Datos No Actualizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-
-            objeto = null;
-        } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Exito", new FacesMessage(e.getMessage()));
-        }
-    }
-
-    public void Eliminacion() {
-        try {
-            if (FTipo.eliminar(seleccion.getTipo_id())) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Eliminados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-                DefaultRequestContext.getCurrentInstance().execute("PF('wglEliminar').hide()");
-                this.reinit();
-
-            } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Datos No Eliminados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-
-            }
-
-        } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Exito", new FacesMessage(e.getMessage()));
-        }
-
-    }
-    
 }

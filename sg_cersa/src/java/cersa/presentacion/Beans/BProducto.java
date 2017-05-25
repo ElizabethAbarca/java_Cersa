@@ -73,8 +73,9 @@ public class BProducto {
         try {
             this.listado = FProducto.obtener_Producto_Persona(session.getEmpleado().getUsuario_id());
         } catch (Exception e) {
-            FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
     }
 
@@ -98,20 +99,23 @@ public class BProducto {
             objeto.setProducto_descripcion(descripcion_producto);
             objeto.setProducto_responsable(session.getEmpleado());
             if (FProducto.insertar(objeto)) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Nueva Lista");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Nueva Lista",
+                        "Exito. Nueva Lista"));
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
                 nuevoPaquete = FProducto.obtenerUltimo();
                 codigoTula = nuevoPaquete.getProducto_id();
                 Visualizacion();
-            } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Válida la acción");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            } else {                
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Acción no válida",
+                        "Error. Acción no válida"));
             }
 
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
     }
 //ingresar una tula
@@ -120,18 +124,23 @@ public class BProducto {
         try {
             CTula nuevoTula = new CTula(null, this.peso_tula, this.nuevoPaquete, FSeccion.obtener_Id(seccion));
             if (FTula.insertar(nuevoTula)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos Insertados"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Ingresados",
+                        "Exito. Datos Ingresados"));
+                
                 this.listaTula = FTula.obtener_Tula_Producto(this.codigoTula);
                 this.sumaProducto = FProducto.SumaTula(this.codigoTula);
                 peso_tula = 0;
             } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Ingresados",
+                        "Error. Datos no Ingresados"));
             }
 
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
     }
 
@@ -140,18 +149,22 @@ public class BProducto {
         try {
             seleccionTula.setTula_seccion(FSeccion.obtener_Id(seccion));
             if (FTula.modificar(seleccionTula)) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Actualizados",
+                        "Exito. Datos Actualizados"));
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
                 this.sumaProducto = FProducto.SumaTula(this.codigoTula);                
             } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Actualizados",
+                        "Error. Datos no Actualizados"));
             }
 
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+ e.getMessage()));
         }
     }
 
@@ -161,8 +174,9 @@ public class BProducto {
             this.nuevoPaquete = FProducto.obtener_Id(numeroPaquete);
             nombre_ultimo = this.nuevoPaquete.getProducto_nombre();
             if (nombre_ultimo != null) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Obtenidos");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Datos Obtenidos",
+                        "Exito. Datos Obtenidos"));
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglLista').hide()");
                 this.codigoTula = nuevoPaquete.getProducto_id();
                 this.listaTula = FTula.obtener_Tula_Producto(this.codigoTula);
@@ -170,13 +184,15 @@ public class BProducto {
                 this.seccion=1;
                 descripcion_producto = nuevoPaquete.getProducto_descripcion();
             } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Obtenidos");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error. Datos no Obtenidos",
+                        "Error. Datos no Obtenidos"));
             }
 
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
     }
    
@@ -184,8 +200,9 @@ public class BProducto {
     public void Registro(String descripcion) {
         try {                  
             if (FProducto.editar(descripcion, codigoTula)) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Exito. Actualizados",
+                        "Exito. Actualizados"));
                  this.peso_tula = 0;
                 this.sumaProducto = 0;
                 this.seccion = 0;
@@ -196,13 +213,15 @@ public class BProducto {
                 DisabledBoton();
                 Visualizacion();               
             } else {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Exito. no Actualizados",
+                        "Exito. no Actualizados"));
             }
 
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
     }
 
@@ -211,8 +230,9 @@ public class BProducto {
         try {
             return FProducto.cuantasTulas(numero);
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
         return 0;
     }
@@ -222,8 +242,9 @@ public class BProducto {
         try {
             return FProducto.SumaTula(codigo);
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
         return 0;
     }

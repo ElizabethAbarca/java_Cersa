@@ -40,8 +40,9 @@ public class BRegistro {
         try {
             this.listado = FRegistro.obtenerTodas();
         } catch (Exception e) {
-           FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-           FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error"+e.getMessage(),
+                        "Error"+e.getMessage()));
         }
     }
 

@@ -37,15 +37,17 @@ public class FDatosEscama {
         return lst;
     }
 
-    public static ArrayList<DEscama> obtenerSuma_Escama_Persona(int codigo) throws Exception {
+    public static ArrayList<DEscama> obtenerSuma_Escama_Persona(int codigo, int tipo, int sub) throws Exception {
         ArrayList<DEscama> lst = new ArrayList<DEscama>();
         try {
             ArrayList<Parametro> lstP = new ArrayList<Parametro>();
             String sql = "SELECT tescama_tipo,tescama_subtipo,tescama_fecha,tescama_usuario,SUM(tescama_peso) as tescama_peso FROM basedatos_cersa.tescama \n"
-                    + "  WHERE tescama.tescama_usuario=?\n"
+                    + "  WHERE tescama.tescama_usuario=? and tescama.tescama_tipo=? and tescama.tescama_subtipo=? \n"
                     + "  GROUP BY tescama_tipo,tescama_subtipo,tescama_fecha,tescama_usuario\n"
                     + "  ORDER BY tescama_fecha ASC;";
             lstP.add(new Parametro(1, codigo));
+            lstP.add(new Parametro(2, tipo));
+            lstP.add(new Parametro(3, sub));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = llenar(rs);
             rs = null;

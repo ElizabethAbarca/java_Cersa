@@ -24,40 +24,40 @@
                                      rowKey="#{soplado.soplado_id}" 
                                      selection="#{bSoplado.seleccion}"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" 
+                                     style="font-size: 11px;">                     
                             <p:column filterBy="#{soplado.soplado_id}" filterMatchMode="startsWith" 
-                                      sortBy="#{soplado.soplado_id}" headerText="#Soplado">
+                                      sortBy="#{soplado.soplado_id}" headerText="Nro.">
                                 <h:outputText value="#{soplado.soplado_id}"/>
                             </p:column>
-                            <p:column headerText="Producto">                                   
+                            <p:column headerText="PRODUCTO">                                   
                                 <h:outputText value="#{soplado.soplado_muestra.muestra_Nombre}"/>
                             </p:column>
-                            <p:column headerText="Responsable">                                   
-                                <h:outputText value="#{soplado.soplado_usuario.usuario_apellido} #{soplado.soplado_usuario.usuario_nombre}"/>
-                            </p:column>
-                            <p:column headerText="Peso(Kg)" style="text-align: right;">                                   
+                            <p:column headerText="PESO(Kg)" style="text-align: right;">                                   
                                 <h:outputText value="#{soplado.soplado_peso}"/>
                             </p:column>
-                            <p:column headerText="Fecha">                                   
+                            <p:column filterBy="#{soplado.soplado_fecha}" filterMatchMode="startsWith" 
+                                      sortBy="#{soplado.soplado_fecha}" headerText="Fecha">                                   
                                 <h:outputText value="#{soplado.soplado_fecha}"/>
                             </p:column>
-                            <p:column headerText="Hora">                                   
+                            <p:column headerText="HORA">                                   
                                 <h:outputText value="#{soplado.soplado_hora}"/>
                             </p:column>
                             <p:column >  
                                 <f:facet name="header">  
-                                    <h:outputText value="Acciones" />  
+                                    <h:outputText value="ACCIONES" />  
                                 </f:facet> 
                                 <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
                                                  process="@this" onclick="PF('wglEditar').show()" 
-                                                 update=":frmEditar:pngEditar" >
+                                                 update=":frmEditar:pngEditar" 
+                                                 >
                                     <f:setPropertyActionListener value="#{soplado}" target="#{bSoplado.seleccion}"/>
                                 </p:commandButton>
                             </p:column>  
                             <f:facet name="footer">  
-                                <p:commandButton id="btnNuevo" value="Nuevo"
+                                <p:commandButton id="btnNuevo" value="Agregar"
                                                  update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                                 type="button" /> 
+                                                 icon="ui-icon-plus" type="button" /> 
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
@@ -65,20 +65,26 @@
             </ui:define>
 
             <ui:define name="dialogos">
-                <p:dialog header="INGRESAR NUEVA PREFORMA" widgetVar="wglInsertar"
+                <p:dialog header="INGRESAR NUEVA SOPLADO" widgetVar="wglInsertar"
                           modal="true" closable="false" resizable="false"
                           showEffect="fade" hideEffect="explode">  
                     <h:form id="frmNuevo">
                         <p:panelGrid id="pngNuevo" columns="2">
                             <h:outputText value="Producto:"/>                               
                             <p:selectOneMenu id="cmSubtipo" value="#{bSoplado.muestra}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItems value="#{bMuestra.listado}" 
                                                var="muestra" itemLabel="#{muestra.muestra_Nombre}" 
                                                itemValue="#{muestra.muestra_id}"/>
                             </p:selectOneMenu>         
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bSoplado.objeto.soplado_peso}"/>                            
+                            <p:inputText value="#{bSoplado.objeto.soplado_peso}"
+                                         converter="#{Double}"  style="text-align: right;"
+                                          converterMessage="Solo números enteros o decimales"
+                                          validatorMessage="Número 0.0 inválido">
+                                <f:validateDoubleRange minimum="0.00000000001"/>
+                            </p:inputText>                             
                         </p:panelGrid>
                         <p:separator/>
                         <center>
@@ -97,6 +103,7 @@
                         <p:panelGrid id="pngEditar" columns="2">                           
                             <h:outputText value="Producto:"/>      
                             <p:selectOneMenu id="cmSub" value="#{bSoplado.muestra}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItem
                                     itemLabel="#{bSoplado.seleccion.soplado_muestra.muestra_Nombre}" 
@@ -108,7 +115,12 @@
                             <h:outputText value="Responsable:"/>
                             <h:outputText value="#{bSoplado.seleccion.soplado_usuario.usuario_apellido} #{bSoplado.seleccion.soplado_usuario.usuario_nombre}"/>
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bSoplado.seleccion.soplado_peso}"/>
+                            <p:inputText value="#{bSoplado.seleccion.soplado_peso}"
+                                         converter="#{Double}"  style="text-align: right;"
+                                          converterMessage="Solo números enteros o decimales"
+                                          validatorMessage="Número 0.0 inválido">
+                                <f:validateDoubleRange minimum="0.00000000001"/>
+                            </p:inputText> 
                         </p:panelGrid>
                         <p:separator/>
                         <center>

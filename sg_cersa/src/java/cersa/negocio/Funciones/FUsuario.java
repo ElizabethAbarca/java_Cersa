@@ -26,9 +26,10 @@ public static boolean identificarse(String user, String password) {
         PreparedStatement ps = null;
         try {
             con = Database.getConnection();
-            ps = con.prepareStatement("select iusuario_cedula, tusuario_clave from basedatos_cersa.tusuario where iusuario_cedula= ? and tusuario_clave= ? ");
+            ps = con.prepareStatement("select iusuario_cedula, tusuario_clave "
+                    + "from basedatos_cersa.tusuario where iusuario_cedula=? and tusuario_clave= md5(CAST(? AS TEXT)) ");
             ps.setString(1, user);
-            ps.setString(2, password);
+            ps.setString(2, password+"cersa");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) // found
             {
@@ -50,9 +51,9 @@ public static CUsuario autenticar(String cedula, String clave) throws Exception 
         CUsuario lst= null;
         ArrayList<Parametro> lstP = new ArrayList<>();
         try {
-            String sql = "select * from basedatos_cersa.tusuario where iusuario_cedula=? and tusuario_clave=?;";
+            String sql = "select * from basedatos_cersa.tusuario where iusuario_cedula=? and tusuario_clave=md5(CAST(? AS TEXT));";
             lstP.add(new Parametro(1,cedula));
-            lstP.add(new Parametro(2,clave));
+            lstP.add(new Parametro(2,clave+"cersa"));
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             lst = new CUsuario();
             lst = llenar(rs).get(0);
@@ -109,7 +110,7 @@ public static boolean insertar(CUsuario objeto) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_insert_usuario(?,?,?,?,?,?,?,?,?,?)";
+            String sql = "select * from basedatos_cersa.f_insert_usuario(?,?,?,?,?,?,?,?,?,?,?)";
             lstP.add(new Parametro(1, objeto.getUsuario_cedula()));  
             lstP.add(new Parametro(2, objeto.getUsuario_nombre()));
             lstP.add(new Parametro(3, objeto.getUsuario_apellido()));
@@ -117,9 +118,10 @@ public static boolean insertar(CUsuario objeto) throws Exception {
             lstP.add(new Parametro(5, objeto.getUsuario_email()));
             lstP.add(new Parametro(6, objeto.getUsuario_celular()));
             lstP.add(new Parametro(7, objeto.getUsuario_telefono()));  
-            lstP.add(new Parametro(8, objeto.getUsuario_clave()));              
+            lstP.add(new Parametro(8, objeto.getUsuario_clave()+"cersa"));              
             lstP.add(new Parametro(9, objeto.getUsuario_estado()));
-            lstP.add(new Parametro(10, objeto.getUsuario_rol().getRol_id()));      
+            lstP.add(new Parametro(10, objeto.getUsuario_rol().getRol_id()));   
+            lstP.add(new Parametro(11, objeto.getUsuario_clave()));     
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -150,7 +152,7 @@ public static boolean update(CUsuario seleccion) throws Exception {
         boolean bandera = false;
         try {
              ArrayList<Parametro> lstP = new ArrayList<Parametro>();
-            String sql = "select * from basedatos_cersa.f_update_usuario(?,?,?,?,?,?,?,?,?,?,?)";            
+            String sql = "select * from basedatos_cersa.f_update_usuario(?,?,?,?,?,?,?,?,?,?,?,?)";            
             lstP.add(new Parametro(1, seleccion.getUsuario_id()));              
             lstP.add(new Parametro(2, seleccion.getUsuario_cedula()));  
             lstP.add(new Parametro(3, seleccion.getUsuario_nombre()));
@@ -159,9 +161,10 @@ public static boolean update(CUsuario seleccion) throws Exception {
             lstP.add(new Parametro(6, seleccion.getUsuario_email()));
             lstP.add(new Parametro(7, seleccion.getUsuario_celular()));
             lstP.add(new Parametro(8, seleccion.getUsuario_telefono()));  
-            lstP.add(new Parametro(9, seleccion.getUsuario_clave()));              
+            lstP.add(new Parametro(9, seleccion.getUsuario_respaldo()+"cersa"));              
             lstP.add(new Parametro(10, seleccion.getUsuario_estado()));
             lstP.add(new Parametro(11, seleccion.getUsuario_rol().getRol_id()));  
+            lstP.add(new Parametro(12, seleccion.getUsuario_respaldo())); 
             ConjuntoResultado rs = AccesoDatos.ejecutaQuery(sql, lstP);
             while (rs.next()) {
                 if (rs.getString(0).equals("true"));
@@ -188,7 +191,8 @@ public static ArrayList<CUsuario> llenar(ConjuntoResultado rs) throws Exception 
                 rs.getString(7),
                 rs.getString(8),
                 rs.getInt(9),
-                FRol.obtener_Id(rs.getInt(10)));
+                FRol.obtener_Id(rs.getInt(10)),
+                rs.getString(11));
                 lst.add(objeto);
             }
         } catch (Exception e) {

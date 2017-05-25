@@ -24,26 +24,28 @@ public class BTurno {
     private CTurno objeto;
     private CTurno seleccion;
     private ArrayList<CTurno> listado;
+
     /**
      * Creates a new instance of BTurno
      */
     public BTurno() {
         this.reinit();
-    }  
-    
-    
+    }
+
     private void reinit() {
         this.objeto = new CTurno();
         this.seleccion = new CTurno();
         this.listado = new ArrayList<>();
-        this.Visualizacion();        
+        this.Visualizacion();
     }
+
     private void Visualizacion() {
         try {
             this.listado = FTurno.obtenerTodas();
         } catch (Exception e) {
-           FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-           FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
 
@@ -70,5 +72,5 @@ public class BTurno {
     public void setListado(ArrayList<CTurno> listado) {
         this.listado = listado;
     }
-    
+
 }

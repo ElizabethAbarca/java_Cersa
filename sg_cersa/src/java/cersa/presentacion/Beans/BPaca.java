@@ -29,15 +29,16 @@ public class BPaca {
     private CPaca objeto;
     private CPaca seleccion;
     private ArrayList<CPaca> listado;
-    
-    
+
     @ManagedProperty(value = "#{bSesionManager}")
     private BSesionManager session;
-    public BPaca() {        
+
+    public BPaca() {
         this.reinit();
     }
-    
+
     private int sub;
+
     /**
      * Creates a new instance of BPaca
      */
@@ -46,67 +47,76 @@ public class BPaca {
         this.objeto = new CPaca();
         this.seleccion = new CPaca();
         this.listado = new ArrayList<>();
-        this.Visualizacion();        
+        this.Visualizacion();
     }
 
     private void Visualizacion() {
         try {
             this.listado = FPaca.obtener_Paca_Persona(session.getEmpleado().getUsuario_id());
         } catch (Exception e) {
-           FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", e.getMessage());
-           FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
 
-    
-    public void Insercion()
-    {
-        try {    
+    public void Insercion() {
+        try {
             objeto.setPaca_subtipo(FSubproducto.obtener_Id(sub));
             objeto.setPaca_responsable(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
-            if(FPaca.insertar(objeto))
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-                DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
-                objeto = null;
-                this.reinit();
+            if (objeto.getPaca_peso() > 0) {
+                if (FPaca.insertar(objeto)) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Exito. Datos Ingresados",
+                            "Exito. Datos Ingresados"));
+                    DefaultRequestContext.getCurrentInstance().execute("PF('wglInsertar').hide()");
+                    this.objeto = new CPaca();
+                    this.reinit();
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error. Datos no Ingresados",
+                            "Error. Datos no Ingresados"));
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Peso, deber ser  mayor a cero",
+                        "Peso, deber ser mayor a cero"));
             }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Ingresados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-                
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
 
-    
     public void Actualizacion() {
-        try {            
+        try {
             seleccion.setPaca_subtipo(FSubproducto.obtener_Id(sub));
             seleccion.setPaca_responsable(FUsuario.obtener_Id(session.getEmpleado().getUsuario_id()));
-            if (FPaca.update(seleccion)) {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Datos Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-                DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
-                this.reinit();
+            if (seleccion.getPaca_peso() > 0) {
+                if (FPaca.update(seleccion)) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Exito. Datos Actualizados",
+                            "Exito. Datos Actualizados"));
+                    DefaultRequestContext.getCurrentInstance().execute("PF('wglEditar').hide()");
+                    this.reinit();
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Error. Datos no Actualizados",
+                            "Error. Datos no Actualizados"));
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Peso, deber ser  mayor a cero",
+                        "Peso, deber ser mayor a cero"));
             }
-            else
-            {
-                FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Actulizados");
-                FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
-            }
-                
         } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Error" + e.getMessage(),
+                    "Error" + e.getMessage()));
         }
     }
-    
+
     public void Eliminacion() {
         try {
             if (FPaca.eliminar(seleccion.getPaca_id())) {
@@ -114,18 +124,16 @@ public class BPaca {
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
                 DefaultRequestContext.getCurrentInstance().execute("PF('wglEliminar').hide()");
                 this.reinit();
-            }
-            else
-            {
+            } else {
                 FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "No Eliminados");
                 FacesContext.getCurrentInstance().addMessage("Información", facesMsg);
             }
-                
+
         } catch (Exception e) {
             FacesContext context = FacesContext.getCurrentInstance();
-                context.addMessage( "Exito",new FacesMessage(e.getMessage()));
-        }        
-      }
+            context.addMessage("Exito", new FacesMessage(e.getMessage()));
+        }
+    }
 
     public CPaca getObjeto() {
         return objeto;
@@ -166,5 +174,5 @@ public class BPaca {
     public void setSub(int sub) {
         this.sub = sub;
     }
-    
+
 }

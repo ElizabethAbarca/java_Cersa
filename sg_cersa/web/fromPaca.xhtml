@@ -24,40 +24,40 @@
                                      rowKey="#{paca.paca_id}" 
                                      selection="#{bPaca.seleccion}"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" >                     
+                                     rowsPerPageTemplate="5,10,15"  scrollWidth="200" 
+                                     style="font-size: 11px;">                     
                             <p:column filterBy="#{paca.paca_id}" filterMatchMode="startsWith" 
-                                      sortBy="#{paca.paca_id}" headerText="#Compactación">
+                                      sortBy="#{paca.paca_id}" headerText="Nro." style="width: 50px">
                                 <h:outputText value="#{paca.paca_id}"/>
                             </p:column>
-                            <p:column headerText="Subtipo">                                   
+                            <p:column headerText="SUBTIPO">                                   
                                 <h:outputText value="#{paca.paca_subtipo.subproducto_descripcion}"/>
                             </p:column>
-                            <p:column headerText="Responsable">                                   
-                                <h:outputText value="#{paca.paca_responsable.usuario_apellido} #{paca.paca_responsable.usuario_nombre}"/>
-                            </p:column>
-                            <p:column headerText="Peso (Kg)" style="text-align: right;">                                   
+                            <p:column headerText="PESO (Kg)" style="text-align: right;">                                   
                                 <h:outputText value="#{paca.paca_peso}"/>
                             </p:column>
-                            <p:column headerText="Fecha">                                   
+                            <p:column filterBy="#{paca.paca_fecha}" filterMatchMode="startsWith" 
+                                      sortBy="#{paca.paca_fecha}" headerText="Fecha">                                   
                                 <h:outputText value="#{paca.paca_fecha}"/>
                             </p:column>
-                            <p:column headerText="Hora">                                   
+                            <p:column headerText="HORA">                                   
                                 <h:outputText value="#{paca.paca_hora}"/>
                             </p:column>
                             <p:column >  
                                 <f:facet name="header">  
-                                    <h:outputText value="Acciones" />  
+                                    <h:outputText value="ACCIONES" />  
                                 </f:facet> 
                                 <p:commandButton id="btnEditar"  value="Actualizar" style="background: #FF8C00;"
                                                  process="@this" onclick="PF('wglEditar').show()" 
-                                                 update=":frmEditar:pngEditar" >
+                                                 update=":frmEditar:pngEditar" 
+                                                 >
                                     <f:setPropertyActionListener value="#{paca}" target="#{bPaca.seleccion}"/>
                                 </p:commandButton>
                             </p:column>  
                             <f:facet name="footer">  
-                                <p:commandButton id="btnNuevo" value="Nuevo"
+                                <p:commandButton id="btnNuevo" value="Agregar" icon="ui-icon-plus" type="button"
                                                  update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                                 type="button" /> 
+                                                  /> 
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
@@ -72,13 +72,19 @@
                         <p:panelGrid id="pngNuevo" columns="2">
                             <h:outputText value="Subtipo:"/>                               
                             <p:selectOneMenu id="cmSubtipo" value="#{bPaca.sub}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItems value="#{bSubproducto.listado}" 
                                                var="sub" itemLabel="#{sub.subproducto_descripcion}" 
                                                itemValue="#{sub.subproducto_id}"/>
                             </p:selectOneMenu>         
-                            <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bPaca.objeto.paca_peso}"/>                            
+                            <h:outputText value="Peso:" />
+                            <p:inputText value="#{bPaca.objeto.paca_peso}" 
+                                         converter="#{Double}"  style="text-align: right;"
+                                          converterMessage="Solo números enteros o decimales"
+                                          validatorMessage="Número 0.0 inválido">
+                                <f:validateDoubleRange minimum="0.00000000001"/>
+                            </p:inputText>                           
                         </p:panelGrid>
                         <p:separator/>
                         <center>
@@ -97,6 +103,7 @@
                         <p:panelGrid id="pngEditar" columns="2">                           
                             <h:outputText value="Subtipo:"/>      
                             <p:selectOneMenu id="cmSubti" value="#{bPaca.sub}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItem
                                     itemLabel="#{bPaca.seleccion.paca_subtipo.subproducto_descripcion}" 
@@ -108,7 +115,11 @@
                             <h:outputText value="Responsable:"/>
                             <h:outputText value="#{bPaca.seleccion.paca_responsable.usuario_apellido} #{bPaca.seleccion.paca_responsable.usuario_nombre}"/>
                             <h:outputText value="Peso:"/>
-                            <p:inputText value="#{bPaca.seleccion.paca_peso}"/>
+                            <p:inputText value="#{bPaca.seleccion.paca_peso}" converter="#{Double}"  style="text-align: right;"
+                                          converterMessage="Solo números enteros o decimales"
+                                          validatorMessage="Número 0.0 inválido">
+                                <f:validateDoubleRange minimum="0.00000000001"/>
+                            </p:inputText> 
                         </p:panelGrid>
                         <p:separator/>
                         <center>

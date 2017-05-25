@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8678148f-e8b7-496c-9717-263eef61dd33">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="FIPF" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FFPF" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SPF" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     SUM(tpreforma."tpreforma_pesoingreso") AS tpreforma_tpreforma_pesoingreso,
+     tpreforma."tpreforma_fecha" AS tpreforma_tpreforma_fecha,
+     tsubproducto."tsubproducto_descripcion" AS tsubproducto_tsubproducto_descripcion,
+     tusuario."tusuario_nombre" AS tusuario_tusuario_nombre,
+     tusuario."tusuario_apellido" AS tusuario_tusuario_apellido
+FROM
+     "basedatos_cersa"."tsubproducto" tsubproducto INNER JOIN "basedatos_cersa"."tpreforma" tpreforma ON tsubproducto."tsubproducto_id" = tpreforma."tpreforma_subtipo"
+     INNER JOIN "basedatos_cersa"."tusuario" tusuario ON tpreforma."tpreforma_usuario" = tusuario."tusuario_id"
+WHERE 
+CASE  
+      WHEN ($P{SPF}=0) THEN (tpreforma.tpreforma_fecha BETWEEN $P{FIPF} and $P{FFPF})
+      WHEN ($P{SPF}<>0) THEN (tpreforma.tpreforma_fecha BETWEEN $P{FIPF} and $P{FFPF} and tpreforma_subtipo=$P{SPF})
+   END
+GROUP BY tpreforma_fecha,tsubproducto_descripcion,tusuario_nombre,tusuario_apellido
+ORDER BY tpreforma_fecha ASC]]>
+	</queryString>
+	<field name="tpreforma_tpreforma_pesoingreso" class="java.lang.Double"/>
+	<field name="tpreforma_tpreforma_fecha" class="java.sql.Date"/>
+	<field name="tsubproducto_tsubproducto_descripcion" class="java.lang.String"/>
+	<field name="tusuario_tusuario_nombre" class="java.lang.String"/>
+	<field name="tusuario_tusuario_apellido" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="164" y="0" width="246" height="79" uuid="fa941ab4-5d36-4f25-8b27-1bd6fad5ff1d"/>
+				<imageExpression><![CDATA["C:\\Users\\ELIZABETH-PC\\Documents\\NetBeansProjects\\java_Cersa\\sg_cersa\\web\\img\\logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="ff58469f-31f6-4bf5-8271-19070330f979"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE PREFORMA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="106" height="37" forecolor="#FFFFFF" backcolor="#330033" uuid="661bc67b-1033-471a-80c9-a2c6f0b1937d"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUBTIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="106" y="2" width="104" height="37" forecolor="#FFFFFF" backcolor="#330033" uuid="a2d0a18a-3e58-4481-88c0-c17f3359cb77"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="2" width="103" height="37" forecolor="#FFFFFF" backcolor="#330033" uuid="f65cd6e6-fb92-49c1-8cbe-412bfba0ea7a"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PESO(Kg)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="313" y="2" width="242" height="37" forecolor="#FFFFFF" backcolor="#330033" uuid="e5a35353-0f39-4668-ae83-c5e405c0ee66"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="106" height="27" uuid="20085e32-982e-4510-ba98-08870807f9bc"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tsubproducto_tsubproducto_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="0" width="103" height="27" uuid="14a9e3a6-fe0a-4cca-add1-6758b07faa00"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tpreforma_tpreforma_pesoingreso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="0" width="116" height="27" uuid="155bed60-3076-429d-bf1a-041c6cbff1e5"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="0" width="126" height="27" uuid="c1ca11db-b56d-414e-8b4f-d4bb7fe1f4a5"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_apellido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="106" y="0" width="104" height="27" uuid="c68eff40-15b1-4aee-a11a-6d60ced503e9"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tpreforma_tpreforma_fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="468" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="4649ae1f-8bb7-42ff-bda0-d221e1001b94"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE PREFORMA]]></text>
+			</staticText>
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="35" width="555" height="433" uuid="b4dfd7a5-aaf4-42cd-94fc-0b3dddb3841b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{tsubproducto_tsubproducto_descripcion}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{tpreforma_tpreforma_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{tpreforma_tpreforma_pesoingreso}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

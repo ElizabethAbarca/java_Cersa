@@ -28,30 +28,36 @@
                                     <p:inputText  id="nombre" value="#{bAutenticacion.session.empleado.usuario_nombre}"  
                                                   required="true" requiredMessage="Por favor, ingrese los nombres"
                                                   style="width: 100%;"
-                                                  validatorMessage="Campo Nombres: Solo permitido letras">
+                                                  validatorMessage="Campo Nombres: Solo 25 permitido letras">
                                         <f:validateRegex
                                             pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                        <f:validateLength maximum="25" />                                        
                                     </p:inputText>            
                                     <label class="control-label"> APELLIDOS: </label>                                     
                                     <p:inputText id="apellido" value="#{bAutenticacion.session.empleado.usuario_apellido}"
                                                  required="true" requiredMessage="Por favor, ingrese los apellidos"
                                                  style="width: 100%;"
-                                                 validatorMessage="Campo Apellidoss: Solo permitido letras">
+                                                 validatorMessage="Campo Apellidoss: Solo 25 permitido letras">
                                         <f:validateRegex
                                             pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                         <f:validateLength maximum="25" />
                                         </p:inputText>   
                                         <label class="control-label"> DIRECCIÓN DE CORREO: </label> 
                                         <p:inputText id="email" required="true" label="email"
-                                                     requiredMessage="Por favor, ingrese el email" style="width: 100%;"
-                                                     validatorMessage="Email inválido"
+                                                     requiredMessage="Por favor, ingrese el email (100 caracteres mínimo)" style="width: 100%;"
+                                                     validatorMessage="Email inválido (100 caracteres mínimo)"
                                                      value="#{bAutenticacion.session.empleado.usuario_email}" >
                                             <f:validateRegex
                                                 pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                             <f:validateLength maximum="100" />
                                         </p:inputText> 
                                         <label class="control-label"> DIRECCIÓN: </label> 
                                         <p:inputText value="#{bAutenticacion.session.empleado.usuario_direccion}" 
                                                      requiredMessage="Por favor, ingrese la dirección"
-                                                     required="true" style="width: 100%;"/>
+                                                     required="true" style="width: 100%;"
+                                                     validatorMessage="Campos Dirección: solo 150 carateres">
+                                             <f:validateLength maximum="150" />
+                                        </p:inputText>
                                         <label class="control-label"> CELULAR: </label> 
                                         <p:inputMask  id="celular" value="#{bAutenticacion.session.empleado.usuario_celular}"
                                                       mask="9999999999"  required="true" 
@@ -70,8 +76,7 @@
                                         <h:outputText value="#{(bAutenticacion.session.empleado.usuario_estado==0)?'ACTIVO':'PASIVO'}"/>
                                         <label class="control-label"> CARGO: </label> 
                                         <h:outputText value="#{bAutenticacion.session.empleado.usuario_rol.rol_nombre}"/>
-                                        <label class="control-label"> CONTRASEÑA: </label> 
-                                        <h:outputText value="#{bAutenticacion.session.empleado.usuario_clave}"/>
+                                        
                                 </p:panelGrid>
                             </div>
                         </div>

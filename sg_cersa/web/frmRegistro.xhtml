@@ -11,7 +11,7 @@
         <ui:composition template="plantillas/modeloSupGeneral.xhtml">
             <ui:define name="top">
             <center>
-            <h1><small>Registro de Empleados</small></h1>
+            <h1><small>Historial Sesión de Empleados</small></h1>
             </center>
         </ui:define>
       <ui:define name="contenido">    
@@ -20,6 +20,7 @@
                              var="registro" paginator="true" rows="5"
                              selectionMode="single"                              
                              rowKey="#{registro.registro_id}" 
+                             style="font-size: 11px"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                              rowsPerPageTemplate="5,10,15"  scrollWidth="200" > 
                     <p:column filterBy="#{registro.registro_id}" filterMatchMode="startsWith" 
@@ -36,7 +37,7 @@
                     <p:column headerText="Apellido">                                   
                         <h:outputText value="#{registro.registro_usuario.usuario_apellido}"/>
                     </p:column>
-                    <p:column headerText="Estado">                                   
+                    <p:column headerText="Turno">                                   
                         <h:outputText value="#{registro.registro_turno.turno_Descripcion}"/>
                     </p:column>
                     <p:column headerText="Rol">                                   

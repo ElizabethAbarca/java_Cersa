@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c2d2f637-1833-4e1c-9e25-78d26ded95bd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="FIS" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FFS" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MS" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tsoplado."tsoplado_fecha" AS tsoplado_tsoplado_fecha,
+     SUM(tsoplado."tsoplado_peso") AS tsoplado_tsoplado_peso,
+     tusuario."tusuario_apellido" AS tusuario_tusuario_apellido,
+     tmuestra."tmuestra_nombre" AS tmuestra_tmuestra_nombre,
+     tusuario."tusuario_nombre" AS tusuario_tusuario_nombre
+FROM
+     "basedatos_cersa"."tusuario" tusuario INNER JOIN "basedatos_cersa"."tsoplado" tsoplado ON tusuario."tusuario_id" = tsoplado."tsoplado_usuario"
+     INNER JOIN "basedatos_cersa"."tmuestra" tmuestra ON tsoplado."tsoplado_muestra" = tmuestra."tmuestra_id"
+WHERE 
+CASE 
+      WHEN ($P{MS}=0) THEN (tsoplado.tsoplado_fecha BETWEEN $P{FIS} and $P{FFS})
+      WHEN ($P{MS}<>0) THEN (tsoplado.tsoplado_fecha BETWEEN $P{FIS} and $P{FFS} and tsoplado.tsoplado_muestra=$P{MS})
+END
+GROUP BY tsoplado_fecha,tusuario_nombre,tusuario_apellido,tmuestra_nombre
+ORDER BY tsoplado_fecha ASC]]>
+	</queryString>
+	<field name="tsoplado_tsoplado_fecha" class="java.sql.Date"/>
+	<field name="tsoplado_tsoplado_peso" class="java.lang.Double"/>
+	<field name="tusuario_tusuario_apellido" class="java.lang.String"/>
+	<field name="tmuestra_tmuestra_nombre" class="java.lang.String"/>
+	<field name="tusuario_tusuario_nombre" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="158" y="0" width="246" height="79" uuid="39990742-fe18-45c7-b98e-2d19460d33b7"/>
+				<imageExpression><![CDATA["C:\\Users\\ELIZABETH-PC\\Documents\\NetBeansProjects\\java_Cersa\\sg_cersa\\web\\img\\logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="65c7a525-8b3a-45f0-9249-7d9eddf0b90e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE SOPLADO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="2" width="114" height="32" forecolor="#FFFFFF" backcolor="#330033" uuid="15d85fc0-e8e7-4ac9-94cc-3f94c5670951"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="114" y="2" width="100" height="32" forecolor="#FFFFFF" backcolor="#330033" uuid="77a86501-de81-4f8a-aa59-8978c406d719"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="214" y="2" width="118" height="32" forecolor="#FFFFFF" backcolor="#330033" uuid="5fa98d79-3c24-4d45-bf55-cfe68e13feb5"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PESO(Kg)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="332" y="0" width="223" height="32" forecolor="#FFFFFF" backcolor="#330033" uuid="846d0c00-b473-4063-94db-6da1d96f5778"/>
+				<box>
+					<pen lineWidth="4.0" lineStyle="Double"/>
+					<topPen lineWidth="4.0" lineStyle="Double"/>
+					<leftPen lineWidth="4.0" lineStyle="Double"/>
+					<bottomPen lineWidth="4.0" lineStyle="Double"/>
+					<rightPen lineWidth="4.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="114" height="27" uuid="6b625f34-a92e-4fb3-9b3d-8e86426f230e"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tmuestra_tmuestra_nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="114" y="0" width="100" height="27" uuid="a0f3d216-d057-40fb-8557-1ca132bea97a"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tsoplado_tsoplado_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="214" y="0" width="118" height="27" uuid="f4f6191a-381a-43dd-95ca-19ccc0b22b45"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tsoplado_tsoplado_peso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="0" width="113" height="27" uuid="5a0deb8d-32e4-4f04-88e3-2986b8bd10e2"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="0" width="110" height="27" uuid="915a6913-fdba-48ac-b100-3103bfc5916c"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="503" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="3bb8cd03-3982-46b3-bf07-848fc1ec5dfe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[GRÁFICA ESTADÍSTICA]]></text>
+			</staticText>
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="35" width="555" height="468" uuid="4a77582c-7ed3-445d-8010-cebf2af1741a"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{tmuestra_tmuestra_nombre}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{tsoplado_tsoplado_fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{tsoplado_tsoplado_peso}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

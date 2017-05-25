@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+    </h:head>
+    <h:body>
+        <ui:composition template="plantillas/modeloSupGeneral.xhtml">
+            <ui:define name="top">
+                <center>
+                    <h2><small> REPORTES DE PREFORMA</small></h2>
+                </center>
+            </ui:define>
+            <ui:define name="contenido">    
+                <h:form id="frm-home">
+                    <p:messages id="mensajes" autoUpdate="true" closable="true"/>     
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Fecha Inicial: " for="finicial"/>
+                        <p:calendar id="finicial" value="#{reportPreforma.fechaInicio}" 
+                                    pattern="dd/MM/yyyy"   locale="es"     
+                                    required="true" onkeypress="return permite(event, 'none')" 
+                                    requiredMessage="Fecha Inicial Requerida" navigator="true" 
+                                    effect="fadeIn" effectDuration="100">
+                            <p:ajax event="dateSelect" update="ffinal" />
+                        </p:calendar>    
+                        <h:outputLabel value="Fecha Final: " for="ffinal"/>
+                        <p:calendar id="ffinal" value="#{reportPreforma.fechaFin}" 
+                                    mindate="#{reportPreforma.fechaFin}" pattern="dd/MM/yyyy"  
+                                    locale="es" required="true" onkeypress="return permite(event, 'none')" 
+                                    requiredMessage="Fecha Final Requerida" navigator="true" effect="fadeIn" 
+                                    effectDuration="100">
+                            <f:attribute name="finicial" value="#{reportPreforma.fechaFin}"/>
+                            <f:validator validatorId="primeDateRangeValidator" />
+                        </p:calendar>                              
+                        <h:outputLabel value="Subproducto: "/>
+                        <p:selectOneMenu id="cmSub" value="#{reportPreforma.subtipo}" 
+                                         style="width: 100%;"
+                                         required="true" requiredMessage="Elija una opción"> 
+                            <f:selectItem itemLabel="Todos" 
+                                          itemValue="#{0}"/>
+                            <f:selectItems value="#{bSubproducto.listado}" 
+                                           var="sub" itemLabel="#{sub.subproducto_descripcion}" 
+                                           itemValue="#{sub.subproducto_id}"/>
+                        </p:selectOneMenu>  
+                    </h:panelGrid>
+                    <p:commandButton value="Generar Consulta" 
+                                     update="@form"
+                                     actionListener="#{reportPreforma.generateReport}"
+                                     style="background: #FF8C00;"  />
+
+                    <p:commandButton value="Archivo PDF" 
+                                     rendered="#{reportPreforma.media ne null}"
+                                     ajax="false" 
+                                     actionListener="#{reportPreforma.downloadFilePDF}" />
+
+                    <p:commandButton value="Archivo EXCEL" 
+                                     rendered="#{reportPreforma.media ne null}"
+                                     ajax="false" 
+                                     actionListener="#{reportPreforma.downloadFileXLS}" />
+
+                    <div class="column-center">
+                        <p:media cache="false" rendered="#{reportPreforma.media ne null}" 
+                                 width="1050" height="700" value="#{reportPreforma.media}" player="pdf"/>
+                    </div>
+                </h:form>
+            </ui:define>             
+        </ui:composition>
+    </h:body>
+</html>

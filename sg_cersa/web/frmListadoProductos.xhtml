@@ -12,7 +12,7 @@
          <ui:composition template="plantillas/modeloSupGeneral.xhtml">
             <ui:define name="top">
                 <center>
-                    <h2><small>LISTADO DE PRODUCTOS</small></h2>
+                    <h2><small>LISTADO DE PAQUETES</small></h2>
                 </center>
             </ui:define>
             <ui:define name="contenido">    
@@ -23,7 +23,8 @@
                                  selectionMode="single"                                                          
                                  rowKey="#{paquete.numero}"                              
                                  selection="#{bListaProducto.seleccion}"
-                                 emptyMessage="No hay Lista de Paquetes" > 
+                                 emptyMessage="No hay Lista de Paquetes" 
+                                 style="font-size: 11px"> 
                         <p:column headerText="Nro." style="width: 100px;">
                             <h:outputText value="#{paquete.numero}"/>
                         </p:column> 
@@ -34,12 +35,17 @@
                         <p:column headerText="Total de día (Kg)" style="width: 200px;text-align: right;">
                             <h:outputText value="#{paquete.total_dia}"/>
                         </p:column> 
-                        <p:column >  
+                        <p:column  style="text-align: center">  
                             <f:facet name="header" >  
                                 <h:outputText value="Acciones" />  
                             </f:facet>      
-                            <p:commandButton value="Exportar Excel"                                                  
+                            <p:commandButton value="Archivo EXCEL"                                                  
                                              actionListener="#{bListaProducto.DescargarExcel()}" 
+                                             ajax="false"  style="background: #FF8C00;">
+                                <f:setPropertyActionListener value="#{paquete}" target="#{bListaProducto.seleccion}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Archivo PDF"                                                  
+                                             actionListener="#{bListaProducto.DescargarPdf()}" 
                                              ajax="false"  style="background: #FF8C00;">
                                 <f:setPropertyActionListener value="#{paquete}" target="#{bListaProducto.seleccion}"/>
                             </p:commandButton>

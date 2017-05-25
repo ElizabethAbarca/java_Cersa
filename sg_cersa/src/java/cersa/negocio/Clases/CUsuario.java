@@ -21,11 +21,13 @@ public class CUsuario {
   private String usuario_clave;
   private Integer usuario_estado;
   CRol usuario_rol;
+  
+  private String usuario_respaldo;
 
     public CUsuario() {
     }
 
-    public CUsuario(Integer usuario_id, String usuario_cedula, String usuario_nombre, String usuario_apellido, String usuario_direccion, String usuario_email, String usuario_celular, String usuario_telefono, String usuario_clave, Integer usuario_estado, CRol usuario_rol) {
+    public CUsuario(Integer usuario_id, String usuario_cedula, String usuario_nombre, String usuario_apellido, String usuario_direccion, String usuario_email, String usuario_celular, String usuario_telefono, String usuario_clave, Integer usuario_estado, CRol usuario_rol, String usuario_respaldo) {
         this.usuario_id = usuario_id;
         this.usuario_cedula = usuario_cedula;
         this.usuario_nombre = usuario_nombre;
@@ -37,7 +39,9 @@ public class CUsuario {
         this.usuario_clave = usuario_clave;
         this.usuario_estado = usuario_estado;
         this.usuario_rol = usuario_rol;
+        this.usuario_respaldo = usuario_respaldo;
     }
+
 
     public Integer getUsuario_id() {
         return usuario_id;
@@ -126,4 +130,13 @@ public class CUsuario {
     public void setUsuario_rol(CRol usuario_rol) {
         this.usuario_rol = usuario_rol;
     }
+
+    public String getUsuario_respaldo() {
+        return usuario_respaldo;
+    }
+
+    public void setUsuario_respaldo(String usuario_respaldo) {
+        this.usuario_respaldo = usuario_respaldo;
+    }
+    
 }

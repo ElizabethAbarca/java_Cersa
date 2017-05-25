@@ -19,6 +19,7 @@
             <h:form id="frmUsuario">
                     <p:panel id="pnlDatos">
                         <p:dataTable id="tblUsuario" value="#{bUsuario.listado}" 
+                                     style="font-size: 11px"
                                      var="user" paginator="true" rows="5"
                                      selectionMode="single" 
                                      rowKey="#{user.usuario_id}" 
@@ -50,9 +51,6 @@
                             <p:column headerText="Celular">
                                 <h:outputText value="#{user.usuario_celular}"/>
                             </p:column>
-                            <p:column headerText="Clave">
-                                <h:outputText value="#{user.usuario_clave}"/>
-                            </p:column>
                             <p:column headerText="Estado">
                                 <h:outputText value="#{(user.usuario_estado==0)? 'ACTIVO':'PASIVO'}"/>
                             </p:column>
@@ -64,7 +62,8 @@
                                     <h:outputText value="Acciones" />  
                                 </f:facet> 
                                 <center>
-                                    <p:commandButton id="btnEditar"   value="Editar" style="background: #FF8C00;"
+                                    <p:commandButton id="btnEditar"   
+                                                     value="Editar" style="background: #FF8C00;"
                                                      process="@this" onclick="PF('wglEditar').show()" 
                                                      update=":frmEditar:pngEditar" >
                                         <f:setPropertyActionListener value="#{user}" target="#{bUsuario.seleccion}"/>
@@ -79,9 +78,10 @@
                                 </center>
                             </p:column>  
                             <f:facet name="footer">  
-                                <p:commandButton id="btnNuevo" value="Nuevo" 
+                                <p:commandButton id="btnNuevo" value="Agregar" 
+                                                 icon="ui-icon-plus" type="button"
                                                  update="frmNuevo:pngNuevo" onclick="PF('wglInsertar').show()" 
-                                                 type="button" /> 
+                                                  /> 
                             </f:facet>
                         </p:dataTable>
                     </p:panel>
@@ -96,10 +96,12 @@
                         <p:panelGrid id="pngNuevo" columns="4">
                             <h:outputText value="Nombres:"/>
                             <p:inputText id="Inombre" value="#{bUsuario.objeto.usuario_nombre}"  
-                                         required="true" requiredMessage="Por favor, ingrese los nombres"
-                                         validatorMessage="Campo Nombres: Solo permitido letras">
+                                         required="true" 
+                                         requiredMessage="Por favor, ingrese los nombres"
+                                         validatorMessage="Campo Nombres: Solo permitido 25 letras">
                                 <f:validateRegex
-                                    pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                    pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$"  />
+                                <f:validateLength maximum="25" />
                             </p:inputText>  
                             <h:outputText value="Apellidos:"/>
                             <p:inputText id="Iapellido" value="#{bUsuario.objeto.usuario_apellido}"  
@@ -107,28 +109,45 @@
                                          validatorMessage="Campo Apellidoss: Solo permitido letras">
                                 <f:validateRegex
                                     pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                <f:validateLength maximum="25" />
                             </p:inputText>   
                             <h:outputText value="Cédula:"/>
                             <p:inputMask id="Icedula" value="#{bUsuario.objeto.usuario_cedula}" 
                                          mask="999999999-9" required="true" 
                                          requiredMessage="Por favor, ingrese la ci de identidad" />  
-                            <h:outputText value="Dirreción:"/>
+                            <h:outputText value="Dirección:"/>
                             <p:inputText id="Idireccion" value="#{bUsuario.objeto.usuario_direccion}" 
-                                         required="true" requiredMessage="Por favor, ingrese la dirección"/>  
+                                         required="true" requiredMessage="Por favor, ingrese la dirección"
+                                         validatorMessage="Campo Dirección: Permitido 150 caracteres">
+                                <f:validateLength maximum="150" />
+                            </p:inputText>  
                             <h:outputText value="Teléfono:"/>
                             <p:inputText id="Itelefono" value="#{bUsuario.objeto.usuario_telefono}" 
-                                         required="true" requiredMessage="Por favor, ingrese la teléfono" /> 
+                                         required="true" requiredMessage="Por favor, ingrese la teléfono" 
+                                         validatorMessage="Campo Teléfono: 9 números enteros">
+                                <f:validateLength maximum="9" />
+                            </p:inputText>
                             <h:outputText value="Celular:"/>
                             <p:inputText id="Icelular" value="#{bUsuario.objeto.usuario_celular}" 
-                                        required="true" requiredMessage="Por favor, ingrese la celular"/> 
+                                         required="true" requiredMessage="Por favor, ingrese la celular"
+                                         validatorMessage="Campo Celular: 10 números enteros">
+                                <f:validateLength maximum="10" />
+                            </p:inputText> 
                             <h:outputText value="Clave:"/>
                             <p:inputText  id="Iclave" value="#{bUsuario.objeto.usuario_clave}"  
-                                          required="true" requiredMessage="Por favor, ingrese una clave"/>  
+                                          required="true" requiredMessage="Por favor, ingrese una clave"
+                                          validatorMessage="Campo clave: Mínimo 6 caracteres">
+                                <f:validateLength maximum="25" minimum="6" />
+                            </p:inputText>
                             <h:outputText value="Email:"/>
                             <p:inputText id="email" value="#{bUsuario.objeto.usuario_email}"
-                                         required="true" requiredMessage="Por favor, ingrese la email"/>                         
+                                         required="true" requiredMessage="Por favor, ingrese la email"
+                                         validatorMessage="Campo email: Maximo 100 caracteres">
+                                <f:validateLength maximum="100" />
+                            </p:inputText>                         
                             <h:outputText value="Estado:"/>
                             <p:selectOneMenu id="cmEstado" value="#{bUsuario.objeto.usuario_estado}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija el estado">                                 
                                 <f:selectItem itemLabel="Elija el estado" itemValue="#{null}"/>
                                 <f:selectItem itemLabel="ACTIVO" itemValue="#{0}"/>
@@ -136,6 +155,7 @@
                             </p:selectOneMenu> 
                             <h:outputText value="Rol:"/>
                             <p:selectOneMenu id="cmRol" value="#{bUsuario.rol}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija el Rol">                                                                
                                 <f:selectItem itemLabel="Elija el Rol" itemValue="#{null}"/>
                                 <f:selectItems value="#{bRol.listado}" 
@@ -163,44 +183,63 @@
                             <p:inputText  id="nombre" value="#{bUsuario.seleccion.usuario_nombre}"  
                                           required="true" 
                                           requiredMessage="Por favor, ingrese los nombres"
-                                          validatorMessage="Campo Nombres: Solo permitido letras">
+                                          validatorMessage="Campo Nombres: Solo 25 permitido letras">
                                 <f:validateRegex
                                     pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                <f:validateLength maximum="25" />
                             </p:inputText> 
                             <h:outputText value="Apellidos:"/>
                             <p:inputText id="apellido" value="#{bUsuario.seleccion.usuario_apellido}"  
                                          required="true" 
                                          requiredMessage="Por favor, ingrese los apellidos"
-                                         validatorMessage="Campo Apellidos: Solo permitido letras">
+                                         validatorMessage="Campo Apellidos: Solo 25 permitido letras">
                                 <f:validateRegex
                                     pattern="^[a-zA-Z\sÑñÁÉÍÓÚáéíóú]+$" />
+                                <f:validateLength maximum="25" />
                             </p:inputText>   
                             <h:outputText value="Cédula:"/>
                             <h:outputText id="cedula" value="#{bUsuario.seleccion.usuario_cedula}"/>  
-                            <h:outputText value="Dirreción:"/>
+                            <h:outputText value="Dirección:"/>
                             <p:inputText id="direccion" value="#{bUsuario.seleccion.usuario_direccion}"  
-                                         required="true" requiredMessage="Por favor, ingrese la dirección"/>  
+                                         required="true" requiredMessage="Por favor, ingrese la dirección"
+                                         validatorMessage="Campo Dirección: Permitido 150 caracteres">
+                                <f:validateLength maximum="150" />
+                            </p:inputText>
                             <h:outputText value="Teléfono:"/>
                             <p:inputText id="telefono" value="#{bUsuario.seleccion.usuario_telefono}" 
-                                        required="true" requiredMessage="Por favor, ingrese la teléfono"/> 
+                                         required="true" requiredMessage="Por favor, ingrese la teléfono"
+                                         validatorMessage="Campo Teléfono: 9 numeroes enteros">
+                                <f:validateLength maximum="9" />
+                            </p:inputText>                                
                             <h:outputText value="Celular:"/>
                             <p:inputText  id="celular" value="#{bUsuario.seleccion.usuario_celular}" 
-                                          required="true" requiredMessage="Por favor, ingrese la celular"/> 
+                                          required="true" requiredMessage="Por favor, ingrese la celular"
+                                          validatorMessage="Campo Celular: 10 numeroes enteros">
+                                <f:validateLength maximum="10" />
+                            </p:inputText>
                             <h:outputText value="Clave:"/>
-                            <p:inputText id="clave" value="#{bUsuario.seleccion.usuario_clave}"  
+                            <p:inputText id="clave" value="#{bUsuario.seleccion.usuario_respaldo}"  
                                          required="true" 
-                                         requiredMessage="Por favor, ingrese la clave"/>  
+                                         requiredMessage="Por favor, ingrese la clave"
+                                         validatorMessage="Campo clave: Mínimo 6 caracteres">
+                                <f:validateLength maximum="25" minimum="6" />
+                            </p:inputText> 
                             <h:outputText value="Email:"/>
                             <p:inputText id="email" value="#{bUsuario.seleccion.usuario_email}"
-                                         required="true" requiredMessage="Por favor, ingrese la email "/> 
+                                         required="true" requiredMessage="Por favor, ingrese la email "
+                                         validatorMessage="Campo Email: Maximo caracteres">
+                                <f:validateLength maximum="100" />
+                            </p:inputText> 
                             <h:outputText value="Estado:"/>
                             <p:selectOneMenu id="cmbEstado" value="#{bUsuario.seleccion.usuario_estado}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción"> 
                                 <f:selectItem itemLabel="ACTIVO" itemValue="#{0}"/>
                                 <f:selectItem itemLabel="PASIVO" itemValue="#{1}"/>
                             </p:selectOneMenu> 
                             <h:outputText value="Rol:"/>
                             <p:selectOneMenu id="cmbRol" value="#{bUsuario.rol}" 
+                                             style="width: 100%;"
                                              required="true" requiredMessage="Elija una opción">                                 
                                 <f:selectItem itemLabel="#{bUsuario.seleccion.usuario_rol.rol_nombre}" 
                                               itemValue="#{bUsuario.seleccion.usuario_rol.rol_id}"/>

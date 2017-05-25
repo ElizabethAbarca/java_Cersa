@@ -12,22 +12,22 @@
         <ui:composition template="plantillas/modeloSupGeneral.xhtml">
             <ui:define name="top">
                 <center>
-                    <h2><small>GRÁFICA ESTADÍSTICA DE ESCAMA</small></h2>
+                    <h2><small>GRÁFICA ESTADÍSTICA DE ESCAMA</small></h2>  
                 </center>
             </ui:define>
             <ui:define name="contenido"> 
-                <p:chart type="line" model="#{gEscama.lineModel2}" 
+                 <p:messages id="mensajes" autoUpdate="true" closable="true"/>           
+               
+                <p:chart type="line" 
+                         model="#{gEscama.lineModel2}"                          
                          style="width:1000px;height:300px" 
                          widgetVar="chart"/>
-
-                <p:commandButton type="button" value="Exportar" 
+               
+                <h:form>
+                     <p:commandButton type="button" value="Exportar Imagen" 
                                  icon="ui-icon-extlink" 
                                  onclick="exportChart()"/>
-
-                <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
-                    <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
-                </p:dialog>
-
+                
                 <script type="text/javascript">
                     function exportChart() {
                         //export image
@@ -37,25 +37,65 @@
                         PF('dlg').show();
                     }
                 </script>
-                <p:commandButton type="button" value="Riniciar" 
+                <p:commandButton value="Generar Consulta" 
+                                         onclick="PF('wglArchivo').show()" 
+                                         style="background: #FF8C00;" 
+                                         type="button"/>
+                <p:commandButton type="button" value="Reiniciar" 
                                  icon="ui-icon-cancel" onclick="PF('chart').resetZoom()"/>
-                <h:form>
                     <p:dataTable var="rowName" value="#{matrizEscama.rowNames}" rowIndexVar="rowIdx">
                         <p:column headerText="" styleClass="ui-widget-header">
-                            <h:outputText value="#{rowName}"/>
+                            <h:outputText value="#{rowName}" style="text-align: center;height: 10px"/>
                         </p:column>
-
                         <p:columns var="columnName" value="#{matrizEscama.colNames}" headerText="#{columnName}"
                                    columnIndexVar="colIdx">
-                            <ui:repeat value="#{matrizEscama.data3D[rowIdx][colIdx]}" var="data">
-                                <p:panel>
-                                    <h:outputText value="#{data}" style="text-align: right"/>
-                                </p:panel>
+                            <ui:repeat value="#{matrizEscama.data3D[rowIdx][colIdx]}"  var="data">
+                                <h:outputText value="#{data}" style="text-align: center;height: 10px;" />
                             </ui:repeat>
                         </p:columns>
                     </p:dataTable>
                 </h:form>
-            </ui:define>       
+            </ui:define>  
+             <ui:define name="dialogos"> 
+                 <p:dialog widgetVar="dlg" showEffect="fade" 
+                          modal="true" header="Imagen de Escama" resizable="false">
+                    <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
+                </p:dialog>
+                 
+                <p:dialog header="Descargar Archivo" widgetVar="wglArchivo"
+                          modal="true" closable="false" resizable="false"
+                          showEffect="fade" hideEffect="explode">  
+                    <h:form id="frmArchivo">
+                        <p:panelGrid id="pngEditar" columns="2">
+                            <h:outputText value="Tipo:"/>
+                            <p:selectOneMenu id="cmtipo" value="#{reportEscama.tipo}"  style="width: 100%;"
+                                             required="true" requiredMessage="Elija una opción">             
+                                <f:selectItems value="#{bTipo.listado}" 
+                                               var="tip" itemLabel="#{tip.tipo_Nombre}" 
+                                               itemValue="#{tip.tipo_id}"/>
+                            </p:selectOneMenu> 
+                            <h:outputText value="Subtipo:"/>
+                            <p:selectOneMenu id="cmsubtipo" value="#{reportEscama.subtipo}"  style="width: 100%;"
+                                             required="true" requiredMessage="Elija una opción">             
+                                <f:selectItems value="#{bModelo.listado}" 
+                                               var="mdl" itemLabel="#{mdl.modelo_Nombre}" 
+                                               itemValue="#{mdl.modelo_id}"/>
+                            </p:selectOneMenu> 
+                        </p:panelGrid>
+                        <p:separator/>
+                        <center>
+                            <p:commandButton value="Archivo PDF" actionListener="#{reportEscama.DescargarPdf()}"
+                                             style="background: #FF8C00;"
+                                             ajax="false"/>
+                            <p:commandButton value="Archivo EXCEL" actionListener="#{reportEscama.DescargarExcel()}"
+                                             style="background: #FF8C00;"
+                                             ajax="false"/>
+                            <p:commandButton value="Cancelar" process="@this" 
+                                             onclick="PF('wglArchivo').hide()" type="reset"/>
+                        </center>
+                    </h:form> 
+                </p:dialog> 
+             </ui:define>
         </ui:composition>
     </h:body>
 </html>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d869e3f1-9b3c-45dc-86c5-23a9b9aa7ea6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaPaquete" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\ELIZABETH-PC\\Documents\\NetBeansProjects\\java_Cersa\\sg_cersa\\web\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sumaPaq" class="java.lang.Double"/>
+	<queryString>
+		<![CDATA[SELECT
+     tproducto_terminado."tproducto_nombre" AS tproducto_terminado_tproducto_nombre,
+     tproducto_terminado."tproducto_fecha" AS tproducto_terminado_tproducto_fecha,
+     tproducto_terminado."tproducto_descripcion" AS tproducto_terminado_tproducto_descripcion,
+     tusuario."tusuario_nombre" AS tusuario_tusuario_nombre,
+     tusuario."tusuario_apellido" AS tusuario_tusuario_apellido,
+     tproducto_terminado."tproducto_id" AS tproducto_terminado_tproducto_id,
+     SUM(ttula."ttula_peso") AS ttula_ttula_peso
+FROM
+     "basedatos_cersa"."tusuario" tusuario INNER JOIN "basedatos_cersa"."tproducto_terminado" tproducto_terminado ON tusuario."tusuario_id" = tproducto_terminado."tproducto_responsable"
+     INNER JOIN "basedatos_cersa"."ttula" ttula ON tproducto_terminado."tproducto_id" = ttula."ttula_producto"
+WHERE tproducto_fecha = $P{fechaPaquete}
+GROUP BY tproducto_id,tproducto_nombre,tproducto_fecha,tproducto_descripcion,tusuario_nombre,tusuario_apellido]]>
+	</queryString>
+	<field name="tproducto_terminado_tproducto_nombre" class="java.lang.String"/>
+	<field name="tproducto_terminado_tproducto_fecha" class="java.sql.Date"/>
+	<field name="tproducto_terminado_tproducto_descripcion" class="java.lang.String"/>
+	<field name="tusuario_tusuario_nombre" class="java.lang.String"/>
+	<field name="tusuario_tusuario_apellido" class="java.lang.String"/>
+	<field name="tproducto_terminado_tproducto_id" class="java.lang.Integer"/>
+	<field name="ttula_ttula_peso" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="134" splitType="Stretch">
+			<image>
+				<reportElement x="143" y="0" width="246" height="80" uuid="9a612b9a-e241-4b22-93ab-c3d617a0c6bb"/>
+				<imageExpression><![CDATA["C:\\Users\\ELIZABETH-PC\\Documents\\NetBeansProjects\\java_Cersa\\sg_cersa\\web\\img\\logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="80" width="555" height="35" uuid="54d2cbd8-42f0-4557-8c80-e2157e424093"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE PACKINGLIST]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement mode="Opaque" x="143" y="115" width="246" height="19" backcolor="#CCCCFF" uuid="ee32a334-90cc-45ad-9725-2a8baef4569c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha: "+$F{tproducto_terminado_tproducto_fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="126" height="28" backcolor="#FFFFFF" uuid="24c5b044-4375-4f68-a269-ba9b062318e8"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#330033"/>
+					<topPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+					<leftPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#330033"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESPONSABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="428" y="0" width="127" height="26" backcolor="#FFFFFF" uuid="074f46f4-cf0b-4623-90e1-76d129b8eac8"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#330033"/>
+					<topPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#330033"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+					<rightPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBSERVACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="126" y="0" width="302" height="28" backcolor="#FFFFFF" uuid="21af0603-bec0-41ad-a440-9de994fb866f"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Dotted" lineColor="#330033"/>
+					<topPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+					<leftPen lineWidth="0.0" lineStyle="Dotted" lineColor="#330033"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double" lineColor="#330033"/>
+					<rightPen lineWidth="0.0" lineStyle="Dotted" lineColor="#330033"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTADO TULA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="126" height="125" uuid="2d8954af-182b-4c5f-b87a-a31122942c23"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tusuario_tusuario_nombre}+" "+$F{tusuario_tusuario_apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="0" width="127" height="125" uuid="ff5835e0-7020-46d8-830d-477e12f20448"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tproducto_terminado_tproducto_descripcion}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="126" y="0" width="302" height="125" uuid="20e0a7e3-bb5b-454b-82dd-8a2cea8333c9"/>
+				<subreportParameter name="pCodTula">
+					<subreportParameterExpression><![CDATA[$F{tproducto_terminado_tproducto_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="pSuma">
+					<subreportParameterExpression><![CDATA[$F{ttula_ttula_peso}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportPaqTula.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="35" forecolor="#006633" uuid="7e06d4ff-3005-443a-bf04-bffd28c2034b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL DE DÍA: "+$P{sumaPaq}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
